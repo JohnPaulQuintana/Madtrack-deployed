@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Inventory extends Model
+{
+    use HasFactory;
+    public $fillable = ['product_type','product_name','product_brand','stocks','product_pcs_price','product_pack_price','product_pcs_per_pack'];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'inventories_id', 'id');
+    }
+}

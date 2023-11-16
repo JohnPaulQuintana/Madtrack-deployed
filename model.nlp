@@ -1,0 +1,2491 @@
+{
+  "settings": {
+    "languages": [
+      "en"
+    ],
+    "tag": "nlp",
+    "threshold": 0.5,
+    "autoLoad": true,
+    "autoSave": true,
+    "modelFileName": "model.nlp",
+    "executeActionsBeforeAnswers": false,
+    "calculateSentiment": true
+  },
+  "nluManager": {
+    "settings": {
+      "tag": "nlu-manager"
+    },
+    "locales": [
+      "en"
+    ],
+    "languageNames": {},
+    "domainManagers": {
+      "en": {
+        "settings": {
+          "locale": "en",
+          "trainByDomain": false,
+          "tag": "domain-manager-en",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
+        },
+        "stemDict": {
+          "are,how,in,mani,product,stock": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "count,is,product,the,what": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "avail,product,total": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "in,item,number,of,stock": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "current,is,level,stock,the,what": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "count,product,total": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "do,have,how,mani,product,type,we": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "count,inventori,product": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "in,item,stock,total": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "differ,number,of,product": {
+            "intent": "asking.products.all",
+            "domain": "default"
+          },
+          "give,list,me,of,present,the,today": {
+            "intent": "asking.employee.present.today",
+            "domain": "default"
+          },
+          "activ,attend,system,the": {
+            "intent": "command.attendance",
+            "domain": "default"
+          },
+          "all,avail,print,product,the": {
+            "intent": "command.print.available",
+            "domain": "default"
+          },
+          "%product%,all,avail,have,print,that,the,we": {
+            "intent": "command.print.available.product",
+            "domain": "default"
+          },
+          "are,arriv,in,inventori,newest,our,product,the,what": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "ad,been,have,most,product,recent,which": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "a,can,latest,list,of,product,provid,the,you": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "addit,are,consid,item,latest,our,stock,the,to,which": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "ad,is,most,product,recent,the,what": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "ad,can,me,month,product,show,the,this,you": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "ad,in,last,product,the,week,were,which": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "catalog,in,is,latest,our,product,the,what": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "been,have,item,recent,restock,which": {
+            "intent": "asking.products.latest",
+            "domain": "default"
+          },
+          "are,in,inventori,item,oldest,our,product,the,what": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "been,have,in,longest,product,stock,the,which": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "a,can,list,of,oldest,product,provid,the,you": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "date,is,of,oldest,our,product,releas,the,what": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "been,durat,for,have,in,item,longest,our,stock,the,which": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "avail,current,is,oldest,product,the,what": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "ad,can,first,me,product,show,start,the,we,when,you": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "been,have,in,item,longest,restock,stock,the,which,without": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "catalog,in,is,oldest,our,product,the,what": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "been,for,have,in,inventori,longest,our,period,product,the,which": {
+            "intent": "asking.products.oldest",
+            "domain": "default"
+          },
+          "%product%,are,how,in,mani,stock": {
+            "intent": "asking.products.search",
+            "domain": "default"
+          },
+          "are,current,of,out,product,stock,which": {
+            "intent": "asking.products.out.all",
+            "domain": "default"
+          },
+          "all,have,print,product,reject,that,the,we": {
+            "intent": "asking.products.rejected.all",
+            "domain": "default"
+          },
+          "all,be,i,print,product,purchas,the,to,want": {
+            "intent": "asking.products.purchased.all",
+            "domain": "default"
+          }
+        },
+        "intentDict": {
+          "asking.products.all": "default",
+          "asking.employee.present.today": "default",
+          "command.attendance": "default",
+          "command.print.available": "default",
+          "command.print.available.product": "default",
+          "asking.products.latest": "default",
+          "asking.products.oldest": "default",
+          "asking.products.search": "default",
+          "asking.products.out.all": "default",
+          "asking.products.rejected.all": "default",
+          "asking.products.purchased.all": "default"
+        },
+        "sentences": [
+          {
+            "domain": "default",
+            "utterance": "How many products are in stock?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "What's the product count?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Total products available?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Number of items in stock?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "What's the current stock level?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Total product count?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "How many product types do we have?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Product inventory count?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Total items in stock?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Number of different products?",
+            "intent": "asking.products.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "give me the list of present today",
+            "intent": "asking.employee.present.today"
+          },
+          {
+            "domain": "default",
+            "utterance": "activate the attendance system",
+            "intent": "command.attendance"
+          },
+          {
+            "domain": "default",
+            "utterance": "print all the available products",
+            "intent": "command.print.available"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the available %product% that we have?",
+            "intent": "command.print.available.product"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the available %product% that we have?",
+            "intent": "command.print.available.product"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the available %product% that we have?",
+            "intent": "command.print.available.product"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the available %product% that we have?",
+            "intent": "command.print.available.product"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the available %product% that we have?",
+            "intent": "command.print.available.product"
+          },
+          {
+            "domain": "default",
+            "utterance": "What are the newest arrivals in our product inventory?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products have been added most recently?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Can you provide a list of the latest products?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which items are considered the latest additions to our stock?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "What's the most recently added product?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Can you show me the products added this month?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products were added in the last week?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "What is the latest product in our catalog?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which items have been recently restocked?",
+            "intent": "asking.products.latest"
+          },
+          {
+            "domain": "default",
+            "utterance": "What are the oldest items in our product inventory?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products have been in stock the longest?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Can you provide a list of the oldest products?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "What is the release date of our oldest products?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which items have been in our stock for the longest duration?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "What's the oldest product currently available?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Can you show me the products added when we first started?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which items have been in stock the longest without restocking?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "What is the oldest product in our catalog?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products have been in our inventory for the longest period?",
+            "intent": "asking.products.oldest"
+          },
+          {
+            "domain": "default",
+            "utterance": "How many %product% are in stock?",
+            "intent": "asking.products.search"
+          },
+          {
+            "domain": "default",
+            "utterance": "How many %product% are in stock?",
+            "intent": "asking.products.search"
+          },
+          {
+            "domain": "default",
+            "utterance": "How many %product% are in stock?",
+            "intent": "asking.products.search"
+          },
+          {
+            "domain": "default",
+            "utterance": "How many %product% are in stock?",
+            "intent": "asking.products.search"
+          },
+          {
+            "domain": "default",
+            "utterance": "How many %product% are in stock?",
+            "intent": "asking.products.search"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products are currently out of stock?",
+            "intent": "asking.products.out.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products are currently out of stock?",
+            "intent": "asking.products.out.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products are currently out of stock?",
+            "intent": "asking.products.out.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products are currently out of stock?",
+            "intent": "asking.products.out.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Which products are currently out of stock?",
+            "intent": "asking.products.out.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the rejected products that we have?",
+            "intent": "asking.products.rejected.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the rejected products that we have?",
+            "intent": "asking.products.rejected.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the rejected products that we have?",
+            "intent": "asking.products.rejected.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the rejected products that we have?",
+            "intent": "asking.products.rejected.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "Print all the rejected products that we have?",
+            "intent": "asking.products.rejected.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "I want all the purchased products to be printed?",
+            "intent": "asking.products.purchased.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "I want all the purchased products to be printed?",
+            "intent": "asking.products.purchased.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "I want all the purchased products to be printed?",
+            "intent": "asking.products.purchased.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "I want all the purchased products to be printed?",
+            "intent": "asking.products.purchased.all"
+          },
+          {
+            "domain": "default",
+            "utterance": "I want all the purchased products to be printed?",
+            "intent": "asking.products.purchased.all"
+          }
+        ],
+        "domains": {
+          "master_domain": {
+            "settings": {
+              "locale": "en",
+              "tag": "nlu-en",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
+            },
+            "features": {
+              "how": 1,
+              "mani": 1,
+              "product": 1,
+              "are": 1,
+              "in": 1,
+              "stock": 1,
+              "what": 1,
+              "is": 1,
+              "the": 1,
+              "count": 1,
+              "total": 1,
+              "avail": 1,
+              "number": 1,
+              "of": 1,
+              "item": 1,
+              "current": 1,
+              "level": 1,
+              "type": 1,
+              "do": 1,
+              "we": 1,
+              "have": 1,
+              "inventori": 1,
+              "differ": 1,
+              "give": 1,
+              "me": 1,
+              "list": 1,
+              "present": 1,
+              "today": 1,
+              "activ": 1,
+              "attend": 1,
+              "system": 1,
+              "print": 1,
+              "all": 1,
+              "%product%": 1,
+              "that": 1,
+              "newest": 1,
+              "arriv": 1,
+              "our": 1,
+              "which": 1,
+              "been": 1,
+              "ad": 1,
+              "most": 1,
+              "recent": 1,
+              "can": 1,
+              "you": 1,
+              "provid": 1,
+              "a": 1,
+              "latest": 1,
+              "consid": 1,
+              "addit": 1,
+              "to": 1,
+              "show": 1,
+              "this": 1,
+              "month": 1,
+              "were": 1,
+              "last": 1,
+              "week": 1,
+              "catalog": 1,
+              "restock": 1,
+              "oldest": 1,
+              "longest": 1,
+              "releas": 1,
+              "date": 1,
+              "for": 1,
+              "durat": 1,
+              "when": 1,
+              "first": 1,
+              "start": 1,
+              "without": 1,
+              "period": 1,
+              "out": 1,
+              "reject": 1,
+              "i": 1,
+              "want": 1,
+              "purchas": 1,
+              "be": 1
+            },
+            "intents": {
+              "asking.products.all": 1,
+              "asking.employee.present.today": 1,
+              "command.attendance": 1,
+              "command.print.available": 1,
+              "command.print.available.product": 1,
+              "asking.products.latest": 1,
+              "asking.products.oldest": 1,
+              "asking.products.search": 1,
+              "asking.products.out.all": 1,
+              "asking.products.rejected.all": 1,
+              "asking.products.purchased.all": 1
+            },
+            "intentFeatures": {
+              "asking.products.all": {
+                "how": 1,
+                "mani": 1,
+                "product": 1,
+                "are": 1,
+                "in": 1,
+                "stock": 1,
+                "what": 1,
+                "is": 1,
+                "the": 1,
+                "count": 1,
+                "total": 1,
+                "avail": 1,
+                "number": 1,
+                "of": 1,
+                "item": 1,
+                "current": 1,
+                "level": 1,
+                "type": 1,
+                "do": 1,
+                "we": 1,
+                "have": 1,
+                "inventori": 1,
+                "differ": 1
+              },
+              "asking.employee.present.today": {
+                "give": 1,
+                "me": 1,
+                "the": 1,
+                "list": 1,
+                "of": 1,
+                "present": 1,
+                "today": 1
+              },
+              "command.attendance": {
+                "activ": 1,
+                "the": 1,
+                "attend": 1,
+                "system": 1
+              },
+              "command.print.available": {
+                "print": 1,
+                "all": 1,
+                "the": 1,
+                "avail": 1,
+                "product": 1
+              },
+              "command.print.available.product": {
+                "print": 1,
+                "all": 1,
+                "the": 1,
+                "avail": 1,
+                "%product%": 1,
+                "that": 1,
+                "we": 1,
+                "have": 1
+              },
+              "asking.products.latest": {
+                "what": 1,
+                "are": 1,
+                "the": 1,
+                "newest": 1,
+                "arriv": 1,
+                "in": 1,
+                "our": 1,
+                "product": 1,
+                "inventori": 1,
+                "which": 1,
+                "have": 1,
+                "been": 1,
+                "ad": 1,
+                "most": 1,
+                "recent": 1,
+                "can": 1,
+                "you": 1,
+                "provid": 1,
+                "a": 1,
+                "list": 1,
+                "of": 1,
+                "latest": 1,
+                "item": 1,
+                "consid": 1,
+                "addit": 1,
+                "to": 1,
+                "stock": 1,
+                "is": 1,
+                "show": 1,
+                "me": 1,
+                "this": 1,
+                "month": 1,
+                "were": 1,
+                "last": 1,
+                "week": 1,
+                "catalog": 1,
+                "restock": 1
+              },
+              "asking.products.oldest": {
+                "what": 1,
+                "are": 1,
+                "the": 1,
+                "oldest": 1,
+                "item": 1,
+                "in": 1,
+                "our": 1,
+                "product": 1,
+                "inventori": 1,
+                "which": 1,
+                "have": 1,
+                "been": 1,
+                "stock": 1,
+                "longest": 1,
+                "can": 1,
+                "you": 1,
+                "provid": 1,
+                "a": 1,
+                "list": 1,
+                "of": 1,
+                "is": 1,
+                "releas": 1,
+                "date": 1,
+                "for": 1,
+                "durat": 1,
+                "current": 1,
+                "avail": 1,
+                "show": 1,
+                "me": 1,
+                "ad": 1,
+                "when": 1,
+                "we": 1,
+                "first": 1,
+                "start": 1,
+                "without": 1,
+                "restock": 1,
+                "catalog": 1,
+                "period": 1
+              },
+              "asking.products.search": {
+                "how": 1,
+                "mani": 1,
+                "%product%": 1,
+                "are": 1,
+                "in": 1,
+                "stock": 1
+              },
+              "asking.products.out.all": {
+                "which": 1,
+                "product": 1,
+                "are": 1,
+                "current": 1,
+                "out": 1,
+                "of": 1,
+                "stock": 1
+              },
+              "asking.products.rejected.all": {
+                "print": 1,
+                "all": 1,
+                "the": 1,
+                "reject": 1,
+                "product": 1,
+                "that": 1,
+                "we": 1,
+                "have": 1
+              },
+              "asking.products.purchased.all": {
+                "i": 1,
+                "want": 1,
+                "all": 1,
+                "the": 1,
+                "purchas": 1,
+                "product": 1,
+                "to": 1,
+                "be": 1,
+                "print": 1
+              }
+            },
+            "featuresToIntent": {
+              "how": [
+                "asking.products.all",
+                "asking.products.search"
+              ],
+              "mani": [
+                "asking.products.all",
+                "asking.products.search"
+              ],
+              "product": [
+                "asking.products.all",
+                "command.print.available",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.out.all",
+                "asking.products.rejected.all",
+                "asking.products.purchased.all"
+              ],
+              "are": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.search",
+                "asking.products.out.all"
+              ],
+              "in": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.search"
+              ],
+              "stock": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.search",
+                "asking.products.out.all"
+              ],
+              "what": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "is": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "the": [
+                "asking.products.all",
+                "asking.employee.present.today",
+                "command.attendance",
+                "command.print.available",
+                "command.print.available.product",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.rejected.all",
+                "asking.products.purchased.all"
+              ],
+              "count": [
+                "asking.products.all"
+              ],
+              "total": [
+                "asking.products.all"
+              ],
+              "avail": [
+                "asking.products.all",
+                "command.print.available",
+                "command.print.available.product",
+                "asking.products.oldest"
+              ],
+              "number": [
+                "asking.products.all"
+              ],
+              "of": [
+                "asking.products.all",
+                "asking.employee.present.today",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.out.all"
+              ],
+              "item": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "current": [
+                "asking.products.all",
+                "asking.products.oldest",
+                "asking.products.out.all"
+              ],
+              "level": [
+                "asking.products.all"
+              ],
+              "type": [
+                "asking.products.all"
+              ],
+              "do": [
+                "asking.products.all"
+              ],
+              "we": [
+                "asking.products.all",
+                "command.print.available.product",
+                "asking.products.oldest",
+                "asking.products.rejected.all"
+              ],
+              "have": [
+                "asking.products.all",
+                "command.print.available.product",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.rejected.all"
+              ],
+              "inventori": [
+                "asking.products.all",
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "differ": [
+                "asking.products.all"
+              ],
+              "give": [
+                "asking.employee.present.today"
+              ],
+              "me": [
+                "asking.employee.present.today",
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "list": [
+                "asking.employee.present.today",
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "present": [
+                "asking.employee.present.today"
+              ],
+              "today": [
+                "asking.employee.present.today"
+              ],
+              "activ": [
+                "command.attendance"
+              ],
+              "attend": [
+                "command.attendance"
+              ],
+              "system": [
+                "command.attendance"
+              ],
+              "print": [
+                "command.print.available",
+                "command.print.available.product",
+                "asking.products.rejected.all",
+                "asking.products.purchased.all"
+              ],
+              "all": [
+                "command.print.available",
+                "command.print.available.product",
+                "asking.products.rejected.all",
+                "asking.products.purchased.all"
+              ],
+              "%product%": [
+                "command.print.available.product",
+                "asking.products.search"
+              ],
+              "that": [
+                "command.print.available.product",
+                "asking.products.rejected.all"
+              ],
+              "newest": [
+                "asking.products.latest"
+              ],
+              "arriv": [
+                "asking.products.latest"
+              ],
+              "our": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "which": [
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.out.all"
+              ],
+              "been": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "ad": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "most": [
+                "asking.products.latest"
+              ],
+              "recent": [
+                "asking.products.latest"
+              ],
+              "can": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "you": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "provid": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "a": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "latest": [
+                "asking.products.latest"
+              ],
+              "consid": [
+                "asking.products.latest"
+              ],
+              "addit": [
+                "asking.products.latest"
+              ],
+              "to": [
+                "asking.products.latest",
+                "asking.products.purchased.all"
+              ],
+              "show": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "this": [
+                "asking.products.latest"
+              ],
+              "month": [
+                "asking.products.latest"
+              ],
+              "were": [
+                "asking.products.latest"
+              ],
+              "last": [
+                "asking.products.latest"
+              ],
+              "week": [
+                "asking.products.latest"
+              ],
+              "catalog": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "restock": [
+                "asking.products.latest",
+                "asking.products.oldest"
+              ],
+              "oldest": [
+                "asking.products.oldest"
+              ],
+              "longest": [
+                "asking.products.oldest"
+              ],
+              "releas": [
+                "asking.products.oldest"
+              ],
+              "date": [
+                "asking.products.oldest"
+              ],
+              "for": [
+                "asking.products.oldest"
+              ],
+              "durat": [
+                "asking.products.oldest"
+              ],
+              "when": [
+                "asking.products.oldest"
+              ],
+              "first": [
+                "asking.products.oldest"
+              ],
+              "start": [
+                "asking.products.oldest"
+              ],
+              "without": [
+                "asking.products.oldest"
+              ],
+              "period": [
+                "asking.products.oldest"
+              ],
+              "out": [
+                "asking.products.out.all"
+              ],
+              "reject": [
+                "asking.products.rejected.all"
+              ],
+              "i": [
+                "asking.products.purchased.all"
+              ],
+              "want": [
+                "asking.products.purchased.all"
+              ],
+              "purchas": [
+                "asking.products.purchased.all"
+              ],
+              "be": [
+                "asking.products.purchased.all"
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "en",
+                "tag": "nlu-en",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true,
+                "log": true
+              },
+              "features": [
+                "how",
+                "mani",
+                "product",
+                "are",
+                "in",
+                "stock",
+                "what",
+                "is",
+                "the",
+                "count",
+                "total",
+                "avail",
+                "number",
+                "of",
+                "item",
+                "current",
+                "level",
+                "type",
+                "do",
+                "we",
+                "have",
+                "inventori",
+                "differ",
+                "give",
+                "me",
+                "list",
+                "present",
+                "today",
+                "activ",
+                "attend",
+                "system",
+                "print",
+                "all",
+                "%product%",
+                "that",
+                "newest",
+                "arriv",
+                "our",
+                "which",
+                "been",
+                "ad",
+                "most",
+                "recent",
+                "can",
+                "you",
+                "provid",
+                "a",
+                "latest",
+                "consid",
+                "addit",
+                "to",
+                "show",
+                "this",
+                "month",
+                "were",
+                "last",
+                "week",
+                "catalog",
+                "restock",
+                "oldest",
+                "longest",
+                "releas",
+                "date",
+                "for",
+                "durat",
+                "when",
+                "first",
+                "start",
+                "without",
+                "period",
+                "out",
+                "reject",
+                "i",
+                "want",
+                "purchas",
+                "be"
+              ],
+              "intents": [
+                "asking.products.all",
+                "asking.employee.present.today",
+                "command.attendance",
+                "command.print.available",
+                "command.print.available.product",
+                "asking.products.latest",
+                "asking.products.oldest",
+                "asking.products.search",
+                "asking.products.out.all",
+                "asking.products.rejected.all",
+                "asking.products.purchased.all"
+              ],
+              "perceptrons": [
+                [
+                  2.060593605041504,
+                  2.060593605041504,
+                  5.637946128845215,
+                  -3.7833664417266846,
+                  -0.7696791291236877,
+                  6.3404459953308105,
+                  1.8572139739990234,
+                  3.465656280517578,
+                  -4.219832420349121,
+                  3.856269121170044,
+                  3.478693723678589,
+                  1.1391627788543701,
+                  4.3070502281188965,
+                  -0.5969434380531311,
+                  2.354149341583252,
+                  -2.6205413341522217,
+                  6.5788254737854,
+                  1.2369937896728516,
+                  1.2369937896728516,
+                  0.6585274934768677,
+                  -1.3609297275543213,
+                  1.7568907737731934,
+                  2.1306731700897217,
+                  -0.4078538119792938,
+                  -0.579118013381958,
+                  -1.199802279472351,
+                  -0.4078538119792938,
+                  -0.4078538119792938,
+                  -0.3559381067752838,
+                  -0.3559381067752838,
+                  -0.3559381067752838,
+                  -2.578561305999756,
+                  -2.578561305999756,
+                  -8.5659818649292,
+                  -0.4653858244419098,
+                  -0.8169140815734863,
+                  -0.8169140815734863,
+                  -4.308718681335449,
+                  -5.218669414520264,
+                  -2.0186767578125,
+                  -3.3157572746276855,
+                  -3.0319366455078125,
+                  -3.1230523586273193,
+                  -0.7877922654151917,
+                  -0.7877922654151917,
+                  -0.6350482702255249,
+                  -0.6350482702255249,
+                  -2.698483467102051,
+                  -0.1594294160604477,
+                  -0.1594294160604477,
+                  -0.1594294160604477,
+                  -0.056768205016851425,
+                  -0.056768205016851425,
+                  -0.056768205016851425,
+                  -0.1284896582365036,
+                  -0.1284896582365036,
+                  -0.1284896582365036,
+                  -1.7055062055587769,
+                  -0.08985063433647156,
+                  -7.563624382019043,
+                  -1.1382278203964233,
+                  -0.7098028063774109,
+                  -0.7098028063774109,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.011934768408536911,
+                  0,
+                  -2.784064769744873,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2.6553192420245226
+                ],
+                [
+                  0,
+                  0,
+                  -1.3214197158813477,
+                  -0.18180148303508759,
+                  -0.4152609407901764,
+                  -0.45982155203819275,
+                  -0.30800583958625793,
+                  -0.2099837213754654,
+                  0.6902883648872375,
+                  0,
+                  0,
+                  -0.25387248396873474,
+                  -0.36394360661506653,
+                  1.368296504020691,
+                  -0.38540488481521606,
+                  -0.05600857734680176,
+                  -0.03482900187373161,
+                  0,
+                  0,
+                  -0.1775614470243454,
+                  -0.19453030824661255,
+                  -0.05077439546585083,
+                  -0.05193021893501282,
+                  2.5866382122039795,
+                  2.4135055541992188,
+                  1.9127686023712158,
+                  2.5866382122039795,
+                  2.5866382122039795,
+                  -0.3257714509963989,
+                  -0.3257714509963989,
+                  -0.3257714509963989,
+                  -0.25387248396873474,
+                  -0.25387248396873474,
+                  -0.1446499228477478,
+                  -0.1446499228477478,
+                  -0.05077439546585083,
+                  -0.05077439546585083,
+                  -0.28561916947364807,
+                  -0.11257174611091614,
+                  -0.01809106394648552,
+                  -0.2067231982946396,
+                  -0.02149040810763836,
+                  -0.02149040810763836,
+                  -0.8407577276229858,
+                  -0.8407577276229858,
+                  -0.6524855494499207,
+                  -0.6524855494499207,
+                  -0.45648908615112305,
+                  -0.05096200108528137,
+                  -0.05096200108528137,
+                  -0.05096200108528137,
+                  -0.16453048586845398,
+                  -0.1412573605775833,
+                  -0.1412573605775833,
+                  -0.0010945132235065103,
+                  -0.0010945132235065103,
+                  -0.0010945132235065103,
+                  0,
+                  -0.015882283449172974,
+                  -0.37529852986335754,
+                  -0.015882283449172974,
+                  -0.11797667294740677,
+                  -0.11797667294740677,
+                  0,
+                  0,
+                  -0.007499704137444496,
+                  -0.007499704137444496,
+                  -0.007499704137444496,
+                  -0.015882283449172974,
+                  0,
+                  -0.017522767186164856,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.14094173371439045
+                ],
+                [
+                  0,
+                  0,
+                  -1.1116400957107544,
+                  -0.30270248651504517,
+                  -0.4069393277168274,
+                  -0.607378363609314,
+                  -0.7632157802581787,
+                  -0.5950119495391846,
+                  1.6019264459609985,
+                  -0.12726402282714844,
+                  0,
+                  -0.43177342414855957,
+                  0,
+                  -0.5209802985191345,
+                  -0.31164929270744324,
+                  -0.29056236147880554,
+                  -0.2786107361316681,
+                  0,
+                  0,
+                  -0.2509530484676361,
+                  -0.3967154026031494,
+                  -0.11348465830087662,
+                  0,
+                  -0.3480975329875946,
+                  -0.4666292369365692,
+                  -0.5192535519599915,
+                  -0.3480975329875946,
+                  -0.3480975329875946,
+                  3.9619884490966797,
+                  3.9619884490966797,
+                  3.9619884490966797,
+                  -0.4879120886325836,
+                  -0.4879120886325836,
+                  -0.2509530484676361,
+                  -0.2509530484676361,
+                  -0.11348465830087662,
+                  -0.11348465830087662,
+                  -0.38283729553222656,
+                  -0.42640331387519836,
+                  -0.1368245929479599,
+                  -0.376397967338562,
+                  -0.12392373383045197,
+                  -0.12392373383045197,
+                  -0.270774245262146,
+                  -0.270774245262146,
+                  -0.14209610223770142,
+                  -0.14209610223770142,
+                  -0.3146912157535553,
+                  -0.1394433230161667,
+                  -0.1394433230161667,
+                  -0.24442914128303528,
+                  -0.09938688576221466,
+                  -0.09938688576221466,
+                  -0.09938688576221466,
+                  -0.09285120666027069,
+                  -0.09285120666027069,
+                  -0.09285120666027069,
+                  0,
+                  -0.08592694997787476,
+                  -0.010864172130823135,
+                  -0.13054612278938293,
+                  -0.0009295542840845883,
+                  -0.0009295542840845883,
+                  -0.03535807132720947,
+                  -0.03535807132720947,
+                  0,
+                  0,
+                  0,
+                  -0.08592694997787476,
+                  0,
+                  0,
+                  0,
+                  -0.06336240470409393,
+                  -0.06336240470409393,
+                  -0.06336240470409393,
+                  -0.06336240470409393,
+                  0.7978218290013528
+                ],
+                [
+                  -0.029918532818555832,
+                  -0.029918532818555832,
+                  1.2162179946899414,
+                  -0.2711333930492401,
+                  -0.4913437068462372,
+                  -0.09714024513959885,
+                  -1.5412453413009644,
+                  -1.3672614097595215,
+                  1.8898526430130005,
+                  -0.21508124470710754,
+                  -3.319795846939087,
+                  3.0707833766937256,
+                  -0.08121208101511002,
+                  -0.4140644669532776,
+                  -0.02194756455719471,
+                  -1.1842494010925293,
+                  0,
+                  0,
+                  0,
+                  -3.4381330013275146,
+                  -3.4698917865753174,
+                  -0.3365684449672699,
+                  -0.08121208101511002,
+                  -0.030901161953806877,
+                  -0.211566761136055,
+                  -0.2632617950439453,
+                  -0.030901161953806877,
+                  -0.030901161953806877,
+                  -0.3252600431442261,
+                  -0.3252600431442261,
+                  -0.3252600431442261,
+                  4.4631476402282715,
+                  4.4631476402282715,
+                  -2.6464827060699463,
+                  -3.4381330013275146,
+                  -0.11281891912221909,
+                  -0.11281891912221909,
+                  -0.24123196303844452,
+                  -0.34409719705581665,
+                  -0.01645623706281185,
+                  -0.6362855434417725,
+                  -0.14467982947826385,
+                  -0.14467982947826385,
+                  -0.4122168719768524,
+                  -0.4122168719768524,
+                  -0.2306807041168213,
+                  -0.2306807041168213,
+                  -0.2617121934890747,
+                  -0.008510231040418148,
+                  -0.008510231040418148,
+                  -2.239535331726074,
+                  -0.17932485044002533,
+                  -0.17932485044002533,
+                  -0.17932485044002533,
+                  -0.2448597401380539,
+                  -0.2448597401380539,
+                  -0.2448597401380539,
+                  -0.031016560271382332,
+                  0,
+                  -1.1834546327590942,
+                  0,
+                  -0.01189916767179966,
+                  -0.01189916767179966,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.043110817670822144,
+                  -0.7913386821746826,
+                  -2.2231624126434326,
+                  -2.2231624126434326,
+                  -2.2231624126434326,
+                  -2.2231624126434326,
+                  -0.9023455218670687
+                ],
+                [
+                  -0.4319177269935608,
+                  -0.4319177269935608,
+                  -4.826210021972656,
+                  -0.8561317324638367,
+                  -0.9919580817222595,
+                  -0.8713492155075073,
+                  -0.4748814105987549,
+                  -0.23812000453472137,
+                  -0.31216251850128174,
+                  0,
+                  0,
+                  3.4720184803009033,
+                  0,
+                  -0.1019873321056366,
+                  -0.36856457591056824,
+                  -0.14152443408966064,
+                  0,
+                  0,
+                  0,
+                  1.9202284812927246,
+                  1.3801511526107788,
+                  -0.1262727528810501,
+                  0,
+                  0,
+                  -0.11349285393953323,
+                  -0.1019873321056366,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1.111847162246704,
+                  1.111847162246704,
+                  4.140612602233887,
+                  2.018510103225708,
+                  -0.1262727528810501,
+                  -0.1262727528810501,
+                  -0.4031345546245575,
+                  -0.7842450737953186,
+                  -0.5713463425636292,
+                  -0.48163551092147827,
+                  -0.22871212661266327,
+                  -0.35485178232192993,
+                  -0.29197070002555847,
+                  -0.29197070002555847,
+                  -0.1019873321056366,
+                  -0.1019873321056366,
+                  -0.23881523311138153,
+                  -0.08583423495292664,
+                  -0.08583423495292664,
+                  -0.08583423495292664,
+                  -0.11349285393953323,
+                  -0.04290129244327545,
+                  -0.04290129244327545,
+                  -0.0198659785091877,
+                  -0.0198659785091877,
+                  -0.0198659785091877,
+                  0,
+                  -0.11011108756065369,
+                  -0.14152443408966064,
+                  -0.2166823148727417,
+                  0,
+                  0,
+                  -0.05340588837862015,
+                  -0.05340588837862015,
+                  -0.049140915274620056,
+                  -0.049140915274620056,
+                  -0.049140915274620056,
+                  -0.00567837106063962,
+                  0,
+                  0,
+                  -2.5345370769500732,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.557338554239261
+                ],
+                [
+                  -0.012436656281352043,
+                  -0.012436656281352043,
+                  -0.498355895280838,
+                  1.2844619750976562,
+                  0.5690062642097473,
+                  -3.6223196983337402,
+                  1.3559916019439697,
+                  0.2590146064758301,
+                  0.10307959467172623,
+                  -2.5311172008514404,
+                  -0.6265476942062378,
+                  -0.6883110404014587,
+                  -0.1698426455259323,
+                  -0.9673328399658203,
+                  1.1494114398956299,
+                  -1.0603992938995361,
+                  0,
+                  -0.0035423587542027235,
+                  -0.0035423587542027235,
+                  -2.3343758583068848,
+                  -0.2035643458366394,
+                  0.2805905342102051,
+                  -0.1698426455259323,
+                  -0.42759034037590027,
+                  -0.05247952789068222,
+                  0.8548610210418701,
+                  -0.42759034037590027,
+                  -0.42759034037590027,
+                  -0.48148074746131897,
+                  -0.48148074746131897,
+                  -0.48148074746131897,
+                  -0.6630440950393677,
+                  -0.6630440950393677,
+                  0,
+                  -0.02316453494131565,
+                  4.05954122543335,
+                  4.05954122543335,
+                  1.7161955833435059,
+                  2.196017026901245,
+                  -0.1625872552394867,
+                  4.076334476470947,
+                  1.5375422239303589,
+                  6.064684867858887,
+                  1.6582647562026978,
+                  1.6582647562026978,
+                  1.282613754272461,
+                  1.282613754272461,
+                  7.569304943084717,
+                  1.0686311721801758,
+                  1.0686311721801758,
+                  0.41327035427093506,
+                  0.37530991435050964,
+                  2.809807538986206,
+                  2.809807538986206,
+                  2.1615588665008545,
+                  2.1615588665008545,
+                  2.1615588665008545,
+                  1.8620781898498535,
+                  3.84744930267334,
+                  -7.303834915161133,
+                  -4.542927265167236,
+                  -0.602380633354187,
+                  -0.602380633354187,
+                  -1.5103687047958374,
+                  -0.708740770816803,
+                  -2.252636432647705,
+                  -2.252636432647705,
+                  -2.252636432647705,
+                  -0.6797507405281067,
+                  -0.7076184153556824,
+                  -0.8507611751556396,
+                  -0.02316453494131565,
+                  -0.6287721991539001,
+                  -0.6287721991539001,
+                  -0.6287721991539001,
+                  -0.6287721991539001,
+                  1.3526262292600875
+                ],
+                [
+                  -1.0111191272735596,
+                  -1.0111191272735596,
+                  1.137757420539856,
+                  -1.962636947631836,
+                  1.8972877264022827,
+                  0.2792434096336365,
+                  0.38048943877220154,
+                  -0.4118233025074005,
+                  2.839989423751831,
+                  -2.387622356414795,
+                  -1.2962939739227295,
+                  2.138540506362915,
+                  -0.9394517540931702,
+                  -1.3502649068832397,
+                  0.6239168643951416,
+                  0.0011410709703341126,
+                  -1.2341506481170654,
+                  0,
+                  0,
+                  1.4374192953109741,
+                  1.4712032079696655,
+                  0.29597344994544983,
+                  -0.019900862127542496,
+                  -0.5733714699745178,
+                  0.1379094421863556,
+                  -0.17345030605793,
+                  -0.5733714699745178,
+                  -0.5733714699745178,
+                  -0.4761470556259155,
+                  -0.4761470556259155,
+                  -0.4761470556259155,
+                  -2.0916686058044434,
+                  -2.0916686058044434,
+                  -0.813769519329071,
+                  -1.412456750869751,
+                  -2.150423526763916,
+                  -2.150423526763916,
+                  0.8731915950775146,
+                  0.38304054737091064,
+                  3.0195181369781494,
+                  -1.3416252136230469,
+                  -1.1376928091049194,
+                  -2.6812376976013184,
+                  1.3128974437713623,
+                  1.3128974437713623,
+                  0.5007242560386658,
+                  0.5007242560386658,
+                  -3.7602431774139404,
+                  -0.14036083221435547,
+                  -0.14036083221435547,
+                  -0.5835250616073608,
+                  0.8120837807655334,
+                  -2.1399316787719727,
+                  -2.1399316787719727,
+                  -0.9426641464233398,
+                  -0.9426641464233398,
+                  -0.9426641464233398,
+                  -0.6365823149681091,
+                  -0.49659648537635803,
+                  10.521496772766113,
+                  5.584651470184326,
+                  1.3082952499389648,
+                  1.3082952499389648,
+                  -0.42091166973114014,
+                  0.05800575762987137,
+                  2.9857354164123535,
+                  2.9857354164123535,
+                  2.9857354164123535,
+                  1.0010311603546143,
+                  -0.4789491295814514,
+                  -1.4738388061523438,
+                  -1.412456750869751,
+                  -0.35531291365623474,
+                  -0.35531291365623474,
+                  -0.35531291365623474,
+                  -0.35531291365623474,
+                  -2.318593452066156
+                ],
+                [
+                  2.1698484420776367,
+                  2.1698484420776367,
+                  -7.0462493896484375,
+                  1.3754098415374756,
+                  1.4010471105575562,
+                  0.36999574303627014,
+                  -0.03414887189865112,
+                  -0.006962001323699951,
+                  -0.9337618947029114,
+                  0,
+                  -0.6136835813522339,
+                  -0.8716803789138794,
+                  -0.317353755235672,
+                  -1.364554524421692,
+                  -1.012613296508789,
+                  -1.0021491050720215,
+                  -0.006962001323699951,
+                  -0.21917909383773804,
+                  -0.21917909383773804,
+                  -1.1891896724700928,
+                  -1.1891896724700928,
+                  -0.023705868050456047,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.0003728929441422224,
+                  -0.0003728929441422224,
+                  -0.0003728929441422224,
+                  -0.8716803789138794,
+                  -0.8716803789138794,
+                  7.233183860778809,
+                  -0.8716803789138794,
+                  -0.023705868050456047,
+                  -0.023705868050456047,
+                  -0.023705868050456047,
+                  -0.9258356690406799,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.9258356690406799,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.43365711691384445
+                ],
+                [
+                  -0.8381747603416443,
+                  -0.8381747603416443,
+                  0.3364643454551697,
+                  2.1247177124023438,
+                  -1.4115151166915894,
+                  1.1450427770614624,
+                  -0.5990010499954224,
+                  -0.5648490786552429,
+                  -1.9713729619979858,
+                  -0.2272970974445343,
+                  -0.25054803490638733,
+                  -0.1164589524269104,
+                  -1.16793954372406,
+                  2.1894137859344482,
+                  -0.9950830936431885,
+                  3.027538537979126,
+                  -0.46219146251678467,
+                  0,
+                  0,
+                  -0.41515639424324036,
+                  -0.9101225733757019,
+                  -0.08785536140203476,
+                  -0.6967737078666687,
+                  -0.037618767470121384,
+                  -0.037618767470121384,
+                  -0.12431827932596207,
+                  -0.037618767470121384,
+                  -0.037618767470121384,
+                  0,
+                  0,
+                  0,
+                  -0.6788542866706848,
+                  -0.6788542866706848,
+                  -0.05841204896569252,
+                  -0.41515639424324036,
+                  -0.015047415159642696,
+                  -0.015047415159642696,
+                  -0.454158753156662,
+                  2.6104440689086914,
+                  -0.3819056451320648,
+                  -0.3449062407016754,
+                  -0.3449062407016754,
+                  -0.3819056451320648,
+                  -0.05848543718457222,
+                  -0.05848543718457222,
+                  -0.05848543718457222,
+                  -0.05848543718457222,
+                  -0.5148752927780151,
+                  -0.42500439286231995,
+                  -0.42500439286231995,
+                  -0.6162267327308655,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.016856538131833076,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  3.5196175575256348,
+                  -0.41515639424324036,
+                  -0.16157878935337067,
+                  -0.16157878935337067,
+                  -0.16157878935337067,
+                  -0.16157878935337067,
+                  -0.6675244991336938
+                ],
+                [
+                  -1.078901767730713,
+                  -1.078901767730713,
+                  1.412559986114502,
+                  -0.12003815174102783,
+                  -0.3713996410369873,
+                  -0.3569282293319702,
+                  -0.3651542663574219,
+                  -0.3651542663574219,
+                  -0.0016832841793075204,
+                  -0.57438725233078,
+                  -0.20081494748592377,
+                  -3.7163076400756836,
+                  -0.13376866281032562,
+                  -0.21928267180919647,
+                  -0.007829427719116211,
+                  -0.030879855155944824,
+                  -0.030879855155944824,
+                  -0.8931070566177368,
+                  -0.8931070566177368,
+                  1.5611457824707031,
+                  1.32406485080719,
+                  -0.10718358308076859,
+                  -0.12705333530902863,
+                  -0.05225115641951561,
+                  -0.2888777554035187,
+                  -0.06723225861787796,
+                  -0.05225115641951561,
+                  -0.05225115641951561,
+                  -0.04842313751578331,
+                  -0.04842313751578331,
+                  -0.04842313751578331,
+                  1.0432426929473877,
+                  1.0432426929473877,
+                  -3.1532793045043945,
+                  2.8661088943481445,
+                  0,
+                  0,
+                  -0.05360976606607437,
+                  -0.47767090797424316,
+                  -0.47767090797424316,
+                  -0.501299262046814,
+                  -0.23743298649787903,
+                  -0.242916077375412,
+                  -0.21801458299160004,
+                  -0.21801458299160004,
+                  -0.0020092325285077095,
+                  -0.0020092325285077095,
+                  -0.0020092325285077095,
+                  0,
+                  0,
+                  -1.0678068399429321,
+                  -0.211493581533432,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.0027532819658517838,
+                  0,
+                  -0.18471218645572662,
+                  0,
+                  0,
+                  -0.05360976606607437,
+                  0,
+                  -0.211493581533432,
+                  -0.211493581533432,
+                  -0.211493581533432,
+                  0,
+                  -0.05360976606607437,
+                  0,
+                  6.023029804229736,
+                  -1.0678068399429321,
+                  -1.0678068399429321,
+                  -1.0678068399429321,
+                  -1.0678068399429321,
+                  -0.985997133975534
+                ],
+                [
+                  -0.22963456809520721,
+                  -0.22963456809520721,
+                  0.19626013934612274,
+                  -0.39332664012908936,
+                  -0.18691420555114746,
+                  -0.5626306533813477,
+                  -0.34476906061172485,
+                  -0.34476906061172485,
+                  -0.06253223121166229,
+                  -0.4614376127719879,
+                  -0.20192985236644745,
+                  -1.61984121799469,
+                  -0.07169033586978912,
+                  -0.23401734232902527,
+                  -0.20376496016979218,
+                  -0.06995904445648193,
+                  -0.06995904445648193,
+                  -0.05682629719376564,
+                  -0.05682629719376564,
+                  -0.7014040350914001,
+                  -0.7014040350914001,
+                  -0.044084902852773666,
+                  -0.05053141713142395,
+                  -0.07267486304044724,
+                  -0.1317245215177536,
+                  -0.11913871765136719,
+                  -0.07267486304044724,
+                  -0.07267486304044724,
+                  -0.06684288382530212,
+                  -0.06684288382530212,
+                  -0.06684288382530212,
+                  0.9771242737770081,
+                  0.9771242737770081,
+                  -0.3782294690608978,
+                  -0.5881953835487366,
+                  0,
+                  0,
+                  -0.17731629312038422,
+                  -0.17731629312038422,
+                  0,
+                  -0.004543512128293514,
+                  0,
+                  0,
+                  -0.0222647525370121,
+                  -0.0222647525370121,
+                  -0.010126423090696335,
+                  -0.010126423090696335,
+                  -0.1963033378124237,
+                  -0.17731629312038422,
+                  -0.17731629312038422,
+                  2.3525986671447754,
+                  -0.004543512128293514,
+                  -0.004543512128293514,
+                  -0.004543512128293514,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.13363388180732727,
+                  2.5783193111419678,
+                  2.5783193111419678,
+                  2.5783193111419678,
+                  2.5783193111419678,
+                  -0.4681380821763819
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intentDomains": {},
+    "extraSentences": [
+      [
+        "en",
+        "How many products are in stock?"
+      ],
+      [
+        "en",
+        "What's the product count?"
+      ],
+      [
+        "en",
+        "Total products available?"
+      ],
+      [
+        "en",
+        "Number of items in stock?"
+      ],
+      [
+        "en",
+        "What's the current stock level?"
+      ],
+      [
+        "en",
+        "Total product count?"
+      ],
+      [
+        "en",
+        "How many product types do we have?"
+      ],
+      [
+        "en",
+        "Product inventory count?"
+      ],
+      [
+        "en",
+        "Total items in stock?"
+      ],
+      [
+        "en",
+        "Number of different products?"
+      ],
+      [
+        "en",
+        "give me the list of present today"
+      ],
+      [
+        "en",
+        "activate the attendance system"
+      ],
+      [
+        "en",
+        "print all the available products"
+      ],
+      [
+        "en",
+        "Print all the available %product% that we have?"
+      ],
+      [
+        "en",
+        "Print all the available %product% that we have?"
+      ],
+      [
+        "en",
+        "Print all the available %product% that we have?"
+      ],
+      [
+        "en",
+        "Print all the available %product% that we have?"
+      ],
+      [
+        "en",
+        "Print all the available %product% that we have?"
+      ],
+      [
+        "en",
+        "What are the newest arrivals in our product inventory?"
+      ],
+      [
+        "en",
+        "Which products have been added most recently?"
+      ],
+      [
+        "en",
+        "Can you provide a list of the latest products?"
+      ],
+      [
+        "en",
+        "Which items are considered the latest additions to our stock?"
+      ],
+      [
+        "en",
+        "What's the most recently added product?"
+      ],
+      [
+        "en",
+        "Can you show me the products added this month?"
+      ],
+      [
+        "en",
+        "Which products were added in the last week?"
+      ],
+      [
+        "en",
+        "What is the latest product in our catalog?"
+      ],
+      [
+        "en",
+        "Which items have been recently restocked?"
+      ],
+      [
+        "en",
+        "What are the oldest items in our product inventory?"
+      ],
+      [
+        "en",
+        "Which products have been in stock the longest?"
+      ],
+      [
+        "en",
+        "Can you provide a list of the oldest products?"
+      ],
+      [
+        "en",
+        "What is the release date of our oldest products?"
+      ],
+      [
+        "en",
+        "Which items have been in our stock for the longest duration?"
+      ],
+      [
+        "en",
+        "What's the oldest product currently available?"
+      ],
+      [
+        "en",
+        "Can you show me the products added when we first started?"
+      ],
+      [
+        "en",
+        "Which items have been in stock the longest without restocking?"
+      ],
+      [
+        "en",
+        "What is the oldest product in our catalog?"
+      ],
+      [
+        "en",
+        "Which products have been in our inventory for the longest period?"
+      ],
+      [
+        "en",
+        "How many %product% are in stock?"
+      ],
+      [
+        "en",
+        "How many %product% are in stock?"
+      ],
+      [
+        "en",
+        "How many %product% are in stock?"
+      ],
+      [
+        "en",
+        "How many %product% are in stock?"
+      ],
+      [
+        "en",
+        "How many %product% are in stock?"
+      ],
+      [
+        "en",
+        "Which products are currently out of stock?"
+      ],
+      [
+        "en",
+        "Which products are currently out of stock?"
+      ],
+      [
+        "en",
+        "Which products are currently out of stock?"
+      ],
+      [
+        "en",
+        "Which products are currently out of stock?"
+      ],
+      [
+        "en",
+        "Which products are currently out of stock?"
+      ],
+      [
+        "en",
+        "Print all the rejected products that we have?"
+      ],
+      [
+        "en",
+        "Print all the rejected products that we have?"
+      ],
+      [
+        "en",
+        "Print all the rejected products that we have?"
+      ],
+      [
+        "en",
+        "Print all the rejected products that we have?"
+      ],
+      [
+        "en",
+        "Print all the rejected products that we have?"
+      ],
+      [
+        "en",
+        "I want all the purchased products to be printed?"
+      ],
+      [
+        "en",
+        "I want all the purchased products to be printed?"
+      ],
+      [
+        "en",
+        "I want all the purchased products to be printed?"
+      ],
+      [
+        "en",
+        "I want all the purchased products to be printed?"
+      ],
+      [
+        "en",
+        "I want all the purchased products to be printed?"
+      ]
+    ]
+  },
+  "ner": {
+    "settings": {
+      "tag": "ner",
+      "entityPreffix": "%",
+      "entitySuffix": "%"
+    },
+    "rules": {
+      "en": {
+        "product": {
+          "name": "product",
+          "type": "enum",
+          "rules": [
+            {
+              "option": "dwadwadwa",
+              "texts": [
+                "dwadwadwa"
+              ]
+            },
+            {
+              "option": "from 1",
+              "texts": [
+                "from 1"
+              ]
+            },
+            {
+              "option": "Vinyl Sticker Glossy A4",
+              "texts": [
+                "Vinyl Sticker Glossy A4"
+              ]
+            },
+            {
+              "option": "Vinyl Sticker Glossy A3",
+              "texts": [
+                "Vinyl Sticker Glossy A3"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {
+      "en": {
+        "greetings.hello": [
+          {
+            "answer": "greetings"
+          }
+        ],
+        "asking.employee.many": [
+          {
+            "answer": {
+              "model": "User",
+              "table": "users",
+              "query": "all",
+              "exclude": "administrator"
+            }
+          }
+        ],
+        "asking.employee.present.today": [
+          {
+            "answer": {
+              "model": "Employee",
+              "table": "employees",
+              "query": "all",
+              "include-employee": "employee_id"
+            }
+          }
+        ],
+        "asking.products.all": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "all",
+              "include-stock": "stocks"
+            }
+          }
+        ],
+        "asking.products.latest": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "latest",
+              "include-stock": "stocks"
+            }
+          }
+        ],
+        "asking.products.oldest": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "oldest",
+              "include-stock": "stocks"
+            }
+          }
+        ],
+        "asking.products.search": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "search",
+              "include-stock": "stocks"
+            }
+          }
+        ],
+        "command.attendance": [
+          {
+            "answer": {
+              "model": "Employee",
+              "table": "employees",
+              "query": "open",
+              "include-attendance": "initializing Camera..."
+            }
+          }
+        ],
+        "command.print.available": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "print.all",
+              "include-print": "stocks"
+            }
+          }
+        ],
+        "command.print.available.product": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "print.only",
+              "include-print": "stocks"
+            }
+          }
+        ],
+        "asking.products.out.all": [
+          {
+            "answer": {
+              "model": "Inventory",
+              "table": "inventories",
+              "query": "all",
+              "subquery": "print.outofstock.all",
+              "include-print": "stocks"
+            }
+          }
+        ],
+        "asking.products.rejected.all": [
+          {
+            "answer": {
+              "model": "Rejected",
+              "table": "rejecteds",
+              "query": "all",
+              "subquery": "print.rejected.all",
+              "include-print": "stocks"
+            }
+          }
+        ],
+        "asking.products.purchased.all": [
+          {
+            "answer": {
+              "model": "Invoice",
+              "table": "invoices",
+              "query": "all",
+              "subquery": "print.purchased.all",
+              "include-print": "stocks"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {}
+  },
+  "slotManager": {
+    "command.print.available.product": {
+      "product": {
+        "intent": "command.print.available.product",
+        "entity": "product",
+        "mandatory": false,
+        "locales": {}
+      }
+    },
+    "asking.products.search": {
+      "product": {
+        "intent": "asking.products.search",
+        "entity": "product",
+        "mandatory": false,
+        "locales": {}
+      }
+    }
+  }
+}

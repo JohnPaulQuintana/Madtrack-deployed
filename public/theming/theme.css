@@ -1,0 +1,17 @@
+:root{
+    --primary-color:#98bf64;
+    --secondary-color:#fe7e03;
+    --white-color:#ffff;
+}
+
+/* idebar */
+.vertical-menu{
+    /* background-color: var(--primary-color); */
+    
+    font-size: 18px;
+}
+
+/* profile */
+.text-color{
+    color: var(--secondary-color);
+}

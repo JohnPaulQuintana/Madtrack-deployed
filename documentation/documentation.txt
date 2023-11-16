@@ -1,0 +1,24 @@
+setup
+    env -> change email provider where using mailtrap
+    
+    Forgot password -> 
+    
+     {{ asset('backend/') }}
+
+    Email Verified -> setup kernel 'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class, then add Add it to a routes, setup User Model.
+
+    note: adjust the nlp server route on deployment its using localhost:8000
+
+    you need to setup your node server also
+    to enable execute many command on terminal at once npm install concurrently --save-dev
+
+    start-> admin-dashboard ->controller -> node-nlp-server
+
+
+    speech account and key
+
+    api key = a608029b51fd4f55b928109ee229ce40
+
+    jpquintana01@gmail.com 
+    password2023
+    url : https://www.voicerss.org/personel/
