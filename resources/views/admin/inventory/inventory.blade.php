@@ -127,7 +127,7 @@
                                         @endforeach
                                     </tbody>
                                     <!-- Add a footer row with a link to process selected product IDs -->
-                                    <tfoot>
+                                    <tfoot style="background-color: #f5f5f5; padding: 10px; position: sticky; bottom: 0; z-index: 1;">
                                         <tr>
                                             <td colspan="10" class="text-center">
                                                 <a class="btn btn-info" href="#" id="process-selected-link">
