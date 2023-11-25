@@ -76,6 +76,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <!-- item-->
+                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                                         <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
                                        
                                     </div>
