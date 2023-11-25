@@ -12,7 +12,7 @@
                     </span>
                 </a>
 
-                <a href="index.html" class="logo logo-light">
+                <a href="{{ route('dashboard') }}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src=" {{ asset('logo/logo.png') }}" alt="logo-sm-light" height="30"  style="background: white;">
                     </span>
