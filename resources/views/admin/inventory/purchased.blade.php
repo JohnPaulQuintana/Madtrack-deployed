@@ -3,7 +3,7 @@
 {{-- header links --}}
 @section('header-links')
     <meta charset="utf-8" />
-    <title>Dashboard | BIS - Admin & Dashboard</title>
+    <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -69,7 +69,7 @@
                                             <th class="text-info">Amount</th>
                                             {{-- <th>Per Pack</th>
                                             <th>Pcs Per Pack</th> --}}
-                                            <th class="text-info">Action</th>
+                                            {{-- <th class="text-info">Action</th> --}}
                                         </tr>
                                     </thead>
     
@@ -91,7 +91,7 @@
                                                     @endif
                                                 {{-- </td> --}}
                                                 <td>₱ {{ $invoice->price }}</td>
-                                                <td class="text-center"><a class="fas fa-address-card h4 text-info" href="route-with-id"></a></td>
+                                                {{-- <td class="text-center"><a class="fas fa-address-card h4 text-info" href="route-with-id"></a></td> --}}
         
                                             </tr>
                                         @endforeach
