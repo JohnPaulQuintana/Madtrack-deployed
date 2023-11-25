@@ -66,24 +66,20 @@
                         <div class="card-body">
 
                             <div class="dropdown float-end">
+                                <!-- Search input outside the dropdown -->
+    <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
                                 <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
-                                <a href="#" class="dropdown-toggle arrow-none card-drop">
-                                    
-                                    <input type="text" name="" id="" placeholder="Search here...">
-                                </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <!-- item-->
                                     <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Export Report</a> --}}
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Profit</a> --}}
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Action</a> --}}
+                                   
                                 </div>
                             </div>
 
