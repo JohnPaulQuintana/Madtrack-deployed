@@ -76,6 +76,9 @@ Route::middleware('auth')->group(function () {
     // employee
     Route::get('/employee',[EmployeeController::class,'employeeTable'])->name('employee.table');
     Route::post('/add-employee',[StaffController::class,'employeeTableAdd'])->name('employee.table.add');
+    Route::get('/edit-employee',[StaffController::class,'employeeTableEdit'])->name('employee.table.edit');
+    Route::post('/update-employee',[StaffController::class,'employeeTableUpdate'])->name('employee.table.update');
+    Route::get('/remove-employee',[StaffController::class,'employeeTableRemove'])->name('employee.table.remove');
     Route::get('/get-attendance',[AttendanceController::class,'employeeTableAttendance'])->name('employee.table.attendance');
 
     // nlp server route

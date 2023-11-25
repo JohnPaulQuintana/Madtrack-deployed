@@ -10,7 +10,8 @@
             </div> --}}
             <div class="mt-3">
                 {{-- <h4 class="font-size-16 mb-1 text-white">{{ Auth::user()->name }}</h4> --}}
-                <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i>
+                <span class="text-muted">
+                    {{-- <i class="ri-record-circle-line align-middle font-size-14 text-success"></i> --}}
                     <span class="text-color">{{ Auth::user()->name }}</span>
                 </span>
             </div>
@@ -38,8 +39,8 @@
 
                 <li class="menu-title text-white">Tables for Employee's</li>
 
-                <li><a href="{{ route('employee.table') }}"><i class="ri-user-line text-primary"></i> <span class="text-white">Present Employee</span></a></li>
-                <li><a href="layouts-hori-topbar-light.html"><i class="ri-user-line text-danger"></i> <span class="text-white">Absent Employee</span></a></li>
+                <li><a href="{{ route('employee.table') }}"><i class="ri-user-line text-primary"></i> <span class="text-white">Manage Employee</span></a></li>
+                {{-- <li><a href="layouts-hori-topbar-light.html"><i class="ri-user-line text-danger"></i> <span class="text-white">Absent Employee</span></a></li> --}}
 
                 {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -70,12 +71,12 @@
                 </li> --}}
 
                 <li class="menu-title text-white">Sub menu</li>
-                <li>
+                {{-- <li>
                     <a href="calendar.html" class=" waves-effect">
                         <i class="ri-calendar-2-line text-info"></i>
                         <span class="text-white">Calendar</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{ route('reports.create') }}" class="waves-effect">

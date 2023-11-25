@@ -59,7 +59,7 @@
                 {{-- @foreach ($sales_report as $key => $report)
                     <p>{{ $key }} {{ $report }}</p>
                 @endforeach --}}
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex">
@@ -70,19 +70,20 @@
                                            @if ($sales_report['salesStatus'] == 'Increasing')
                                                 <span class="text-success font-size-12 me-1">
                                                     <i class="ri-arrow-right-up-line me-1 align-middle text-success"></i>
-                                                    {{ $sales_report['percentageChange'] }}
+                                                    {{ $sales_report['percentageChange'] }} {{ $sales_report['salesStatus'] }}
                                                 </span>
                                            @else
                                             <span class="text-danger font-size-12 me-1">
                                                 <i class="ri-arrow-right-down-line align-middle"></i>
-                                                {{ $sales_report['percentageChange'] }}
+                                                {{ $sales_report['percentageChange'] }} {{ $sales_report['salesStatus'] }}
                                             </span>
                                            @endif
                                 
                                         
                                     </h4>
-                                    <p class="text-muted mb-0 fw-bold">{{ $sales_report['salesStatus'] }}</p>
-                                    <p class="text-muted mb-0 fw-bold">
+                                    {{-- <p class="text-muted mb-0 fw-bold">{{ $sales_report['salesStatus'] }}</p> --}}
+
+                                    {{-- <p class="text-muted mb-0 fw-bold">
                                         @if ($sales_report['salesStatus'] == 'Increasing')
                                             <span class="text-success fw-bold font-size-12 me-2">
                                                 <i class="ri-arrow-right-up-line me-1 align-middle text-success"></i>
@@ -105,7 +106,7 @@
                                             {{ $sales_report['percentagePrevMonth'] }}
                                         </span>
                                         from previous month
-                                    </p>
+                                    </p> --}}
         
                                 </div>
                                 <div class="avatar-sm">
@@ -118,62 +119,22 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">New Orders</p>
-                                    <h4 class="mb-2">938</h4>
-                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i
-                                                class="ri-arrow-right-down-line me-1 align-middle"></i>1.09%</span>from
-                                        previous period</p>
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-success rounded-3">
-                                        <i class="mdi mdi-currency-usd font-size-24"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
+              
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-truncate font-size-14 mb-2">Employee's</p>
                                     <h4 class="mb-2">{{ $employee['count'] }}</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i
+                                    {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i
                                                 class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from
-                                        previous period</p>
+                                        previous period</p> --}}
                                 </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-primary rounded-3">
                                         <i class="ri-user-3-line font-size-24"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div><!-- end cardbody -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
-
-                <div class="col-xl-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">Untitled</p>
-                                    <h4 class="mb-2">29670</h4>
-                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i
-                                                class="ri-arrow-right-up-line me-1 align-middle"></i>11.7%</span>from
-                                        previous period</p>
-                                </div>
-                                <div class="avatar-sm">
-                                    <span class="avatar-title bg-light text-success rounded-3">
-                                        <i class="mdi mdi-currency-btc font-size-24"></i>
                                     </span>
                                 </div>
                             </div>
@@ -197,10 +158,6 @@
                                     <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Action</a>
                                 </div>
                             </div>
 

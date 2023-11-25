@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\DB;
 class ReportController extends Controller
 {
     //get page
-    public function report(){
+    public function report()
+    {
         return view('admin.reports.report');
     }
 
-    public function display(){
+    public function display()
+    {
         $generatedR = Report::orderBy('created_at', 'desc')->get();
         // Loop through each report and format the created_at timestamp
         foreach ($generatedR as $report) {
@@ -28,30 +30,32 @@ class ReportController extends Controller
             $report->formatted_created_at = $formattedDate;
             $report->formatted_time = $formattedTime;
         }
-        return response()->json(['generatedReports' =>$generatedR]);
+        return response()->json(['generatedReports' => $generatedR]);
     }
 
-    public function generate(Request $request){
+    public function generate(Request $request)
+    {
         // dd($request);
 
         // GenerateTable::doSomething();
         $types = $request->input('types');
         $from = $request->input('from');
         $to = $request->input('to');
-
+        $selectedColumns = ['product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price'];
         switch ($types) {
+
             case 'stocks':
-            $selectedColumns = ['product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price'];
+                // $selectedColumns = ['product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price'];
                 $stocks = DB::table('inventories')
-                    ->select('id','product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price') // Replace with the column names you want to select
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price') // Replace with the column names you want to select
                     ->where('stocks', '!=', 0)
                     ->whereRaw('DATE(created_at) BETWEEN ? AND ?', [$from, $to])
                     ->get();
                 // dd($stocks);
-                if($stocks->count() > 0){
-                    $names = ['Id','Type', 'Name', 'Stocks', 'Pack', 'Price'];
-                    $pdfId = $this->generateTablePdf($stocks, $names,  $types);
-                    return response()->json(['names'=>$names,'value'=>$stocks, 'id'=>$pdfId]);
+                if ($stocks->count() > 0) {
+                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $pdfId = $this->generateTablePdf($stocks, $names,  $types, $from, $to);
+                    return response()->json(['names' => $names, 'value' => $stocks, 'id' => $pdfId]);
                 }
 
                 $notification = [
@@ -61,7 +65,74 @@ class ReportController extends Controller
                 // Convert the notification to JSON
                 $notificationJson = json_encode($notification);
                 return response()->json(['notification' => $notificationJson], 500);
-            
+
+            case 'purchased':
+                $purchased = DB::table('invoices')
+                    ->join('inventories', 'invoices.inventories_id', '=', 'inventories.id')
+                    ->select(
+                        'inventories.id as id',
+                        'inventories.product_name as product_type',
+                        'invoices.sold_to as product_name',
+                        'invoices.quantity as stocks',
+                        'invoices.price as product_pcs_price',
+                        'invoices.date as product_pack_price'
+                    )
+                    ->orderBy('invoices.created_at', 'asc')
+                    ->get();
+
+                if ($purchased->count() > 0) {
+                    $names = ['Id', 'Product Name', 'Buyer', 'Quantity', 'Price', 'Date'];
+                    $pdfId = $this->generateTablePdf($purchased, $names,  'Purchased', $from, $to);
+                    return response()->json(['names' => $names, 'value' => $purchased, 'id' => $pdfId]);
+                }
+
+                $notification = [
+                    'status' => 'error',
+                    'message' => 'No data found!',
+                ];
+                // Convert the notification to JSON
+                $notificationJson = json_encode($notification);
+                return response()->json(['notification' => $notificationJson], 500);
+
+            case 'rejected':
+                $rejected = DB::table('rejecteds')
+                ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                ->orderBy('created_at','asc')
+                ->get();
+                if ($rejected->count() > 0) {
+                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $pdfId = $this->generateTablePdf($rejected, $names,  'Purchased', $from, $to);
+                    return response()->json(['names' => $names, 'value' => $rejected, 'id' => $pdfId]);
+                }
+
+                $notification = [
+                    'status' => 'error',
+                    'message' => 'No data found!',
+                ];
+                // Convert the notification to JSON
+                $notificationJson = json_encode($notification);
+                return response()->json(['notification' => $notificationJson], 500);
+
+            case 'out':
+                $out = DB::table('inventories')
+                ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                ->where('stocks', 0)
+                ->orderBy('created_at','asc')
+                ->get();
+                if ($out->count() > 0) {
+                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $pdfId = $this->generateTablePdf($out, $names,  'Purchased', $from, $to);
+                    return response()->json(['names' => $names, 'value' => $out, 'id' => $pdfId]);
+                }
+
+                $notification = [
+                    'status' => 'error',
+                    'message' => 'No data found!',
+                ];
+                // Convert the notification to JSON
+                $notificationJson = json_encode($notification);
+                return response()->json(['notification' => $notificationJson], 500);
+
             default:
                 # code...
                 break;
@@ -69,9 +140,9 @@ class ReportController extends Controller
     }
 
     // create pdf
-    public function generated(Request $request){
+    public function generated(Request $request)
+    {
         dd($request);
-        
     }
 
     // public function generatedPdf($data, $names, $types)
@@ -101,7 +172,7 @@ class ReportController extends Controller
     //         // Set the background color
     //         $fpdf->SetFillColor($bgColor, $bgColor, $bgColor);
     //         $bgColor = $bgColor === 211 ? 255 : 211; // Alternate background color
-            
+
     //         $product_type = $value->product_type;
     //         $product_name = $value->product_name;
     //         $stocks = $value->stocks;
@@ -147,9 +218,10 @@ class ReportController extends Controller
     //     return $uniqueId;
     // }
 
-    public function generateTablePdf($datas, $names, $types){
-        
-        $pdf = new GenerateTable('P', 'mm', 'A4');//custom class for generating table
+    public function generateTablePdf($datas, $names, $types, $from, $to)
+    {
+
+        $pdf = new GenerateTable('P', 'mm', 'A4'); //custom class for generating table
         // $fpdf = new Fpdf('P', 'mm', 'A4');
         $pdf->AddPage();
         $bgColor = 211; // Initial background color (gray)
@@ -157,7 +229,7 @@ class ReportController extends Controller
         $pdf->SetFont('Courier', 'B', 18);
         $pdf->Cell(0, 10, 'MadTrack ' . $types . ' Report', 0, 1, 'C');
         $pdf->SetFont('Courier', '', 12);
-        $pdf->Cell(0, 5, 'From: 2023-22-22 | To: 2023-22-23', 0, 1, 'C');
+        $pdf->Cell(0, 5, 'From: ' . $from . ' | To: ' . $to, 0, 1, 'C');
         $pdf->Ln(10);
 
         // get the title for next page
@@ -171,47 +243,46 @@ class ReportController extends Controller
         }
         $pdf->Ln(12); // Move to the next row
 
-        $pdf->SetFont('Courier','',12);
+        $pdf->SetFont('Courier', '', 12);
 
-        $pdf->SetWidths(Array(31,31,35,31,31,31));//set width for each column (6)
+        $pdf->SetWidths(array(31, 31, 35, 31, 31, 31)); //set width for each column (6)
 
-        $pdf->SetAligns(Array('C','C','C','C','C','C'));
-        $pdf->SetLineHeight(6);//hieght of each lines, not rows
+        $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C'));
+        $pdf->SetLineHeight(6); //hieght of each lines, not rows
 
-        $json = file_get_contents(public_path('MOCK_DATA.json'));//read data
-        $data = json_decode($json,true);
+        $json = file_get_contents(public_path('MOCK_DATA.json')); //read data
+        $data = json_decode($json, true);
 
         foreach ($datas as $item) {
-           
-            //write data using Row() methiod containing array of value
-        //    $pdf->Row(Array(
-        //         'PRD-'.$item['id'],
-        //         $item['first_name'],
-        //         $item['last_name'],
-        //         $item['email'],
-        //         $item['gender'],
-        //         $item['address'],
-        //    ));
 
-           $pdf->Row(Array(
-            $item->id,
-            $item->product_type,
-            $item->product_name,
-            $item->stocks,
-            $item->product_pcs_price,
-            $item->product_pack_price,
+            //write data using Row() methiod containing array of value
+            //    $pdf->Row(Array(
+            //         'PRD-'.$item['id'],
+            //         $item['first_name'],
+            //         $item['last_name'],
+            //         $item['email'],
+            //         $item['gender'],
+            //         $item['address'],
+            //    ));
+
+            $pdf->Row(array(
+                $item->id,
+                $item->product_type,
+                $item->product_name,
+                $item->stocks,
+                $item->product_pcs_price,
+                $item->product_pack_price,
             ));
         }
 
-         // Output the PDF
+        // Output the PDF
         $uniqueId = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
         $pdf->Output('F', public_path('reports/') . $uniqueId . '.pdf');
 
         //save it to database
-        $report = Report::create(['path'=>$uniqueId . '.pdf']);
+        $report = Report::create(['path' => $uniqueId . '.pdf']);
 
         return $uniqueId;
         // $pdf->Output();
     }
-    
 }

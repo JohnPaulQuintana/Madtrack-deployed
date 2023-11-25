@@ -56,8 +56,6 @@
             </div>
             <!-- end page title -->
 
-
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -73,12 +71,7 @@
                                     <!-- item-->
                                     <a class="dropdown-item addEmployees"><i class="ri-user-add-fill"></i> Add
                                         Employee's</a>
-                                    <!-- item-->
-                                    <a class="dropdown-item uploadqr">Upload QR</a>
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Profit</a> --}}
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Action</a> --}}
+                            
                                 </div>
                             </div>
                             <h4 class="card-title">Employee Table State Saving</h4>
@@ -105,7 +98,7 @@
                                             <tr>
                                                 <td><input type="checkbox" class="staff-checkbox" name="selected_staff[]"
                                                         value="{{ $employee->id }}"
-                                                        {{ $employee->status == 1 ? 'disabled' : '' }}></td>
+                                                        {{ $employee->status }}></td>
                                                 <td>EMP-{{ $employee->id }}</td> <!-- Display employee_id -->
                                                 <td class="text-info">{{ $employee->first_name }}
                                                     {{ $employee->middle_name }} {{ $employee->last_name }}</td>
@@ -118,31 +111,19 @@
                                                     <b>{{ is_null($employee->status) || $employee->status == 0 ? 'not generated' : 'generated' }}</b>
                                                 </td>
                                                 <td>
-                                                    <a class="fas fa-address-card h4 view" data-id="{{ $employee->id }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        title="Attendace Record"></a>
-                                                    <a class="fas fa-times h4 delete p-1" data-id="{{ $employee->id }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        title="Delete Record"></a>
-                                                </td> <!-- Replace with actual action buttons or links -->
+                                                    <div style="display: flex; align-items: center;">
+                                                        <a class="fas fa-address-card h4 view" data-id="{{ $employee->id }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="Attendace Record"></a>
+                                                        <a class="ri-edit-2-fill h4 edit text-info" data-id="{{ $employee->id }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="Edit Record"
+                                                            style="font-size: 25px;"></a>
+                                                    </div>
+                                                </td>
+                                                
                                             </tr>
                                         @endforeach
-                                        {{-- @foreach ($employees as $user)
-                                            @foreach ($user->employees as $employee)
-                                                <tr>
-                                                    <td>EMP-{{ $employee->id }}</td> <!-- Display employee_id -->
-                                                    <td class="text-info">{{ $user->name }}</td>
-                                                    <td>{{ $user->email }}</td>
-                                                    <td class="text-info">{{ $employee->day }} {{ $employee->month }}
-                                                        {{ $employee->time_in }}</td>
-                                                    <td>{{ $employee->year }}</td>
-                                                    <td class="text-info "><b>{{ $employee->status }}</b></td>
-                                                    <td>
-                                                        <a class="fas fa-address-card h4" href="route-with-id"></a>
-                                                    </td> <!-- Replace with actual action buttons or links -->
-                                                </tr>
-                                            @endforeach
-                                        @endforeach --}}
                                     </tbody>
 
                                     <!-- Add a footer row with a link to process selected product IDs -->
@@ -168,6 +149,7 @@
             @include('admin.modals.add-employee')
             @include('admin.modals.view-employee')
             @include('admin.modals.qrcodes-editor')
+            @include('admin.modals.edit-employee')
         </div>
     </div>
 @endsection
@@ -212,7 +194,7 @@
     <!-- Add this script tag to include moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             const selectedStaffIds = [];
@@ -339,6 +321,79 @@
                 $('#attendanceTestModal').modal('show')
             })
 
+            // edit modal process
+            $(document).on('click', '.edit', function() {
+                const staff_id = $(this).data('id')
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                //format data to send
+                let data = {
+                    'id': staff_id
+                }
+                //dynamic approach
+                makeRequest('/edit-employee', data, csrfToken)
+                    .done(function(res) {
+                        console.log(res)
+
+                        $('#emp_id').val(res.employee.id)
+                        $('#employeeFirstNameE').val(res.employee.first_name)
+                        $('#employeeMiddleNameE').val(res.employee.middle_name)
+                        $('#employeeLastNameE').val(res.employee.last_name)
+                        $('#employeeBirthDateE').val(res.employee.birthdate)
+                        $('#employeeGenderE').val(res.employee.gender)
+                        $('#employeeAddressE').val(res.employee.address)
+                        $('#employeeContactE').val(res.employee.contact)
+                        $('#employeeHiredE').val(res.employee.hired)
+                        $('#employeeStatusE').val(res.employee.status)
+                        $('.remove-emp').attr('data-id',res.employee.id)
+                        // populateCalendar(res.attendances)
+                        $('#editEmployeeModal').modal('show')
+                    })
+                    .fail(function(err) {
+                        console.log(err)
+                    })
+                // $('#editEmployeeModal').modal('show')
+            })
+
+            //remove emplyee
+            $(document).on('click', '.remove-emp', function(){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                       
+                        let data = {
+                        'id': $(this).data('id')
+                    }
+                        makeRequest('/remove-employee', data, csrfToken)
+                        .done(function(res) {
+                            console.log(res)
+                            if(res.status === 'success'){
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Employee information has been deleted.",
+                                    icon: "success"
+                                });
+                                $('#editEmployeeModal')
+                                $('#editEmployeeModal').modal('hide')
+                            }else{
+                                Swal.fire({
+                                    title: "Unabled!",
+                                    text: "Unabled to delete this record!.",
+                                    icon: "error"
+                                });
+                            }
+                        })
+
+                        
+                    }
+                });
+            })
             // make a request to the ai
             function makeRequest(url, data, csrfToken) {
                 // console.log(id)

@@ -3,7 +3,7 @@
 {{-- header links --}}
 @section('header-links')
     <meta charset="utf-8" />
-    <title>Dashboard | BIS - Admin & Dashboard</title>
+    <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -63,7 +63,7 @@
                                 <h4 class="card-title"><span class="text-info"><b>Add Stocks</b></span> Saving State</h4>
                                 <div class="table-responsive">
                                     {{-- {{ route('bulk.add.stocks') }} --}}
-                                    <form action="{{ route('bulk.manage.stocks') }}" method="POST">
+                                    <form action="{{ route('bulk.manage.stocks') }}" method="POST" style="overflow-x: auto;">
                                         @csrf
                                         <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
                                             <thead>
@@ -93,43 +93,20 @@
                                                         placeholder="Sticker">
                                                     </td>
                                                     <td>
-                                                        <select name="product_stocks[]" class="form-control">
-                                                            <option value="">0 stock(s)</option>
-                                                            @for ($i = 1; $i <= 500; $i++)
-                                                                <!-- Modify the loop condition as needed -->
-                                                                <option value="{{ $i }}">
-                                                                    {{ $i }} stock(s)</option>
-                                                            @endfor
-                                                        </select>
+                                                        <input type="number" name="product_stocks[]" class="form-control"
+                                                        placeholder="₱ 0.00">
+                                                        
                                                     </td>
                                                     <td>
-                                                        <select name="product_price_pcs[]" class="form-control">
-                                                            <option value="">₱ 0.00</option>
-                                                            @for ($i = 0; $i <= 500; $i++)
-                                                                <!-- Modify the loop condition as needed -->
-                                                                <option value="{{ $i }}">₱
-                                                                    {{ $i }}.00</option>
-                                                            @endfor
-                                                        </select>
+                                                        <input type="number" name="product_price_pcs[]" class="form-control"
+                                                        placeholder="₱ 0.00">
                                                     </td>
                                                     <td>
-                                                        <select name="product_price_pck[]" class="form-control">
-                                                            <option value="">₱ 0.00</option>
-                                                            @for ($i = 1; $i <= 500; $i++)
-                                                                <!-- Modify the loop condition as needed -->
-                                                                <option value="{{ $i }}">₱
-                                                                    {{ $i }}.00</option>
-                                                            @endfor
-                                                        </select>
+                                                        <input type="number" name="product_price_pck[]" class="form-control"
+                                                        placeholder="₱ 0.00">
                                                     <td>
-                                                        <select name="product_pcs_pck[]" class="form-control">
-                                                            <option value="">0 pcs / pck</option>
-                                                            @for ($i = 1; $i <= 500; $i++)
-                                                                <!-- Modify the loop condition as needed -->
-                                                                <option value="{{ $i }}">
-                                                                    {{ $i }} pcs / pck</option>
-                                                            @endfor
-                                                        </select>
+                                                        <input type="number" name="product_pcs_pck[]" class="form-control"
+                                                        placeholder="₱ 0.00">
                                                     </td>
                                                     <!-- Add more rows for additional entries -->
                                                 </tr>
@@ -196,47 +173,23 @@
                                                             value="{{ $stock->product_brand }}">
                                                         </td>
                                                         <td>
-                                                            <select name="product_stocks[]" class="form-control custom-select {{ $rowClass }}">
-                                                                <option value="{{ $stock->stocks }}">
-                                                                    {{ $stock->stocks }} stock(s)</option>
-                                                                @for ($i = 1; $i <= 300; $i++)
-                                                                    <!-- Modify the loop condition as needed -->
-                                                                    <option value="{{ $i }}">
-                                                                        {{ $i }} stock(s)</option>
-                                                                @endfor
-                                                            </select>
+                                                            <input type="number" name="product_stocks[]" class="form-control custom-select {{ $rowClass }}"
+                                                                value="{{ $stock->stocks }}">
+                            
                                                         </td>
                                                         <td>
-                                                            <select name="product_price_pcs[]" class="form-control custom-select {{ $rowClass }}">
-                                                                <option value="{{ $stock->product_pcs_price }}">₱
-                                                                    {{ $stock->product_pcs_price }}.00</option>
-                                                                @for ($i = 0; $i <= 300; $i++)
-                                                                    <!-- Modify the loop condition as needed -->
-                                                                    <option value="{{ $i }}">₱
-                                                                        {{ $i }}.00</option>
-                                                                @endfor
-                                                            </select>
+                                                            <input type="number" name="product_price_pcs[]" class="form-control custom-select {{ $rowClass }}"
+                                                                value="{{ $stock->product_pcs_price }}">
+                                                                    
                                                         </td>
                                                         <td>
-                                                            <select name="product_price_pck[]" class="form-control custom-select {{ $rowClass }}">
-                                                                <option value="{{ $stock->product_pack_price }}">₱
-                                                                    {{ $stock->product_pack_price }}.00</option>
-                                                                @for ($i = 1; $i <= 300; $i++)
-                                                                    <!-- Modify the loop condition as needed -->
-                                                                    <option value="{{ $i }}">₱
-                                                                        {{ $i }}.00</option>
-                                                                @endfor
-                                                            </select>
+                                                            <input type="number" name="product_price_pck[]" class="form-control custom-select {{ $rowClass }}"
+                                                             value="{{ $stock->product_pack_price }}">
+                                                                    
                                                         <td>
-                                                            <select name="product_pcs_pck[]" class="form-control custom-select {{ $rowClass }}">
-                                                                <option value="{{ $stock->product_pcs_per_pack }}">
-                                                                    {{ $stock->product_pcs_per_pack }} pcs / pck</option>
-                                                                @for ($i = 1; $i <= 300; $i++)
-                                                                    <!-- Modify the loop condition as needed -->
-                                                                    <option value="{{ $i }}">
-                                                                        {{ $i }} pcs / pck</option>
-                                                                @endfor
-                                                            </select>
+                                                            <input type="number" name="product_pcs_pck[]" class="form-control custom-select {{ $rowClass }}"
+                                                                value="{{ $stock->product_pcs_per_pack }}">
+                                                                    
                                                         </td>
                                                         <td>
                                                             <input type="text" name="product_created" class="form-control text-info {{ $rowClass }}" 
@@ -321,33 +274,10 @@
                                 <td><input type="text" name="product_type[]" class="form-control"></td>
                                 <td><input type="text" name="product_name[]" class="form-control"></td>
                                 <td><input type="text" name="product_brand[]" class="form-control"></td>
-                                <td>
-                                    <select name="product_stocks[]" class="form-control">
-                                        @for ($i = 1; $i <= 500; $i++)
-                                            <option value="{{ $i }}">{{ $i }} stock(s)</option>
-                                        @endfor
-                                    </select>
-                                </td>
-                                                <td>
-                                                    <select name="product_price_pcs[]" class="form-control">
-                                                        @for ($i = 1; $i <= 500; $i++) <!-- Modify the loop condition as needed -->
-                                                            <option value="{{ $i }}">₱ {{ $i }}.00</option>
-                                                        @endfor
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select name="product_price_pck[]" class="form-control">
-                                                        @for ($i = 1; $i <= 500; $i++) <!-- Modify the loop condition as needed -->
-                                                            <option value="{{ $i }}">₱ {{ $i }}.00</option>
-                                                        @endfor
-                                                    </select>
-                                                <td>
-                                                    <select name="product_pcs_pck[]" class="form-control">
-                                                        @for ($i = 1; $i <= 500; $i++) <!-- Modify the loop condition as needed -->
-                                                            <option value="{{ $i }}">₱ {{ $i }}.00</option>
-                                                        @endfor
-                                                    </select>
-                                                </td>
+                                <td><input type="number" name="product_stocks[]" class="form-control"></td>
+                                <td><input type="number" name="product_price_pcs[]" class="form-control"></td>
+                                <td><input type="number" name="product_price_pck[]" class="form-control"></td>
+                                <td><input type="number" name="product_pcs_pck[]" class="form-control"></td>
                                 <td><button type="button" class="btn btn-danger btn-sm delete-row">Delete</button></td>
                             </tr>`;
                 // Append the new row to the relevant table body (productInputs or productInputsEdit)

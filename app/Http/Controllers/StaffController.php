@@ -38,6 +38,7 @@ class StaffController extends Controller
             'gender' => $request->input('gender'),
             'contact' => $request->input('contact'),
             'hired' => $request->input('datehired'),
+            'address' => $request->input('address'),
         ]);
 
         $fullname = $employee->first_name .' '. $employee->last_name;
@@ -74,4 +75,51 @@ class StaffController extends Controller
         $notificationJson = json_encode($notification);
         return redirect()->route('employee.table')->with('notification', $notificationJson);
     }
+
+    // edit
+    public function employeeTableEdit(Request $request){
+        // dd($request);
+        $emp = Staff::where('id', $request->input('id'))->first();
+        return response()->json([
+            'employee' => $emp,
+        ]);
+    }
+    // update
+    public function employeeTableUpdate(Request $request){
+        $emp = Staff::find($request->input('id'));
+         // Update the employee using the update method
+        $emp->update([
+            'first_name' => $request->input('fName'),
+            'middle_name' => $request->input('mName'),
+            'last_name' => $request->input('lName'),
+            'birthdate' => $request->input('bdate'),
+            'gender' => $request->input('gender'),
+            'contact' => $request->input('contact'),
+            'hired' => $request->input('datehired'),
+            'status' => $request->input('status'),
+            'address' => $request->input('address'),   
+        ]);
+        // Prepare the toast notification data
+        $notification = [
+            'status' => 'success',
+            'message' => 'Successfully Updated employees information!',
+        ];
+
+        // Convert the notification to JSON
+        $notificationJson = json_encode($notification);
+        return redirect()->route('employee.table')->with('notification', $notificationJson);
+    }
+
+    //delete emplyoee
+    public function employeeTableRemove(Request $request){
+        $id = $request->input('id');
+        // dd($request);
+        // Assuming your model is named Staff
+        $employee = Staff::find($id);
+    
+        $employee->delete();
+    
+        return response()->json(['status' => 'success']);
+    }
+
 }

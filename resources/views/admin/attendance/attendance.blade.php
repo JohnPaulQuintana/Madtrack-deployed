@@ -14,7 +14,7 @@
             <div class="modal-footer">
               {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary">Save changes</button> --}}
-              <h6 class="modal-title text-secondary">B.I.S - version 1.2.0 create by - Allen Dale Pangilinan</h6>
+              <h6 class="modal-title text-secondary">Madtrack - version 1.2.0</h6>
             </div>
           </div>
         </div>

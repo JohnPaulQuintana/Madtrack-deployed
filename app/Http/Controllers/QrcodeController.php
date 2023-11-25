@@ -16,7 +16,7 @@ class QrcodeController extends Controller
         $ids = $request->route('id');
         // Convert the comma-separated string of IDs to an array
         $idArray = explode(',', $ids);
-
+        // dd($idArray);
         // Use the array of IDs to retrieve data from the database
         $qrcodes = Qrcodemodel::whereIn('staff_id', $idArray)
         ->join('staff', 'qrcodemodels.staff_id', '=', 'staff.id')

@@ -72,9 +72,9 @@
                                         <option value="purchased">Purchased</option>
                                         <option value="rejected">Rejected</option>
                                         <option value="out">Out-of-Stock</option>
-                                        <option value="present">Present Employee</option>
-                                        <option value="absent">Absent Employee</option>
-                                        <option value="invoices">Invoices</option>
+                                        {{-- <option value="present">Present Employee</option>
+                                        <option value="absent">Absent Employee</option> --}}
+                                        {{-- <option value="invoices">Invoices</option> --}}
                                         {{-- <option value=""></option> --}}
                                     </select>
                                 </div>
@@ -235,7 +235,25 @@
                 if (types !== '' && from !== '' && to !== '') {
                     sendRequest(types, from, to)
                 } else {
-                    alert('all required')
+                    toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": 300,
+                    "hideDuration": 1000,
+                    "timeOut": 5000,
+                    "extendedTimeOut": 1000,
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                    };
+
+                    toastr['error']('All Fields required');
                 }
 
             })

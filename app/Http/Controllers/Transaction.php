@@ -6,6 +6,7 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use App\Models\Invoice;
 use App\Models\Inventory;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -116,8 +117,7 @@ class Transaction extends Controller
         ->get();
 
     // present employee
-    $present = Employee::where('status','present')
-        ->orderBy('time_in', 'desc')
+    $emp = Staff::where('status',1)
         ->get();
 
     // Define your date ranges
@@ -170,8 +170,8 @@ class Transaction extends Controller
     ];
 
     $employee = [
-        'present' => $present,
-        'count' => count($present)
+        // 'present' => $present,
+        'count' => count($emp)
     ];
 
     return view('admin.index', [

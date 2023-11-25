@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Qrcode Generator</h5>
-                {{-- <button type="button" class="btn-close qrclose" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="left" title="Cancel Qrcode"></button>
             </div>
             <div class="modal-body">
                 <p class="text-center text-info"><b>Note</b></p>
@@ -14,10 +14,11 @@
 
             </div>
             <div class="modal-footer">
-                <button id="qrclose" type="button" class="btn btn-danger qrclose">Cancel Qrcodes</button>
-                <a href="{{ route('employee.table') }}" id="qrsuccess" type="button" class="btn btn-dark qrsuccess"
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Qrcodes is generated"
-                >Close</a>
+                <a href="{{ route('employee.table') }}" id="qrsuccess" type="button" class="btn btn-danger qrclose"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Qrcodes is cancelled"
+                >Cancel Qr</a>
+                <a href="{{ route('employee.table') }}" id="qrclose" type="button" class="btn btn-dark">Mark as Generated</a>
+                
             </div>
         </div>
     </div>
