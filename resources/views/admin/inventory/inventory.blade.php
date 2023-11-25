@@ -90,14 +90,14 @@
                                     <thead style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th>Invoice</th>
-                                            <th>Product ID</th>
-                                            <th>Product Type</th>
-                                            <th>Product Stocks</th>
-                                            <th>Product Name</th>
-                                            <th>Product Brand</th>
-                                            <th>Per Piece</th>
+                                            <th>ID</th>
+                                            <th>Type</th>
+                                            <th>Stocks</th>
+                                            <th>Name</th>
+                                            <th>Brand</th>
+                                            <th>Piece</th>
+                                            <th>Pack</th>
                                             <th>Per Pack</th>
-                                            <th>Pcs Per Pack</th>
                                             {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
