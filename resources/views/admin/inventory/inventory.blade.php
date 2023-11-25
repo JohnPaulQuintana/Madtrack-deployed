@@ -71,10 +71,9 @@
                                     
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
-                                <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                <a href="#" class="dropdown-toggle arrow-none card-drop">
                                     
-                                    <i class="mdi mdi-dots-vertical"></i>
+                                    <input type="text" name="" id="" placeholder="Search here...">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <!-- item-->
