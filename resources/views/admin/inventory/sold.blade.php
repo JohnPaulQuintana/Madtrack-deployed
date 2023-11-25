@@ -3,7 +3,7 @@
 {{-- header links --}}
 @section('header-links')
     <meta charset="utf-8" />
-    <title>Dashboard | BIS - Admin & Dashboard</title>
+    <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -82,7 +82,7 @@
                                         <!-- Add a text input field for the client name -->
                                         <div class="form-group">
                                             <label for="client_name">Client Name:</label>
-                                            <input type="text" name="client_name" id="client_name" class="form-control" placeholder="Enter Client Name">
+                                            <input type="text" name="client_name" id="client_name" class="form-control" placeholder="Enter Client Name" required>
                                         </div>
                                         <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
                                             <thead>
@@ -169,7 +169,7 @@
 
                 </div>
 
-                <div class="row">
+                {{-- <div class="row">
 
                     <div class="col-sm-12">
                         <div class="card">
@@ -237,7 +237,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> --}}
 
                 </body>
 
