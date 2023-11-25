@@ -76,7 +76,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <!-- item-->
-                                        <input class="form-control me-2 search" type="search" placeholder="Search" aria-label="Search">
+                                        <input class="form-control me-2 search-input" type="search" placeholder="Search" aria-label="Search">
                                         <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
                                        
                                     </div>
@@ -265,7 +265,7 @@
             updateButtonState();
 
             // search
-            $('#search-input').on('input', function () {
+            $('.search-input').on('input', function () {
             var searchValue = $(this).val().toLowerCase();
 
             // Loop through each row in the table body
