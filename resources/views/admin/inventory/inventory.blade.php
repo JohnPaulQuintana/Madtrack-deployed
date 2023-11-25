@@ -65,21 +65,24 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="dropdown float-end">
-                                <!-- Search input outside the dropdown -->
-    <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-    </form>
-                                <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    
-                                    <i class="mdi mdi-dots-vertical"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <!-- item-->
-                                    <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
-                                   
+                            <div class="float-end">
+                                 <!-- Search input outside the dropdown -->
+                                <form class="d-flex">
+                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                                </form>
+                                <div class="dropdown">
+                                
+                                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <!-- item-->
+                                        <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
+                                       
+                                    </div>
                                 </div>
                             </div>
 
