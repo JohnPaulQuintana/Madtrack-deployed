@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Qrcode Generator</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="left" title="Cancel Qrcode"></button>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="left" title="Cancel Qrcode"></button> --}}
             </div>
             <div class="modal-body">
                 <p class="text-center text-info"><b>Note</b></p>
