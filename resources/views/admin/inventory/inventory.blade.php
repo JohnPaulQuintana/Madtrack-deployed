@@ -76,7 +76,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <!-- item-->
-                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                        <input class="form-control me-2 search" type="search" placeholder="Search" aria-label="Search">
                                         <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
                                        
                                     </div>
@@ -86,7 +86,7 @@
                             <h4 class="card-title">Available Stocks Saving State</h4>
                             <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                                 <table id="state-saving-datatable"
-                                    class="table activate-select dt-responsive nowrap w-100 text-center">
+                                    class="table activate-select dt-responsive nowrap w-100 text-center available-p">
                                     <thead style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th>Invoice</th>
@@ -263,6 +263,25 @@
 
             // Initial button state update
             updateButtonState();
+
+            // search
+            $('#search-input').on('input', function () {
+            var searchValue = $(this).val().toLowerCase();
+
+            // Loop through each row in the table body
+            $('.available-p tbody tr').each(function () {
+                var rowText = $(this).text().toLowerCase();
+
+                // Check if the row contains the search value
+                if (rowText.includes(searchValue)) {
+                    // Show the row if it contains the search value
+                    $(this).show();
+                } else {
+                    // Hide the row if it does not contain the search value
+                    $(this).hide();
+                }
+            });
+        });
         });
     </script>
 
