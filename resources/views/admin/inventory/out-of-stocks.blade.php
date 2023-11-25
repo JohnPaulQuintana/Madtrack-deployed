@@ -3,7 +3,7 @@
 {{-- header links --}}
 @section('header-links')
     <meta charset="utf-8" />
-    <title>Dashboard | BIS - Admin & Dashboard</title>
+    <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -99,7 +99,7 @@
                                                 <td class="text-danger">₱{{ $stock->product_pcs_price }}.00</td>
                                                 <td class="text-danger">₱ {{ $stock->product_pack_price }}.00</td>
                                                 <td>{{ $stock->product_pcs_per_pack }} pcs</td>
-                                                <td class="text-center"><a class="fas fa-address-card h4" href="route-with-id"></a></td>
+                                                <td class="text-center"><a class="fas fa-address-card h4" href="{{ route('show.product.page') }}"></a></td>
         
                                             </tr>
                                         @endforeach
