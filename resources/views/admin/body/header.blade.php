@@ -58,7 +58,7 @@
                     </div>
                     <div data-simplebar style="max-height: 230px;">
 
-                        @if (isset($notifs))
+                        @if (isset($notifs) && $notifs !== null)
                             <a href="{{ route('inventory.product.outofstocks') }}" class="text-reset notification-item">
                                 <div class="d-flex">
                                     <div class="avatar-xs me-3">
