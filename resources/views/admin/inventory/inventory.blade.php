@@ -84,7 +84,7 @@
                             </div>
 
                             <h4 class="card-title">Available Stocks Saving State</h4>
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;border: 1px solid #ddd;">
                                 <table id="state-saving-datatable"
                                     class="table activate-select dt-responsive nowrap w-100 text-center">
                                     <thead>
