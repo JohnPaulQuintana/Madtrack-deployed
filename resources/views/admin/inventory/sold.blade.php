@@ -81,7 +81,7 @@
                                         @csrf
                                         <!-- Add a text input field for the client name -->
                                         <div class="form-group">
-                                            <label for="client_name">Client Name:</label>
+                                            {{-- <label for="client_name">Client Name:</label> --}}
                                             <input type="text" name="client_name" id="client_name" class="form-control" placeholder="Enter Client Name" required>
                                         </div>
                                         <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
