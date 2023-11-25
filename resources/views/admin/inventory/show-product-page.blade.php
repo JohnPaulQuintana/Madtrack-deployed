@@ -136,19 +136,22 @@
                                     <form action="{{ route('bulk.manage.stocks') }}" method="POST" style="max-height: 400px; overflow-y: auto;border: 1px solid #ddd;">
                                         @csrf
                                         <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product Type</th>
-                                                    <th>Product Name</th>
-                                                    <th>Product Brand</th>
-                                                    <th>Stocks</th>
-                                                    <th>Price - (pcs)</th>
-                                                    <th>Price - (pck)</th>
-                                                    <th>Product Pack</th>
-                                                    <th>Product Created</th>
-                                                    <!-- Add more table headers as needed -->
-                                                </tr>
-                                            </thead>
+                                            <!-- Fixed header -->
+                                            <div style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product Type</th>
+                                                        <th>Product Name</th>
+                                                        <th>Product Brand</th>
+                                                        <th>Stocks</th>
+                                                        <th>Price - (pcs)</th>
+                                                        <th>Price - (pck)</th>
+                                                        <th>Product Pack</th>
+                                                        <th>Product Created</th>
+                                                        <!-- Add more table headers as needed -->
+                                                    </tr>
+                                                </thead>
+                                            </div>
                                             <tbody id="productInputsEdit">
                                                 <!-- Initial input fields for product details -->
                                                 <input type="text" name="req" class="form-control" value="edit"
