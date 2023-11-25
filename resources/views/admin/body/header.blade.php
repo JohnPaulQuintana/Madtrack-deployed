@@ -42,7 +42,9 @@
                 <button type="button" class="btn header-item noti-icon waves-effect"
                     id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="ri-notification-3-line text-color"></i>
-                    <span class="noti-dot"></span>
+                    @if (isset($notifs) && count($notifs) > 0)
+                        <span class="noti-dot"></span>
+                    @endif
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                     aria-labelledby="page-header-notifications-dropdown">
@@ -86,23 +88,6 @@
                             </a>
                         @endif
                         
-
-                        {{-- <a href="" class="text-reset notification-item">
-                            <div class="d-flex">
-                                <img src=" {{ asset('backend/assets/images/users/avatar-4.jpg') }}"
-                                    class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                <div class="flex-1">
-                                    <h6 class="mb-1">Salena Layfield</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">As a skeptical Cambridge friend of mine occidental.
-                                        </p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a> --}}
-
                     </div>
                     <div class="p-2 border-top">
                         <div class="d-grid">
