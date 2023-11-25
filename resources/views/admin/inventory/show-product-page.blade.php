@@ -133,7 +133,7 @@
                                 <h4 class="card-title"><span class="text-danger"><b>Edit Stocks</b></span> Saving State</h4>
                                 <div class="table-responsive">
                                     {{-- {{ route('bulk.add.stocks') }} --}}
-                                    <form action="{{ route('bulk.manage.stocks') }}" method="POST">
+                                    <form action="{{ route('bulk.manage.stocks') }}" method="POST" style="max-height: 400px; overflow-y: auto;">
                                         @csrf
                                         <table class="table">
                                             <thead>
