@@ -67,7 +67,7 @@
 
                             <div class="float-end">
                                 
-                                <div class="dropdown p-3">
+                                <div class="dropdown">
                                 
                                     <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
                                         aria-expanded="false">
