@@ -99,7 +99,7 @@
                                                 <td class="text-danger">₱{{ $stock->product_pcs_price }}.00</td>
                                                 <td class="text-danger">₱ {{ $stock->product_pack_price }}.00</td>
                                                 <td>{{ $stock->product_pcs_per_pack }} pcs</td>
-                                                <td class="text-center"><a class="fas fa-address-card h4" href="{{ route('show.product.page') }}"></a></td>
+                                                <td class="text-center"><a class="fas fa-cogs fa-lg" href="{{ route('show.product.page') }}"></a></td>
         
                                             </tr>
                                         @endforeach
