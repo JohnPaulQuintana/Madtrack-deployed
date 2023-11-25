@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Staff;
 use App\Models\Qrcodemodel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StaffController extends Controller
@@ -88,17 +89,45 @@ class StaffController extends Controller
     public function employeeTableUpdate(Request $request){
         $emp = Staff::find($request->input('id'));
          // Update the employee using the update method
-        $emp->update([
-            'first_name' => $request->input('fName'),
-            'middle_name' => $request->input('mName'),
-            'last_name' => $request->input('lName'),
-            'birthdate' => $request->input('bdate'),
-            'gender' => $request->input('gender'),
-            'contact' => $request->input('contact'),
-            'hired' => $request->input('datehired'),
-            'status' => $request->input('status'),
-            'address' => $request->input('address'),   
-        ]);
+
+         if($emp){
+             // Get the existing QR code path
+            $existingQrCodePath = public_path('qrcodes/EMP' . $emp->id . '.png');
+
+            // Check if the existing QR code file exists before attempting to delete
+            if (File::exists($existingQrCodePath)) {
+                // Delete the existing QR code file
+                File::delete($existingQrCodePath);
+            }
+            // Update the employee using the update method
+            $emp->update([
+                'first_name' => $request->input('fName'),
+                'middle_name' => $request->input('mName'),
+                'last_name' => $request->input('lName'),
+                'birthdate' => $request->input('bdate'),
+                'gender' => $request->input('gender'),
+                'contact' => $request->input('contact'),
+                'hired' => $request->input('datehired'),
+                'status' => $request->input('status'),
+                'address' => $request->input('address'),   
+            ]);
+
+            $fullname = $emp->first_name.' '.$emp->last_name;
+            $bdate = $emp->birthdate;
+            $datehired = $emp->hired;
+            // Generate new QR code
+            $qrCodeDataGenerate = "Id: $emp->id, Name: $fullname, BirthDate: $bdate, Hired: $datehired";
+            $qrCode = (string)QrCode::format('png')
+                ->size(250)
+                ->backgroundColor(255, 255, 255)
+                ->color(0, 0, 0)
+                ->generate($qrCodeDataGenerate);
+
+            // Save the new QR code image to the public folder
+            $newQrCodePath = public_path('qrcodes/EMP' . $emp->id . '.png');
+            file_put_contents($newQrCodePath, $qrCode);
+         }
+        
         // Prepare the toast notification data
         $notification = [
             'status' => 'success',

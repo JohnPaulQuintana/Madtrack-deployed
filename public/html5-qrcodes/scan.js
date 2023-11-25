@@ -1,7 +1,38 @@
 // Your jQuery code to open the modal
 $(document).ready(function () {
     $("#openModalAttendance").click(function () {
-        $("#attendance").modal("show");
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+          });
+          swalWithBootstrapButtons.fire({
+            title: "Attendance System?",
+            text: "Select your attendance options!",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "Time-In",
+            cancelButtonText: "Time-Out",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+            //   swalWithBootstrapButtons.fire({
+            //     title: "Time-In!",
+            //     text: "Your file has been deleted.",
+            //     icon: "success"
+            //   });
+              $("#attendance").modal("show");
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+                $("#attendance-timeout").modal("show");
+            }
+          });
+        // $("#attendance").modal("show");
     });
 
     // This method will trigger user permissions

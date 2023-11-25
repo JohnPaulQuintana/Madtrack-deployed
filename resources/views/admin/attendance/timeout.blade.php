@@ -1,9 +1,9 @@
 
-    <div class="modal fade" tabindex="-1" id="attendance" aria-labelledby="attendanceLabel" aria-hidden="true" data-bs-backdrop="static" style="box-shadow: rgba(58, 25, 207, 0.35) 0px 5px 15px;">
+    <div class="modal fade" tabindex="-1" id="attendance-timeout" aria-labelledby="attendanceLabel" aria-hidden="true" data-bs-backdrop="static" style="box-shadow: rgba(58, 25, 207, 0.35) 0px 5px 15px;">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title"><span class="text-success">Time-In</span> Attendance System</h5>
+              <h5 class="modal-title"><span class="text-danger">Time-Out</span> Attendance System</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

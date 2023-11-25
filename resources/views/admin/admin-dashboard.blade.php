@@ -8,6 +8,7 @@
     @yield('header-links')
 
     <link rel="stylesheet" href="{{ asset('theming/theme.css') }}">
+    <link rel="stylesheet" href="https://sweetalert2.github.io/bootstrap4-buttons.css">
 </head>
 
 <body data-topbar="dark">
@@ -38,6 +39,7 @@
 
 
             @include('admin.attendance.attendance')
+            @include('admin.attendance.timeout')
             @include('admin.body.footer')
 
         </div>
@@ -162,7 +164,7 @@
                                                     `{{ route('reports.create') }}?p=${response.report_id}`;
                                                 // $(".buttons-print").trigger(
                                                 //     "click");//trigger button automatically
-                                                break;
+                                               
                                                 break;
 
                                             default:

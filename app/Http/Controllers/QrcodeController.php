@@ -85,7 +85,7 @@ class QrcodeController extends Controller
             // Loop through the QR codes in the current row
             for ($col = 0; $col < $qrCodesPerRow; $col++) {
                 $index = $row * $qrCodesPerRow + $col;
-    
+                // dd($qrCodeData[$index]->path);
                 // Check if there are more QR codes to process
                 if ($index >= count($qrCodeData)) {
                     break;
