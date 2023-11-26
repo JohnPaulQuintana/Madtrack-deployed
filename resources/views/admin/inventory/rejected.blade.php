@@ -87,7 +87,7 @@
                                         <tr>
                                             <th>Product ID</th>
                                             <th>Product Type</th>
-                                            <th>Product Stocks</th>
+                                            <th>Product Quantity</th>
                                             <th>Product Name</th>
                                             <th>Product Brand</th>
                                             <th>Per Piece</th>
