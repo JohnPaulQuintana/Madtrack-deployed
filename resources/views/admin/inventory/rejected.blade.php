@@ -107,10 +107,10 @@
                                                 <td>{{ $reject->product_name }}</td>
                                                 <td>{{ $reject->product_brand }}</td>
                                                 <td class="text-danger">₱{{ $reject->product_pcs_price }}.00</td>
-                                                <td class="text-danger">₱ {{ $reject->product_pack_price }}.00</td>
+                                                {{-- <td class="text-danger">₱ {{ $reject->product_pack_price }}.00</td>
                                                 <td>{{ $reject->product_pcs_per_pack }} pcs</td>
                                                 <td class="text-center"><a class="fas fa-address-card h4"
-                                                        href="route-with-id"></a></td>
+                                                        href="route-with-id"></a></td> --}}
 
                                             </tr>
                                         @endforeach
