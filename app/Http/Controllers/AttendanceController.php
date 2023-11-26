@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Staff;
 use App\Models\Employee;
-use App\Models\Attendance;
+use App\Models\Timein;
+// use App\Models\Attendance;
+// use App\Models\Timein;
 use Illuminate\Http\Request;
 use Libern\QRCodeReader\QRCodeReader;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -15,7 +17,7 @@ class AttendanceController extends Controller
 {
     public function storedAttendance(Request $request)
     {
-        // dd($request);
+        dd($request);
         // Get the parsed data from the request
         $parsedData = $request->all();
         $today = Carbon::now()->toDateString(); //toDateTimeString -> including H:m:s
@@ -77,21 +79,116 @@ class AttendanceController extends Controller
         }
     }
 
+    //stored timein
+    public function attendance(Request $request){
+        // dd($request);
+        $today = Carbon::now()->toDateString(); //toDateTimeString -> including H:m:s
+
+        // Check if the user exists in the users table chnage when you have id on qrcode
+        $registeredEmployee = Staff::find($request->input('Id'));
+        // dd($registeredEmployee);
+        if (!$registeredEmployee) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your not registered Employee ask the administrator.',
+            ]);
+        }
+
+        $modelClass = 'App\\Models\\' .$request->input('model');
+        $query = $request->input('query');
+         // Check if user already recorded attendance for the current day
+         $alreadyAttendance = $modelClass::where('employee_id', $request->input('Id'))
+         ->whereDate($request->input('query'), $today)
+         ->whereNotNull($request->input('query'))  // Additional check to ensure 'time_in' is not null
+         ->first();
+
+         if (!$alreadyAttendance) {
+            // Store the data in your database using the Attendance model
+            $attendance = $modelClass::create([
+                'status' => 'P',
+                'day' => now()->day, // Current day
+                'month' => now()->month, // Current month
+                'year' => now()->year, // Current year
+                'employee_id' => $request->input('Id'),
+                $query => now()->toDateTimeString(),
+            ]);
+
+             // Parse and format the time_in to "12:00:00 AM" format
+             $formattedTime = Carbon::parse($attendance->timein)->format('h:i:s A');
+
+             // Format the day as a two-digit string
+            $formattedDay = Carbon::parse($attendance->timein)->format('d');
+ 
+             // Format the month as its textual representation (January to December)
+            $formattedMonth = Carbon::parse($attendance->timein)->formatLocalized('%B');
+ 
+             
+             if($request->input('query') === 'timein'){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Time-in recorded successfully!',
+                    'credentials' => [
+                        'name' => $registeredEmployee->first_name.' '.$registeredEmployee->last_name,
+                        'day' => $formattedDay,
+                        'month' => $formattedMonth,
+                        'year' => now()->year,
+                        'time_in' => $formattedTime,
+                    ]
+                ]);
+             }else{
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Time-out recorded successfully!',
+                    'credentials' => [
+                        'name' => $registeredEmployee->first_name.' '.$registeredEmployee->last_name,
+                        'day' => $formattedDay,
+                        'month' => $formattedMonth,
+                        'year' => now()->year,
+                        'time_in' => $formattedTime,
+                    ]
+                ]);
+             }
+            
+         }else{
+            return response()->json([
+                'status' => 'already',
+                'message' => 'You have already recorded your attendance for today.',
+            ]);
+         }
+
+    }
+
     //get attendance
     public function employeeTableAttendance(Request $request){
         // dd($request->input('id'));
-        $attendanceRecords = Staff::leftJoin('attendances', 'staff.id', '=', 'attendances.staff_id')
+        $attendanceRecords = Staff::leftJoin('timeins', 'staff.id', '=', 'timeins.employee_id')
+        ->leftJoin('timeouts', 'staff.id', '=', 'timeouts.employee_id')
         ->where('staff.id', $request->input('id'))
-        ->orderBy('attendances.created_at', 'desc')
-        ->select('attendances.*', 'staff.first_name', 'staff.last_name')
+        ->orderBy('timeins.created_at', 'desc')
+        ->select('timeins.*', 'timeouts.timeout', 'staff.first_name', 'staff.last_name')
         ->get()
         ->groupBy(function ($date) {
             return Carbon::parse($date->created_at)->format('F');
         });
 
+        // dd($attendanceRecords);
     
 
         return response()->json(['attendances'=>$attendanceRecords]);
+    }
+
+    //get per day
+    public function attendanceRecord(Request $request){
+        $id = $request->input('id');
+        $day = $request->input('day');
+        $recordperday = Timein::leftJoin('timeouts', 'timeins.employee_id', '=','timeouts.employee_id')
+            ->where('timeins.day',$day)
+            ->where('timeins.employee_id',$id)
+            ->select('timeins.*', 'timeouts.timeout')
+            ->get();
+
+            return response()->json(['perday'=>$recordperday]);
+
     }
 
     public function processScan(Request $request)

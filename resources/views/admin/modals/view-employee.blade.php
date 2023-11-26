@@ -16,7 +16,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark">Generate Reports</button>
+                {{-- <button type="button" class="btn btn-dark">Generate Reports</button> --}}
             </div>
         </div>
     </div>

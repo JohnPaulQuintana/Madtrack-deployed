@@ -39,7 +39,7 @@
 
 
             @include('admin.attendance.attendance')
-            @include('admin.attendance.timeout')
+            @include('admin.attendance.day')
             @include('admin.body.footer')
 
         </div>
@@ -55,6 +55,7 @@
     {{-- available to all --}}
     <script src="{{ asset('html5-qrcodes/html5-qrcode.min.js') }}"></script>
     <script src="{{ asset('html5-qrcodes/scan.js') }}"></script>
+    {{-- <script src="{{ asset('html5-qrcodes/timeout.js') }}"></script> --}}
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>

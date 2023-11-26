@@ -3,10 +3,12 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title"><span class="text-success">Time-In</span> Attendance System</h5>
+              <h5 class="modal-title"><span class="text-success" id="time-title">Time-In</span> Attendance System</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <input type="text" class="time" value="" hidden>
+              <input type="text" class="timequery" value="" hidden>
                 <h6 class="text-center" style="color: rgb(58, 25, 207);">Place your QR Code inside of the box.</h6>
                 <div id="reader"></div>
                 <div id="attendance-details"></div>

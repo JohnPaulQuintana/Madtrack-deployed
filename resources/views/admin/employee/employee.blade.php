@@ -71,7 +71,7 @@
                                     <!-- item-->
                                     <a class="dropdown-item addEmployees"><i class="ri-user-add-fill"></i> Add
                                         Employee's</a>
-                            
+
                                 </div>
                             </div>
                             <h4 class="card-title">Employee Table State Saving</h4>
@@ -97,8 +97,7 @@
                                         @foreach ($employees as $employee)
                                             <tr>
                                                 <td><input type="checkbox" class="staff-checkbox" name="selected_staff[]"
-                                                        value="{{ $employee->id }}"
-                                                        {{ $employee->status }}></td>
+                                                        value="{{ $employee->id }}" {{ $employee->status }}></td>
                                                 <td>EMP-{{ $employee->id }}</td> <!-- Display employee_id -->
                                                 <td class="text-info">{{ $employee->first_name }}
                                                     {{ $employee->middle_name }} {{ $employee->last_name }}</td>
@@ -112,16 +111,16 @@
                                                 </td>
                                                 <td>
                                                     <div style="display: flex; align-items: center;">
-                                                        <a class="fas fa-address-card h4 view" data-id="{{ $employee->id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="Attendace Record"></a>
-                                                        <a class="ri-edit-2-fill h4 edit text-info" data-id="{{ $employee->id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="Edit Record"
+                                                        <a class="fas fa-address-card h4 view"
+                                                            data-id="{{ $employee->id }}" data-bs-toggle="tooltip"
+                                                            data-bs-placement="left" title="Attendace Record"></a>
+                                                        <a class="ri-edit-2-fill h4 edit text-info"
+                                                            data-id="{{ $employee->id }}" data-bs-toggle="tooltip"
+                                                            data-bs-placement="left" title="Edit Record"
                                                             style="font-size: 25px;"></a>
                                                     </div>
                                                 </td>
-                                                
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -265,7 +264,7 @@
                     makeRequest(url, 'null', csrfToken)
                         .done(function(res) {
                             console.log(res)
-                            qrpath = res.path//generated pdf path
+                            qrpath = res.path //generated pdf path
                             $('#frame').attr('src', res.path)
                             $('#editorModal').modal('show')
                         })
@@ -280,7 +279,9 @@
                 // alert(selectedIds)
                 const url = "{{ route('qrcodes.process.update', ['id' => ':ids']) }}".replace(':ids',
                     selectedIds);
-                let data = {"path":qrpath}
+                let data = {
+                    "path": qrpath
+                }
                 makeRequest(url, data, csrfToken)
                     .done(function(res) {
                         console.log(res)
@@ -344,7 +345,7 @@
                         $('#employeeContactE').val(res.employee.contact)
                         $('#employeeHiredE').val(res.employee.hired)
                         $('#employeeStatusE').val(res.employee.status)
-                        $('.remove-emp').attr('data-id',res.employee.id)
+                        $('.remove-emp').attr('data-id', res.employee.id)
                         // populateCalendar(res.attendances)
                         $('#editEmployeeModal').modal('show')
                     })
@@ -355,7 +356,7 @@
             })
 
             //remove emplyee
-            $(document).on('click', '.remove-emp', function(){
+            $(document).on('click', '.remove-emp', function() {
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
@@ -364,34 +365,34 @@
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, delete it!"
-                    }).then((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
-                       
-                        let data = {
-                        'id': $(this).data('id')
-                    }
-                        makeRequest('/remove-employee', data, csrfToken)
-                        .done(function(res) {
-                            console.log(res)
-                            if(res.status === 'success'){
-                                Swal.fire({
-                                    title: "Deleted!",
-                                    text: "Employee information has been deleted.",
-                                    icon: "success"
-                                });
-                                $('#editEmployeeModal')
-                                $('#editEmployeeModal').modal('hide')
-                                window.location.href =`{{ route('employee.table') }}`
-                            }else{
-                                Swal.fire({
-                                    title: "Unabled!",
-                                    text: "Unabled to delete this record!.",
-                                    icon: "error"
-                                });
-                            }
-                        })
 
-                        
+                        let data = {
+                            'id': $(this).data('id')
+                        }
+                        makeRequest('/remove-employee', data, csrfToken)
+                            .done(function(res) {
+                                console.log(res)
+                                if (res.status === 'success') {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Employee information has been deleted.",
+                                        icon: "success"
+                                    });
+                                    $('#editEmployeeModal')
+                                    $('#editEmployeeModal').modal('hide')
+                                    window.location.href = `{{ route('employee.table') }}`
+                                } else {
+                                    Swal.fire({
+                                        title: "Unabled!",
+                                        text: "Unabled to delete this record!.",
+                                        icon: "error"
+                                    });
+                                }
+                            })
+
+
                     }
                 });
             })
@@ -443,7 +444,7 @@
                         // Display information for each record
                         if (rec.day != null) {
                             calendar += `
-                            <div class="col-sm-2 card p-1 position-relative ${borderColor}" style="width: 50px;">
+                            <div class="col-sm-2 att-record card p-1 position-relative ${borderColor}" style="width: 50px;" data-id="${rec.employee_id}" data-day="${rec.day}">
                                 <span class="position-absolute top-0 start-50 translate-middle badge ${bgColor}" style="font-size: 14px;">
                                     ${rec.day}
                                 </span>
@@ -469,6 +470,39 @@
 
 
             }
+
+            $(document).on('click', '.att-record', function() {
+                console.log($(this).data('id'), $(this).data('day'))
+                let data = {
+                    'id': $(this).data('id'),
+                    'day': $(this).data('day')
+                }
+                // Array to map month numbers to month names
+                const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+                ];
+                
+                //dynamic approach
+                makeRequest('/get-attendance-record', data, csrfToken)
+                    .done(function(res) {
+                        console.log(res)
+                        const date = new Date(res.perday[0].timein);
+                        const date2 = res.perday[0].timeout ? new Date(res.perday[0].timeout) : null;
+
+                        const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        const formattedTimeOut = date2 ? date2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "No Timeout";
+
+                        $('#day-title').text(res.perday[0].day + " of " + monthNames[res.perday[0].month - 1]);
+                        $('#timein-info').text('Time-in : ' + formattedTime);
+                        $('#timeout-info').text('Time-Out : ' + formattedTimeOut);
+                        $('#dayDisplayTime').modal('show');
+
+                    })
+                    .fail(function(err) {
+                        console.log(err)
+                    })
+            })
 
             function capitalizeAllWords(str) {
                 return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

@@ -9,5 +9,5 @@ class Timein extends Model
 {
     use HasFactory;
 
-    public $fillable = ['employee_id', 'timein', 'status'];
+    public $fillable = ['employee_id', 'timein', 'status', 'day', 'month', 'year'];
 }

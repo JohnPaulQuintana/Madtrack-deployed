@@ -24,12 +24,22 @@ $(document).ready(function () {
             //     text: "Your file has been deleted.",
             //     icon: "success"
             //   });
+            $('#time-title').removeClass('text-danger')
+            $('#time-title').addClass('text-success')
+            $('.time').val('Timein')
+            $('.timequery').val('timein')
+            $('#time-title').text('Time-In')
               $("#attendance").modal("show");
             } else if (
               /* Read more about handling dismissals below */
               result.dismiss === Swal.DismissReason.cancel
             ) {
-                $("#attendance-timeout").modal("show");
+                $('#time-title').removeClass('text-success')
+                $('#time-title').addClass('text-danger')
+                $('.time').val('Timeout')
+                $('.timequery').val('timeout')
+                $('#time-title').text('Time-Out')
+                $("#attendance").modal("show");
             }
           });
         // $("#attendance").modal("show");
@@ -69,12 +79,18 @@ $(document).ready(function () {
                 async (decodedText, decodedResult) => {
                     stopScanner();
                     const data = {};
+                    const from = $('.time').val();
+                    const query = $('.timequery').val();
+                    console.log(from)
                     const fields = decodedResult.decodedText.split(", ");
                     fields.forEach((field) => {
                         const [key, value] = field.split(": ");
                         data[key] = value;
                     });
-    
+
+                    data.model = from
+                    data.query = query
+                   
                     console.log(data);
                     
                     try {
@@ -99,10 +115,10 @@ $(document).ready(function () {
                                         <h5 class="text-center" style="color: rgb(58, 25, 207);"><i class="ri-record-circle-line align-middle font-size-22"></i>${response.message}</h5>
                                         <div class="col-md-6">
                                             <h3 class="card-title">Attendance Details</h3>
-                                            <p><i class="ri-record-circle-line align-middle font-size-16" style="color: rgb(58, 25, 207);"></i><strong> Email:</strong> <span style="color: rgb(58, 25, 207);">${response.credentials.email}</span></p>
+                                            
                                             <p><i class="ri-record-circle-line align-middle font-size-16" style="color: rgb(58, 25, 207);"></i><strong> Name:</strong> <span style="color: rgb(58, 25, 207);">${response.credentials.name}</span></p>
                                             <p><i class="ri-record-circle-line align-middle font-size-16" style="color: rgb(58, 25, 207);"></i><strong> Date:</strong> <span style="color: rgb(58, 25, 207);">${response.credentials.month} ${response.credentials.day}, ${response.credentials.year}</span></p>
-                                            <p><i class="ri-record-circle-line align-middle font-size-16" style="color: rgb(58, 25, 207);"></i><strong> Time In:</strong> <span style="color: rgb(58, 25, 207);">${response.credentials.time_in}</span></p>
+                                            <p><i class="ri-record-circle-line align-middle font-size-16" style="color: rgb(58, 25, 207);"></i><strong> Time:</strong> <span style="color: rgb(58, 25, 207);">${response.credentials.time_in}</span></p>
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-center align-items-center">
                                             <img src="${imageUrl}/confirmed.png" alt="Image" class="img-fluid">
@@ -152,7 +168,10 @@ $(document).ready(function () {
             scannerIsRunning = true;
         } catch (err) {
             // Start failed, handle it.
-            console.error(err);
+            console.log(err);
+            stopScanner()
+            const camera = await availableCamera();
+            startScanner(camera);
         }
     }
     

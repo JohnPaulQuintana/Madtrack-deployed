@@ -46,7 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // store attendance
-    Route::post('/store-attendance',[AttendanceController::class, 'storedAttendance'])->name('store.attendance');
+    // Route::post('/store-attendance',[AttendanceController::class, 'storedAttendance'])->name('store.attendance');
+    Route::post('/store-attendance',[AttendanceController::class,'attendance'])->name('attendance');
 
     // inventory
     Route::get('/available-stocks',[TableController::class,'availableStocks'])->name('inventory.available.stocks');
@@ -83,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-employee',[StaffController::class,'employeeTableUpdate'])->name('employee.table.update');
     Route::get('/remove-employee',[StaffController::class,'employeeTableRemove'])->name('employee.table.remove');
     Route::get('/get-attendance',[AttendanceController::class,'employeeTableAttendance'])->name('employee.table.attendance');
+    Route::get('/get-attendance-record',[AttendanceController::class,'attendanceRecord'])->name('employee.table.record');
 
     // nlp server route
     Route::post('/nlp',[NlpController::class,'process'])->name('nlp.process');

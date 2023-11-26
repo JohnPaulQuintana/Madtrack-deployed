@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Timeout extends Model
 {
     use HasFactory;
-    public $fillable = ['employee_id','timeout','status'];
+    public $fillable = ['employee_id','timeout','status','day', 'month', 'year'];
 }
