@@ -34,8 +34,6 @@
 
     <!-- App Css id="app-style"-->
     <link href="{{ asset('backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
-    
-    
 @endsection
 
 {{-- main contents --}}
@@ -66,19 +64,21 @@
                         <div class="card-body">
 
                             <div class="float-end">
-                                
+
                                 <div class="dropdown">
-                                
+
                                     <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        
+
                                         <i class="mdi mdi-dots-vertical"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <!-- item-->
-                                        <input class="form-control me-2 search-input" type="search" placeholder="Search" aria-label="Search">
-                                        <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
-                                       
+                                        <input class="form-control me-2 search-input" type="search" placeholder="Search"
+                                            aria-label="Search">
+                                        <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage
+                                            Products</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,8 @@
                             <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                                 <table id="state-saving-datatable"
                                     class="table activate-select dt-responsive nowrap w-100 text-center available-p">
-                                    <thead style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
+                                    <thead
+                                        style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th>Invoice</th>
                                             <th>ID</th>
@@ -98,7 +99,7 @@
                                             <th>Piece</th>
                                             <th>Pack</th>
                                             <th>Per Pack</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
 
@@ -116,12 +117,12 @@
                                                 <td class="text-info">₱{{ $stock->product_pcs_price }}.00</td>
                                                 <td class="text-info">₱ {{ $stock->product_pack_price }}.00</td>
                                                 <td>{{ $stock->product_pcs_per_pack }} pcs</td>
-                                                {{-- <td class="text-center"> --}}
-                                                    {{-- <a class="fas fa-address-card h5 border bg-info rounded text-white p-1"
-                                                        href="route-with-id"></a> --}}
+                                                <td class="text-center">
+                                                    <a class="fas fa-trash-alt h5 border bg-danger rounded text-white p-1 del-products"
+                                                        data-id="{{ $stock->id }}"></a>
                                                     {{-- <a class="fas fa-check h5 border bg-success rounded text-white p-1"
                                                         href="{{ route('inventory.process.sold', ['id' => $stock->id]) }}"></a> --}}
-                                                {{-- </td> --}}
+                                                </td>
 
                                             </tr>
                                         @endforeach
@@ -194,13 +195,13 @@
     <script src="{{ asset('backend/assets/libs/toastr/build/toastr.min.js') }}"></script>
     <!-- toastr init -->
     <script src="{{ asset('backend/assets/js/pages/toastr.init.js') }}"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             // $('#state-saving-datatable').DataTable();
             // Initialize an empty array to store selected product IDs
             const selectedProductIds = [];
-
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             // Function to update the selectedProductIds array
             function updateSelectedProductIds() {
                 selectedProductIds.length = 0; // Clear the array
@@ -252,7 +253,7 @@
                 if (selectedProductIds.length > 0) {
                     // Construct the URL with the selected product IDs
                     const selectedIds = selectedProductIds.join(
-                    ','); // Convert the array to a comma-separated string
+                        ','); // Convert the array to a comma-separated string
                     const url = "{{ route('inventory.process.sold', ['id' => ':ids']) }}".replace(':ids',
                         selectedIds);
 
@@ -265,23 +266,70 @@
             updateButtonState();
 
             // search
-            $('.search-input').on('input', function () {
-            var searchValue = $(this).val().toLowerCase();
+            $('.search-input').on('input', function() {
+                var searchValue = $(this).val().toLowerCase();
 
-            // Loop through each row in the table body
-            $('.available-p tbody tr').each(function () {
-                var rowText = $(this).text().toLowerCase();
+                // Loop through each row in the table body
+                $('.available-p tbody tr').each(function() {
+                    var rowText = $(this).text().toLowerCase();
 
-                // Check if the row contains the search value
-                if (rowText.includes(searchValue)) {
-                    // Show the row if it contains the search value
-                    $(this).show();
-                } else {
-                    // Hide the row if it does not contain the search value
-                    $(this).hide();
-                }
+                    // Check if the row contains the search value
+                    if (rowText.includes(searchValue)) {
+                        // Show the row if it contains the search value
+                        $(this).show();
+                    } else {
+                        // Hide the row if it does not contain the search value
+                        $(this).hide();
+                    }
+                });
             });
-        });
+
+            // delete products
+            $(document).on('click', '.del-products', function() {
+              
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        makeRequest($(this).data('id'), csrfToken)
+                        .done((res)=>{
+                            console.log(res)
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                            setTimeout(() => {
+                                window.location.href =`{{ route('inventory.available.stocks') }}` 
+                            }, 1000);
+                        })
+                        .fail((err)=>{
+                            console.log(err)
+                        })
+                        
+                    }
+                });
+            })
+
+            // make a request to the ai
+            function makeRequest(id, csrfToken) {
+                return $.ajax({
+                    method: 'POST',
+                    url: '/delete-products',
+                    data: JSON.stringify({'productId': id}),
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+            }
         });
     </script>
 

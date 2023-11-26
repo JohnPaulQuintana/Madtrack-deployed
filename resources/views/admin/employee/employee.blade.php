@@ -381,6 +381,7 @@
                                 });
                                 $('#editEmployeeModal')
                                 $('#editEmployeeModal').modal('hide')
+                                window.location.href =`{{ route('employee.table') }}`
                             }else{
                                 Swal.fire({
                                     title: "Unabled!",

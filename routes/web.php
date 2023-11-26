@@ -64,6 +64,9 @@ Route::middleware('auth')->group(function () {
     // create invoice
     Route::post('/create-invoices',[InvoiceController::class,'createInvoices'])->name('bulk.create.invoice');
 
+    Route::get('/get-rejected', [InventoryController::class, 'getRejected'])->name('inventory.rejected');
+    Route::post('/post-rejected', [InventoryController::class, 'postRejected'])->name('inventory.rejected.post');
+    Route::post('/delete-products', [InventoryController::class, 'deleteProduct'])->name('inventory.delete');
     // reports
     Route::get('/create-reports',[ReportController::class, 'report'])->name('reports.create');
     Route::post('/generate-reports',[ReportController::class, 'generate'])->name('generate.reports');

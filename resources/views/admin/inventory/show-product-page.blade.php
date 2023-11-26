@@ -116,8 +116,8 @@
                                         <button type="button" class="btn btn-secondary" id="addProductField">Add Product
                                             Field</button>
                                         <button type="submit" class="btn btn-primary" id="addStocksBtn">Add Stocks</button>
-
-                                        <button type="submit" class="btn btn-warning" id="rejectStocksBtn">Rejected Stocks</button>
+                                            {{-- lipat sa rejected page --}}
+                                        {{-- <button type="submit" class="btn btn-warning" id="rejectStocksBtn">Rejected Stocks</button> --}}
                                     </form>
                                 </div>
                             </div> <!-- end card body-->
