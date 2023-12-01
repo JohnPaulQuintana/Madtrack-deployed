@@ -22,10 +22,10 @@ class InvoiceController extends Controller
         $productQuantity = $request->input('product_quantity',[]);
         $productPrice = $request->input('product_price',[]);
         $productAmount = $request->input('product_amount',[]);
-
+        // dd(count($productId));
         $insertedProductsNotif = []; // Initialize an array to store inserted products
 
-        for ($i = 0; $i < count($productId); $i++) {
+        for ($i = 0; $i <= count($productId) - 1; $i++) {
             $product_data = [
                 'sold_to' => $clientName,
                 'inventories_id' => $productId[$i],
@@ -45,21 +45,25 @@ class InvoiceController extends Controller
                 // Check if there are enough stocks available
                 if ($inventory->stocks >= $productQuantity[$i]) {
                     // Create an Invoice record
-                    $invoice = Invoice::create($product_data);
-            
-                    // Update the stock count in the Inventory model
-                    $inventory->stocks -= $productQuantity[$i];
-                    $inventory->save();
-            
-                    // Record a transaction history
-                    $transaction = new Transaction;
-                    $transaction->transaction_id = $productId[$i];
-                    $transaction->transaction_type = $req;
-                    $transaction->transaction_description = "{$clientName} bought {$productQuantity[$i]} units of {$inventory->product_name} at {$inventory->product_pcs_price} each.";
-                    $transaction->date = now(); // Use the current date and time
-                    $transaction->save();
-            
-                    $insertedProductsNotif[] = $invoice;
+                   try {
+                        $invoice = Invoice::create($product_data);
+                
+                        // Update the stock count in the Inventory model
+                        $inventory->stocks -= $productQuantity[$i];
+                        $inventory->save();
+                
+                        // Record a transaction history
+                        $transaction = new Transaction;
+                        $transaction->transaction_id = $productId[$i];
+                        $transaction->transaction_type = $req;
+                        $transaction->transaction_description = "{$clientName} bought {$productQuantity[$i]} units of {$inventory->product_name} at {$inventory->product_pcs_price} each.";
+                        $transaction->date = now(); // Use the current date and time
+                        $transaction->save();
+                
+                        $insertedProductsNotif[] = $invoice;
+                   } catch (\Throwable $th) {
+                        $insertedProductsNotif[] = $invoice;
+                   }
                 } else {
                     // Handle the case where there are not enough stocks available.
                     // You can provide an error message to the user or handle it based on your application's requirements.
@@ -83,5 +87,40 @@ class InvoiceController extends Controller
          // Assuming you have already prepared the $notificationJson variable
         return redirect()->route('inventory.available.stocks')->with('notification', $notificationJson);
 
+    }
+
+    // void product
+    public function voidProducts(Request $request){
+        $ids = $request->route('id');
+         // Convert the comma-separated string of IDs to an array
+        $idArray = explode(',', $ids);
+
+        $purchased = Invoice::whereIn('id', $idArray)->get();
+
+        // Retrieve quantities and corresponding inventory IDs
+        $quantitiesToUpdate = [];
+        $inventoryIdsToUpdate = [];
+        foreach ($purchased as $invoice) {
+            $quantitiesToUpdate[$invoice->inventories_id] = $invoice->quantity; // Assuming you have a 'quantity' column
+            $inventoryIdsToUpdate[] = $invoice->inventories_id;
+        }
+        // Update the inventories table with the new quantities
+        foreach ($quantitiesToUpdate as $inventoryId => $quantity) {
+            $inventory = Inventory::find($inventoryId);
+
+            // Ensure the inventory record exists
+            if ($inventory) {
+                $inventory->stocks += $quantity;
+                $inventory->save();
+            }
+        }
+        // dd($quantitiesToUpdate);
+        // Delete the corresponding Invoice records
+        Invoice::whereIn('id', $idArray)->delete();
+
+ 
+         return response()->json(['url'=>'inventory.available.stocks']);
+        
+       
     }
 }

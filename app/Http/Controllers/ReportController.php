@@ -10,6 +10,7 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use App\Helpers\GenerateTable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class ReportController extends Controller
 {
@@ -96,9 +97,9 @@ class ReportController extends Controller
 
             case 'rejected':
                 $rejected = DB::table('rejecteds')
-                ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
-                ->orderBy('created_at','asc')
-                ->get();
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->orderBy('created_at', 'asc')
+                    ->get();
                 if ($rejected->count() > 0) {
                     $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdf($rejected, $names,  'Purchased', $from, $to);
@@ -115,10 +116,10 @@ class ReportController extends Controller
 
             case 'out':
                 $out = DB::table('inventories')
-                ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
-                ->where('stocks', 0)
-                ->orderBy('created_at','asc')
-                ->get();
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->where('stocks', 0)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
                 if ($out->count() > 0) {
                     $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdf($out, $names,  'Purchased', $from, $to);
@@ -132,6 +133,52 @@ class ReportController extends Controller
                 // Convert the notification to JSON
                 $notificationJson = json_encode($notification);
                 return response()->json(['notification' => $notificationJson], 500);
+
+            case 'all':
+                // dd('dwadwadwad');
+                $stocks = DB::table('inventories')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price') // Replace with the column names you want to select
+                    ->where('stocks', '!=', 0)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+                $purchased = DB::table('invoices')
+                    ->join('inventories', 'invoices.inventories_id', '=', 'inventories.id')
+                    ->select(
+                        'inventories.id as id',
+                        'inventories.product_name as product_type',
+                        'invoices.sold_to as product_name',
+                        'invoices.quantity as stocks',
+                        'invoices.price as product_pcs_price',
+                        'invoices.date as product_pack_price'
+                    )
+                    ->orderBy('invoices.created_at', 'asc')
+                    ->get();
+                    
+                $rejected = DB::table('rejecteds')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+                $out = DB::table('inventories')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->where('stocks', 0)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+                    
+                    $all = [
+                        'stocks' => $stocks,
+                        'purchased' => $purchased,
+                        'rejected' => $rejected,
+                        'out' => $out,
+                    ];
+                // dd($all);
+                
+                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $pdfId = $this->generateTablePdfAll($all, $names, Carbon::now());
+                    return response()->json(['names' => $names, 'value' => $all, 'id' => $pdfId]);
+                
+
 
             default:
                 # code...
@@ -221,7 +268,7 @@ class ReportController extends Controller
     public function generateTablePdf($datas, $names, $types, $from, $to)
     {
 
-        $pdf = new GenerateTable('P', 'mm', 'A4'); //custom class for generating table
+        $pdf = new GenerateTable('P', 'mm', 'A4', $from, $to); //custom class for generating table
         // $fpdf = new Fpdf('P', 'mm', 'A4');
         $pdf->AddPage();
         $bgColor = 211; // Initial background color (gray)
@@ -285,4 +332,90 @@ class ReportController extends Controller
         return $uniqueId;
         // $pdf->Output();
     }
+   
+    public function generateTablePdfAll($datas, $names, $from)
+    {
+        $pdf = new GenerateTable('P', 'mm', 'A4');
+        $pdf->AddPage();
+    
+        // Header
+        $pdf->SetFont('Courier', 'B', 18);
+        $pdf->Cell(0, 10, 'MadTrack Report', 0, 1, 'C');
+        $pdf->SetFont('Courier', '', 12);
+        $pdf->Cell(0, 5, 'From: ' . $from, 0, 1, 'C');
+        $pdf->Ln(10);
+    
+        foreach ($datas as $type => $typeData) {
+            // Dynamic header based on type
+            $pdf->SetFont('Courier', 'B', 14);
+    
+            // Check if there are no records for the type
+            if (empty($typeData)) {
+                // Display a red header indicating "No records"
+                $pdf->SetFillColor(255, 0, 0);
+                $pdf->Cell(0, 10, 'Type: ' . $type . ' - No records', 0, 1, 'L', true);
+                $pdf->Ln(5);
+    
+                // Skip displaying the table header
+                continue;
+            }
+    
+            // Display the regular header
+            $pdf->SetFillColor(211, 211, 211);
+            $pdf->Cell(0, 10, 'Type: ' . $type, 0, 1, 'L');
+            $pdf->Ln(5);
+    
+            $pdf->SetFont('Courier', '', 14);
+            $columnWidth = 190 / count($names);
+    
+            foreach ($names as $name) {
+                $pdf->SetFillColor(211, 211, 211);
+                $pdf->Cell($columnWidth, 10, $name, 0, 0, 'C', true);
+            }
+    
+            $pdf->Ln(12);
+    
+            $pdf->SetFont('Courier', '', 12);
+            $pdf->SetWidths(array(31, 31, 35, 31, 31, 31));
+            $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C'));
+            $pdf->SetLineHeight(6);
+    
+            foreach ($typeData as $item) {
+                $pdf->Row(array(
+                    $item->id,
+                    $item->product_type,
+                    $item->product_name,
+                    $item->stocks,
+                    $item->product_pcs_price,
+                    $item->product_pack_price,
+                ));
+            }
+        }
+    
+        // Output the combined PDF
+        $uniqueId = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+        $pdf->Output('F', public_path('reports/') . $uniqueId . '.pdf');
+    
+        // Save it to database (optional)
+        $report = Report::create(['path' => $uniqueId . '.pdf']);
+    
+        return $uniqueId;
+    }
+
+    //delete
+    public function deletePdf($filename)
+{
+   
+
+    try {
+        $report = Report::findOrFail($filename); // Assuming $filename is the ID
+        $report->delete();
+        return response()->json(['success' => true, 'message' => 'PDF deleted successfully']);
+        
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    }
+}
+    
+    
 }

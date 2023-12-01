@@ -96,8 +96,9 @@
                                         {{-- {{ $employees }} --}}
                                         @foreach ($employees as $employee)
                                             <tr>
+                                                {{-- {{ $employee->status }} --}}
                                                 <td><input type="checkbox" class="staff-checkbox" name="selected_staff[]"
-                                                        value="{{ $employee->id }}" {{ $employee->status }}></td>
+                                                        value="{{ $employee->id }}"></td>
                                                 <td>EMP-{{ $employee->id }}</td> <!-- Display employee_id -->
                                                 <td class="text-info">{{ $employee->first_name }}
                                                     {{ $employee->middle_name }} {{ $employee->last_name }}</td>
@@ -486,13 +487,13 @@
                 //dynamic approach
                 makeRequest('/get-attendance-record', data, csrfToken)
                     .done(function(res) {
-                        console.log(res)
+                        console.log('ginagaawa ',res.perday[0].timeout)
                         const date = new Date(res.perday[0].timein);
                         const date2 = res.perday[0].timeout ? new Date(res.perday[0].timeout) : null;
 
                         const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                         const formattedTimeOut = date2 ? date2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "No Timeout";
-
+                        console.log(formattedTimeOut)
                         $('#day-title').text(res.perday[0].day + " of " + monthNames[res.perday[0].month - 1]);
                         $('#timein-info').text('Time-in : ' + formattedTime);
                         $('#timeout-info').text('Time-Out : ' + formattedTimeOut);

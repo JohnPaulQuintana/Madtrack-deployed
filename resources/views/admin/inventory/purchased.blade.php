@@ -12,12 +12,16 @@
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico') }}">
 
     <!-- DataTables -->
-    <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}"
+        rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}"
+        rel="stylesheet" type="text/css" />
 
     <!-- Responsive datatable examples -->
-    <link href="{{ asset('backend/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />     
+    <link href="{{ asset('backend/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+        rel="stylesheet" type="text/css" />
 
     <!-- Bootstrap Css id="bootstrap-style"-->
     <link href="{{ asset('backend/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -53,11 +57,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Purchased Stocks Saving State</h4>
-                            <div class="table-responsive">    
-                                <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100">
+                            <h4 class="card-title">Purchased Stocks Saving State
+                                <input class="form-control me-2 search-input" type="search" placeholder="Search"
+                                            aria-label="Search" style="width: 250px;">
+                            </h4>
+                            <div class="table-responsive">
+                                <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100 available-p">
                                     <thead>
                                         <tr>
+                                            <th class="text-info">Delete</th>
                                             <th class="text-info">Purchased By</th>
                                             <th class="text-info">Product ID</th>
                                             <th class="text-info">Product Type</th>
@@ -72,10 +80,12 @@
                                             {{-- <th class="text-info">Action</th> --}}
                                         </tr>
                                     </thead>
-    
+
                                     <tbody>
                                         @foreach ($invoices as $invoice)
                                             <tr>
+                                                <td><input type="checkbox" class="staff-checkbox"
+                                                        name="selected_purchased[]" value="{{ $invoice->id }}"></td>
                                                 <td>{{ $invoice->sold_to }}</td>
                                                 <td>INV-{{ $invoice->id }}</td>
                                                 <td>{{ $invoice->inventory->product_type }}</td>
@@ -84,18 +94,30 @@
                                                 <td>{{ $invoice->quantity }}</td>
                                                 <td>{{ $invoice->date }}</td>
                                                 {{-- <td> --}}
-                                                    @if ($invoice->date === $today)
-                                                        <td><span class="badge bg-info p-2"><b>Newest</b></span></td>
-                                                    @elseif ($oldest && $invoice->date != $today)
-                                                        <td><span class="badge bg-warning p-2"><b>Oldest</b></span></td>
-                                                    @endif
+                                                @if ($invoice->date === $today)
+                                                    <td><span class="badge bg-info p-2"><b>Newest</b></span></td>
+                                                @elseif ($oldest && $invoice->date != $today)
+                                                    <td><span class="badge bg-warning p-2"><b>Oldest</b></span></td>
+                                                @endif
                                                 {{-- </td> --}}
                                                 <td>₱ {{ $invoice->price }}</td>
                                                 {{-- <td class="text-center"><a class="fas fa-address-card h4 text-info" href="route-with-id"></a></td> --}}
-        
+
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <!-- Add a footer row with a link to process selected product IDs -->
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="10" class="text-center">
+                                                <a class="btn btn-info" href="#" id="process-selected-link">
+                                                    Void Products
+                                                    <span id="selected-count"></span>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    </tfoot>
                                 </table>
                                 {{-- <div class="d-flex justify-content-end mb-3">
                                     <a href="{{ route('show.product.page') }}" class="btn btn-primary">Add Product</a>
@@ -119,7 +141,7 @@
     <script src="{{ asset('backend/assets/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/node-waves/waves.min.j') }}s"></script>
-    
+
     <!-- Required datatable js -->
     <script src="{{ asset('backend/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -135,14 +157,149 @@
 
     <script src="{{ asset('backend/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-    
+
     <!-- Responsive examples -->
     <script src="{{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}">
+    </script>
 
     <!-- Datatable init js -->
     {{-- <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script> --}}
 
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
+    <script>
+        $(document).ready(function() {
+            const selectedStaffIds = [];
+            let selectedIds;
+
+            // Function to update the selectedProductIds array
+            function updateSelectedStaffIds() {
+                selectedStaffIds.length = 0; // Clear the array
+                $('.staff-checkbox:checked').each(function() {
+                    selectedStaffIds.push($(this).val()); // Add the checked checkbox values to the array
+                });
+                // Now, you can use the selectedProductIds array as needed
+                // Update the count element
+                $('#selected-count').text(selectedStaffIds.length);
+
+                // Show/hide the "Create Invoice" button based on the selectedProductIds array
+                const button = $('#process-selected-link');
+                if (selectedStaffIds.length > 0) {
+                    button.show(); // Show the button if there are selected items
+                } else {
+                    button.hide(); // Hide the button if no items are selected
+                }
+            }
+
+            // Function to update the "Create Invoice" button's disabled attribute
+            function updateButtonState() {
+                const checkboxes = $('.staff-checkbox'); // Assuming this class is assigned to your checkboxes
+                const selectedCount = checkboxes.filter(':checked').length;
+                const button = $('#process-selected-link');
+
+                // Disable the button if no checkboxes are checked, enable it otherwise
+                button.prop('disabled', selectedCount === 0);
+
+                // Update the selected count in the button text
+                $('#selected-count').text(selectedCount > 0 ? ` (${selectedCount} selected)` : '');
+            }
+
+            // Listen for changes in the checkboxes
+            $('.staff-checkbox').change(function() {
+                updateSelectedStaffIds(); // Update the selectedProductIds array
+                updateButtonState();
+            });
+
+            // search
+            $('.search-input').on('input', function() {
+                var searchValue = $(this).val().toLowerCase();
+
+                // Loop through each row in the table body
+                $('.available-p tbody tr').each(function() {
+                    var rowText = $(this).text().toLowerCase();
+
+                    // Check if the row contains the search value
+                    if (rowText.includes(searchValue)) {
+                        // Show the row if it contains the search value
+                        $(this).show();
+                    } else {
+                        // Hide the row if it does not contain the search value
+                        $(this).hide();
+                    }
+                });
+            });
+
+
+            // Listen for the click event on the "Process Selected" link
+            $('#process-selected-link').click(function(e) {
+                e.preventDefault(); // Prevent the default behavior of the link
+
+                // Call the function to ensure the array is up-to-date
+                updateSelectedStaffIds();
+
+                if (selectedStaffIds.length > 0) {
+                    console.log(selectedStaffIds)
+                    // Construct the URL with the selected product IDs
+                    selectedIds = selectedStaffIds.join(
+                        ','); // Convert the array to a comma-separated string
+                    const url = "{{ route('void.products', ['id' => ':ids']) }}".replace(':ids',
+                        selectedIds);
+
+                    //dynamic approach
+                    makeRequest(url, 'null', csrfToken)
+                        .done(function(res) {
+                            console.log(res)
+                            window.location.href ="/show-product-sold";
+                        })
+                        .fail(function(err) {
+                            console.log(err)
+                        })
+                }
+            });
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // make a request to the ai
+            function makeRequest(url, data, csrfToken) {
+                // console.log(id)
+                return $.ajax({
+                    method: 'GET',
+                    url: url,
+                    data: data,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+            }
+        })
+    </script>
+
+    {{-- // notification --}}
+    @if (session()->has('notification'))
+        <script>
+            $(document).ready(function() {
+                // Set Toastr options
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": 300,
+                    "hideDuration": 1000,
+                    "timeOut": 5000,
+                    "extendedTimeOut": 1000,
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                var notificationJson = {!! json_encode(session('notification')) !!};
+                var notification = JSON.parse(notificationJson);
+                console.log(notification)
+                toastr[notification.status](notification.message);
+            });
+        </script>
+    @endif
 @endsection

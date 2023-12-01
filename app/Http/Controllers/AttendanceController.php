@@ -102,16 +102,40 @@ class AttendanceController extends Controller
          ->whereNotNull($request->input('query'))  // Additional check to ensure 'time_in' is not null
          ->first();
 
+         $alreadytimein = Timein::where('employee_id', $request->input('Id'))
+         ->whereDate('timein', $today)
+         ->whereNotNull('timein')  // Additional check to ensure 'time_in' is not null
+         ->first();
+
          if (!$alreadyAttendance) {
             // Store the data in your database using the Attendance model
-            $attendance = $modelClass::create([
-                'status' => 'P',
-                'day' => now()->day, // Current day
-                'month' => now()->month, // Current month
-                'year' => now()->year, // Current year
-                'employee_id' => $request->input('Id'),
-                $query => now()->toDateTimeString(),
-            ]);
+            // dd('ginagawa');
+            if($query === 'timeout'){
+                if(!$alreadytimein){
+                    return response()->json([
+                        'status' => 'default',
+                        'message' => "You are not able to do timeout unless you're already timein.",
+                    ]);
+                }else{
+                    $attendance = $modelClass::create([
+                        'status' => 'P',
+                        'day' => now()->day, // Current day
+                        'month' => now()->month, // Current month
+                        'year' => now()->year, // Current year
+                        'employee_id' => $request->input('Id'),
+                        $query => now()->toDateTimeString(),
+                    ]);
+                }
+            }else{
+                $attendance = $modelClass::create([
+                    'status' => 'P',
+                    'day' => now()->day, // Current day
+                    'month' => now()->month, // Current month
+                    'year' => now()->year, // Current year
+                    'employee_id' => $request->input('Id'),
+                    $query => now()->toDateTimeString(),
+                ]);
+            }
 
              // Parse and format the time_in to "12:00:00 AM" format
              $formattedTime = Carbon::parse($attendance->timein)->format('h:i:s A');
@@ -135,7 +159,7 @@ class AttendanceController extends Controller
                         'time_in' => $formattedTime,
                     ]
                 ]);
-             }else{
+             }else if($request->input('query') === 'timeout'){
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Time-out recorded successfully!',
@@ -147,9 +171,15 @@ class AttendanceController extends Controller
                         'time_in' => $formattedTime,
                     ]
                 ]);
+             }else{
+                return response()->json([
+                    'status' => 'default',
+                    'message' => "You are not able to take timeout unless you're already timein.",
+                ]);
              }
             
          }else{
+            
             return response()->json([
                 'status' => 'already',
                 'message' => 'You have already recorded your attendance for today.',
@@ -184,9 +214,10 @@ class AttendanceController extends Controller
         $recordperday = Timein::leftJoin('timeouts', 'timeins.employee_id', '=','timeouts.employee_id')
             ->where('timeins.day',$day)
             ->where('timeins.employee_id',$id)
+            // ->where('timeouts.created_at', Carbon::now())
             ->select('timeins.*', 'timeouts.timeout')
             ->get();
-
+            // dd($recordperday);
             return response()->json(['perday'=>$recordperday]);
 
     }

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class GenerateTable extends Fpdf
@@ -11,6 +12,8 @@ class GenerateTable extends Fpdf
     var $aligns;
     var $lineHeight;
 
+    var $from;
+    var $to;
     var $types;
     //Set the array of column widths
     function SetWidths($w)
@@ -79,7 +82,7 @@ class GenerateTable extends Fpdf
             $this->SetFont('Courier', 'B', 18);
             $this->Cell(0, 10, 'MadTrack ' . $this->types . ' Report', 0, 1, 'C');
             $this->SetFont('Courier', '', 12);
-            $this->Cell(0, 5, 'From: 2023-22-22 | To: 2023-22-23', 0, 1, 'C');
+            $this->Cell(0, 5, 'Date: '.Carbon::now(), 0, 1, 'C');
             $this->Ln(10);
         }
     }

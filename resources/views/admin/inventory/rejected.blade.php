@@ -79,10 +79,13 @@
                                 </div>
                             </div>
 
-                            <h4 class="card-title"><span class="text-danger">Rejected Stocks</span> Saving State</h4>
+                            <h4 class="card-title"><span class="text-danger">Rejected Stocks</span> Saving State
+                                <input class="form-control me-2 search-input" type="search" placeholder="Search"
+                                aria-label="Search" style="width: 250px;">
+                            </h4>
                             <div class="table-responsive">
                                 <table id="state-saving-datatable"
-                                    class="table activate-select dt-responsive nowrap w-100 text-center">
+                                    class="table activate-select dt-responsive nowrap w-100 text-center available-p">
                                     <thead>
                                         <tr>
                                             <th>Product ID</th>
@@ -175,6 +178,25 @@
                 $('#addRejectedModal').modal('show')
             })
 
+            // search
+            $('.search-input').on('input', function() {
+                var searchValue = $(this).val().toLowerCase();
+
+                // Loop through each row in the table body
+                $('.available-p tbody tr').each(function() {
+                    var rowText = $(this).text().toLowerCase();
+
+                    // Check if the row contains the search value
+                    if (rowText.includes(searchValue)) {
+                        // Show the row if it contains the search value
+                        $(this).show();
+                    } else {
+                        // Hide the row if it does not contain the search value
+                        $(this).hide();
+                    }
+                });
+            });
+            
             $('#productName').on('input', function() {
                 console.log($(this).val())
                 makeRequest($(this).val())

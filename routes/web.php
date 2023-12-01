@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     // create invoice
     Route::post('/create-invoices',[InvoiceController::class,'createInvoices'])->name('bulk.create.invoice');
 
+    Route::get('/void/{id}',[InvoiceController::class,'voidProducts'])->name('void.products');
+
     Route::get('/get-rejected', [InventoryController::class, 'getRejected'])->name('inventory.rejected');
     Route::post('/post-rejected', [InventoryController::class, 'postRejected'])->name('inventory.rejected.post');
     Route::post('/delete-products', [InventoryController::class, 'deleteProduct'])->name('inventory.delete');
@@ -73,7 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/generate-reports',[ReportController::class, 'generate'])->name('generate.reports');
     Route::get('/display-reports',[ReportController::class, 'display'])->name('display.reports');
     Route::post('/generated',[ReportController::class, 'generated'])->name('generated');
-
+    Route::delete('/delete-pdf/{filename}', [ReportController::class, 'deletePdf'])->name('delete-pdf');
     // transaction 
     // Route::get('/transaction',[Transaction::class,'transaction'])->name('transaction');
 

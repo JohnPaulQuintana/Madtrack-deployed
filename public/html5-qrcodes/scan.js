@@ -107,6 +107,7 @@ $(document).ready(function () {
                         const imagePath = '/images'; // Replace this with the actual image path
                         const imageUrl = window.location.origin + imagePath;
                         let htmlContent = '';
+                        console.log(response)
                         // Generate the HTML content
                         if(response.status == 'success'){
                             htmlContent = `
@@ -137,6 +138,18 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                             `;
+                        }else if(response.status == 'default'){
+                            htmlContent = `
+                                <div class="card">
+                                    <div class="card-body row">
+                                        <h5 class="text-center" style="color: rgb(58, 25, 207);"><i class="ri-record-circle-line align-middle font-size-22"></i>${response.message}</h5>
+                                        <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                            <img src="${imageUrl}/error.png" alt="Image" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        
                         } else {
                             htmlContent = `
                             <div class="card">

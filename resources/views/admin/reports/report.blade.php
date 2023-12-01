@@ -68,10 +68,12 @@
                                 <div class="col-sm-3">
                                     <label for="select reports" class="col-form-label">Select Reports</label>
                                     <select name="types" id="types" class="form-control" required>
+                                        <option value="all">Generate All</option>
                                         <option value="stocks">Stocks</option>
                                         <option value="purchased">Purchased</option>
                                         <option value="rejected">Rejected</option>
-                                        <option value="out">Out-of-Stock</option>
+                                        <option value="out">Out-of-stocks</option>
+                                        
                                         {{-- <option value="present">Present Employee</option>
                                         <option value="absent">Absent Employee</option> --}}
                                         {{-- <option value="invoices">Invoices</option> --}}
@@ -110,6 +112,7 @@
                 </div><!-- end col-->
             </div>
             <!-- end row-->
+            
 
 
             {{-- pdf display --}}
@@ -234,7 +237,9 @@
 
                 if (types !== '' && from !== '' && to !== '') {
                     sendRequest(types, from, to)
-                } else {
+                }else if(types === 'all'){ 
+                    sendRequest(types, from, to)
+                }else {
                     toastr.options = {
                     "closeButton": false,
                     "debug": false,
@@ -323,11 +328,18 @@
                                             </i>
                                         </p>
                                         <h6 class="text-secondary">${report.formatted_time}</h6>
-                                        <button type="button" id="dl-btn" class="btn btn-dark dl-btn"
-                                            data-path="${report.path}"> 
-                                            <i class="ri-eye-fill"></i>
-                                            Open
-                                        </button>
+                                        <div style="display:flex; flex-direction:column; gap:10px;">
+                                            <button type="button" id="dl-btn" class="btn btn-dark dl-btn"
+                                                data-path="${report.path}"> 
+                                                <i class="ri-eye-fill"></i>
+                                                Open
+                                            </button>
+                                            <button type="button" id="del-btn" class="btn btn-danger del-btn"
+                                                data-path="${report.id}"> 
+                                            
+                                                Delete
+                                            </button>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -344,6 +356,31 @@
                     $('#frame').attr('src', pdfPath);
                     $('#viewModal').modal('show');
                     path = 0;
+                });
+
+                //delete
+                $(document).on('click', '.del-btn', function() {
+                    var path = $(this).data('path'); // Access data-path from the clicked element
+                    
+                     // Make an AJAX request to delete the PDF
+                    $.ajax({
+                        url: '/delete-pdf/' + path,
+                        type: 'DELETE',
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken // Set the X-CSRF-TOKEN header
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                window.location.href ="/create-reports";
+                                // Optionally, refresh the page or update the UI as needed
+                            } else {
+                                console.error(response.message);
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error deleting PDF:', error);
+                        }
+                    });
                 });
 
             }
