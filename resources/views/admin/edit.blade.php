@@ -33,27 +33,6 @@
 @endsection
 @section('admin-dashboard')
 <section class="page-content">
-     <!-- start page title -->
-     {{-- <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 mx-2">Dashboard</h4>
-
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0 me-2">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">B.I.S</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-
-            </div>
-        </div>
-    </div> --}}
-    {{-- <div class="header">
-        <h6 class="font-semibold text-xl text-gray-800 dark:text-gray-200">
-            <a href="{{ route('dashboard') }}" class="text-decoration-none border-bottom border-primary mx-4">Dashboard</a> <span class="me-4">&gt;</span> <span class="mx-auto">{{ __('Profile') }}</span>
-        </h6>  
-    </div> --}}
 
     <div class="py-12 mt-4">
         <div class="container">
@@ -75,15 +54,6 @@
                 </div>
             </div>
             
-            {{-- <div class="row">
-                <div class="col-12">
-                    <div class="p-4 bg-white shadow rounded-lg">
-                        <div class="max-w-xl">
-                            @include('admin.partials.delete-user-form')
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
     
