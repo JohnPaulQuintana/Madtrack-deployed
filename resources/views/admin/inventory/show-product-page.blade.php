@@ -233,7 +233,7 @@
                                                    
                                             </tbody>
 
-                                            <tfoot style="padding: 10px; position: sticky; bottom: -20px; z-index: 1;">
+                                            <tfoot style="padding: 10px; position: sticky; bottom: -10px; z-index: 1;">
                                                 <tr>
                                                     <td colspan="10" class="text-center">
                                                         <button type="submit" class="btn btn-primary">Update Stocks</button>
@@ -244,7 +244,7 @@
                                         </table>
                                         {{-- <button type="button" class="btn btn-danger btn-sm delete-row">Delete</button> --}}
                                        
-                                        <button type="submit" class="btn btn-primary">Update Stocks</button>
+                                        {{-- <button type="submit" class="btn btn-primary">Update Stocks</button> --}}
                                     </form>
                                 </div>
                             </div> <!-- end card body-->
