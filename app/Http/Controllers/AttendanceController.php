@@ -84,7 +84,7 @@ class AttendanceController extends Controller
             $image->move($publicPath, $imageName);
 
         // Check if the current time is within the time-in range
-        if ($currentTime->between($timeInStart, $timeInEnd)) {
+        // if ($currentTime->between($timeInStart, $timeInEnd)) {
             if (!$attendanceRecords) {
                 $attendance = Attendance::create([
                     'status' => 'P',
@@ -105,34 +105,34 @@ class AttendanceController extends Controller
 
                 $action = 'Time-In';
                 
-            }
+            // }
         }else{
             $action = null;
         }
 
         // Check if the current time is within the time-out range
-        if ($currentTime->between($timeOutStart, $timeOutEnd)) {
-            if (!$attendanceRecords || $attendanceRecords->time_out === null) {
-                // dd('ginagawa');
-                if ($attendanceRecords) {
-                    $attendanceRecords->update([
-                        'time_out' => $request->input('formattedTime'),
-                        // other fields...
-                    ]);
-                }
+        // if ($currentTime->between($timeOutStart, $timeOutEnd)) {
+        //     if (!$attendanceRecords || $attendanceRecords->time_out === null) {
+        //         // dd('ginagawa');
+        //         if ($attendanceRecords) {
+        //             $attendanceRecords->update([
+        //                 'time_out' => $request->input('formattedTime'),
+        //                 // other fields...
+        //             ]);
+        //         }
 
-                // Assuming your model is named User and your columns are first_name and last_name
-                $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
-                // dd($staff);
-                $staff->update([
-                    'present' => 0,
-                ]);
-                $action = 'Time-Out';
+        //         // Assuming your model is named User and your columns are first_name and last_name
+        //         $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
+        //         // dd($staff);
+        //         $staff->update([
+        //             'present' => 0,
+        //         ]);
+        //         $action = 'Time-Out';
                
-            }
-        }else{
-            $action = null;
-        }
+        //     }
+        // }else{
+        //     $action = null;
+        // }
 
         
         // Return a response with the URL or any other information as needed
