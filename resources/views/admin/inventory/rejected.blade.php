@@ -12,6 +12,9 @@
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico') }}">
 
     <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+
     <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
     <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}"
@@ -58,31 +61,20 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="float-end">
+                            
 
-                                <div class="dropdown">
-
-                                    <a class="btn btn-danger rejectedAdd" data-bs-toggle="dropdown"
+                            <h4 class="card-title"><span class="text-danger">Rejected Stocks</span> Saving State
+                                {{-- <input class="form-control me-2 search-input" type="search" placeholder="Search"
+                                aria-label="Search" style="width: 250px;"> --}}
+                                <a class="btn btn-danger rejectedAdd" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         Add Rejected
                                 
                                     </a>
-                                    {{-- <div class="dropdown-menu dropdown-menu-end">
-                                        
-                                        <a href="{{ route('show.product.page') }}" class="dropdown-item text-info">Manage
-                                            Products</a>
-                                        <a class="dropdown-item text-danger rejectedAdd">Rejected Stocks</a>
-
-                                    </div> --}}
-                                </div>
-                            </div>
-
-                            <h4 class="card-title"><span class="text-danger">Rejected Stocks</span> Saving State
-                                <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                                aria-label="Search" style="width: 250px;">
                             </h4>
+                            
                             <div class="table-responsive">
-                                <table id="state-saving-datatable"
+                                {{-- <table id="state-saving-datatable"
                                     class="table activate-select dt-responsive nowrap w-100 text-center available-p">
                                     <thead>
                                         <tr>
@@ -91,10 +83,8 @@
                                             <th>Product Quantity</th>
                                             <th>Product Name</th>
                                             <th>Product Brand</th>
-                                            <th>Per Piece</th>
-                                            {{-- <th>Per Pack</th>
-                                            <th>Pcs Per Pack</th> --}}
-                                            {{-- <th>Action</th> --}}
+                                            <th>Description</th>
+                                            
                                         </tr>
                                     </thead>
 
@@ -107,19 +97,15 @@
                                                 <td class="text-danger">{{ $reject->stocks }}</td>
                                                 <td>{{ $reject->product_name }}</td>
                                                 <td>{{ $reject->product_brand }}</td>
-                                                <td class="text-danger">₱{{ $reject->product_pcs_price }}.00</td>
-                                                {{-- <td class="text-danger">₱ {{ $reject->product_pack_price }}.00</td>
-                                                <td>{{ $reject->product_pcs_per_pack }} pcs</td>
-                                                <td class="text-center"><a class="fas fa-address-card h4"
-                                                        href="route-with-id"></a></td> --}}
+                                                <td class="text-danger">{{ $reject->description }}</td>
+                                                
 
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                </table>
-                                {{-- <div class="d-flex justify-content-end mb-3">
-                                    <a href="{{ route('show.product.page') }}" class="btn btn-primary">Add Product</a>
-                                </div> --}}
+                                </table> --}}
+                               <table id="example" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;"></table>
+
                             </div>
 
                         </div> <!-- end card body-->
@@ -160,8 +146,12 @@
 
     <!-- Responsive examples -->
     <script src="{{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}">
-    </script>
+    <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+
+    {{-- datatables --}}
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
 
     <!-- Datatable init js -->
     {{-- <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script> --}}
@@ -169,8 +159,41 @@
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
     <script>
+        // test data format
+        var dataArray = [
+        { name: 'John Doe', email: 'john@example.com', age: 25 },
+        { name: 'Jane Smith', email: 'jane@example.com', age: 30 },
+        // Add more objects as needed
+        ];
+        var dataToRender =  @json($rejected);
+        console.log(dataToRender)
+
         $(document).ready(function() {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // render data
+            $('#example').DataTable({
+                data: dataToRender,
+                columns: [
+                    { data: 'id', title: 'Product ID : ' },
+                    { data: 'product_type', title: 'Product Type : ' },
+                    { data: 'stocks', title: 'Product Quantity : ' },
+                    { data: 'product_name', title: 'Product Name : ' },
+                    { data: 'product_brand', title: 'Product Brand : ' },
+                    { data: 'description', title: 'Description : ' },
+                    // to render an action button
+                    // {
+                    //     title: 'Actions',
+                    //     data: null,
+                    //     render: function (data, type, row) {
+                    //         return '<button onclick="editRow(\'' + row.name + '\')">Edit</button>';
+                    //     }
+                    // }
+                ],
+                responsive: true,
+                "initComplete": function (settings, json) {
+                    $(this.api().table().container()).addClass('bs4');
+                },
+            });
             // add rejected products
             $(document).on('click', '.rejectedAdd', function() {
                 $('#addRejectedModal').modal('show')

@@ -151,8 +151,9 @@ class InventoryController extends Controller
             'product_type' => $request->input('product_type'),
             'product_name' => $request->input('product_name'),
             'product_brand' => $request->input('product_brand'),
+            'description' => $request->input('productDescription'),
             'stocks' => $request->input('stocks'),
-            'product_pcs_price' => $request->input('product_pcs_price'),
+            'product_pcs_price' => 1,
             // Add other relevant fields
         ];
         // Find the existing record based on the specified fields

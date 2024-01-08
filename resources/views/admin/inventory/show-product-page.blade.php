@@ -112,7 +112,7 @@
                                                         
                                                     </td>
                                                     <td width="100">
-                                                        <input type="number" name="product_pcs_pck[]" class="form-control"
+                                                        <input type="number" name="product_pcs_pck[]" class="form-control pack"
                                                         placeholder="0">
                                                     </td>
                                                     <td width="100">
@@ -320,7 +320,7 @@
 
                                                     </td>
                                 <td><input type="number" name="product_stocks[]" class="form-control" required></td>
-                                <td><input type="number" name="product_pcs_pck[]" class="form-control"></td>
+                                <td><input type="number" name="product_pcs_pck[]" class="form-control pack"></td>
                                 <td><input type="number" name="product_price_pcs[]" class="form-control" required></td>
                                 
                                 <td><button type="button" class="btn btn-danger btn-sm delete-row">Delete</button></td>
@@ -370,6 +370,26 @@
                     });
                 }
             }
+
+            // // Add an event listener for the 'change' event
+            // $('.unitType').change(function () {
+            //     // Get the selected value
+            //     var selectedValue = $(this).val();
+
+            //     // Perform actions based on the selected value
+            //     if (selectedValue === 'per-piece') {
+            //         // Handle the 'per-piece' case
+            //         $('.pack').attr('disabled',true)
+            //         console.log('Selected: per-piece');
+            //         // Add your logic here
+            //     } else if (selectedValue === 'per-pack') {
+            //         // Handle the 'per-pack' case
+            //         console.log('Selected: per-pack');
+            //         $('.pack').attr('disabled',false)
+            //         // Add your logic here
+            //     }
+            // });
+
         });
        
     </script>
