@@ -17,7 +17,7 @@
 
         private $todayDate;
 
-        private $name = ['Id','Type', 'Name', 'Stocks', 'Pack', 'Price'] ;
+        private $name = ['Type', 'Name', 'Stocks', 'Pack', 'Price'] ;
         public function __construct($prt){
             $this->inventory = $prt;
             $this->modelClass = 'App\\Models\\' . $this->inventory['answer']['model'];
@@ -125,6 +125,7 @@
                     'action' => $this->action,
                     'report_id'=>$this->pdfId,
                 ];
+                // dd($this->formattedResult);
                 return $this->formattedResult;
             } catch (\Throwable $th) {
                 return ['error' => 'An error occurred.'];
@@ -149,18 +150,26 @@
             $pdf->getHeader($types);
             $pdf->SetFont('Courier', '', 14);
             $columnWidth = 190 / count($names); // Adjust this width as needed
+            $pos = 'C';
             foreach ($names as $name) {
+                if($name === 'Type'){
+                    $pos = 'L';
+                }elseif($name === 'Name'){
+                    $pos = 'L';
+                }else{
+                    $pos = 'C';
+                }
                 // Set the background color
                 $pdf->SetFillColor(211, 211, 211);
-                $pdf->Cell($columnWidth, 10, $name, 0, 0, 'C', true);
+                $pdf->Cell($columnWidth, 10, $name, 0, 0, $pos, true);
             }
             $pdf->Ln(12); // Move to the next row
     
             $pdf->SetFont('Courier','',12);
     
-            $pdf->SetWidths(Array(31,31,35,31,31,31));//set width for each column (6)
+            $pdf->SetWidths(array(37, 60, 31, 31, 31)); //set width for each column (6)
     
-            $pdf->SetAligns(Array('C','C','C','C','C','C'));
+            $pdf->SetAligns(array('L', 'L', 'L', 'L', 'L'));
             $pdf->SetLineHeight(6);//hieght of each lines, not rows
     
             $json = file_get_contents(public_path('MOCK_DATA.json'));//read data
@@ -179,7 +188,6 @@
             //    ));
     
                $pdf->Row(Array(
-                $item->id,
                 $item->product_type,
                 $item->product_name,
                 $item->stocks,

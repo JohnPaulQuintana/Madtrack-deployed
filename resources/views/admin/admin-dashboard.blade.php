@@ -191,7 +191,7 @@
                                                         console.log('ginagawa')
                                                         // Redirect to the desired route
                                                         window.location.href =
-                                                            `{{ route('reports.create') }}`;
+                                                            `{{ route('reports.create') }}?p=${response.report_id}`;
                                                         // $(".buttons-print").trigger(
                                                         //     "click");//trigger button automatically
                                                         break;
@@ -363,7 +363,7 @@
                                                         console.log('ginagawa')
                                                         // Redirect to the desired route
                                                         window.location.href =
-                                                            `{{ route('reports.create') }}`;
+                                                            `{{ route('reports.create') }}?p=${response.report_id}`;
                                                         // $(".buttons-print").trigger(
                                                         //     "click");//trigger button automatically
                                                         break;

@@ -26,6 +26,7 @@ class InvoiceController extends Controller
         $insertedProductsNotif = []; // Initialize an array to store inserted products
 
         for ($i = 0; $i <= count($productId) - 1; $i++) {
+            // dd($i);
             $product_data = [
                 'sold_to' => $clientName,
                 'inventories_id' => $productId[$i],

@@ -201,6 +201,8 @@
     <script>
         $(document).ready(function() {
 
+            
+
             // Encapsulate the logic in a function
             function isQueryParamPresent(paramName) {
                 // Get the current URL

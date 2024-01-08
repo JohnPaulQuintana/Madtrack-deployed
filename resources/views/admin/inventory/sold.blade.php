@@ -97,6 +97,7 @@
                                                     <th>Per-Packed</th>
                                                     <th>Price (pcs)</th>
                                                     <th>Amount</th>
+                                                    <th>Cancel</th>
                                                     <!-- Add more table headers as needed -->
                                                 </tr>
                                             </thead>
@@ -202,6 +203,9 @@
                                                                 style="width: 80px;"
                                                                 readonly />
                                                                
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger delete-row" data-delete="{{ $inventory->id }}">X</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -338,6 +342,22 @@
 
     <script>
         $(document).ready(function() {
+            // Attach click event to delete buttons
+            $('.delete-row').click(function() {
+                // Get the parent row of the clicked button
+                var row = $(this).closest('tr');
+                // Get the inventory ID from the data attribute
+                var inventoryId = $(this).data('delete');
+                
+                // Remove the row
+                row.remove();
+
+                // Remove the inventory ID from the hidden input array
+                var inventoriesIdInput = $('input[name="inventories_id[]"][value="' + inventoryId + '"]');
+                inventoriesIdInput.remove();
+
+            });
+
             // Editable input/select functionality using jQuery
             $("#productInputs, #productInputsEdit").on("click", ".custom-select", function() {
                 makeEditable(this);

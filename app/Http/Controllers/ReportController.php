@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\File;
 class ReportController extends Controller
 {
     //get page
-    public function report()
+    public function report(Request $request)
     {
+        // $queryParamValue = $request->query('queryParam', null);
+
+        // $queryParam = $queryParamValue !== null ? ["pdfId" => $queryParamValue] : null;
+
         return view('admin.reports.report');
     }
 
@@ -314,7 +318,7 @@ class ReportController extends Controller
 
         $pdf->SetWidths(array(37, 60, 31, 31, 31)); //set width for each column (6)
 
-        $pdf->SetAligns(array('L', 'L', 'L', 'L', 'L', 'L'));
+        $pdf->SetAligns(array('L', 'L', 'L', 'L', 'L'));
         $pdf->SetLineHeight(6); //hieght of each lines, not rows
 
         $json = file_get_contents(public_path('MOCK_DATA.json')); //read data

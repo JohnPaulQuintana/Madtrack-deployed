@@ -36,7 +36,7 @@ class AttendanceController extends Controller
         $timeInStart = Carbon::createFromTime(8, 0, 0);       // 8:00 AM
         $timeInEnd = Carbon::createFromTime(12, 30, 0);        // 12:30 PM
         $timeOutStart = Carbon::createFromTime(13, 0, 0);       // 1:00 PM
-        $timeOutEnd = Carbon::createFromTime(7, 0, 0)->addDay();         // 7:00 AM of the next day
+        $timeOutEnd = Carbon::createFromTime(23, 0, 0);         // 11:00 PM
         $action = null;
         // dd($currentTime);
         // Check if user already recorded time-in for the current day within the range
@@ -106,7 +106,7 @@ class AttendanceController extends Controller
             $action = 'Time-In';
 
             // }
-        }elseif($attendanceRecords->time_out === null){ 
+        }elseif($attendanceRecords->time_out === null && $currentTime->between($timeOutStart, $timeOutEnd)){ 
             $attendanceRecords->update([
                 'time_out' => $request->input('formattedTime'),
                 // other fields...
