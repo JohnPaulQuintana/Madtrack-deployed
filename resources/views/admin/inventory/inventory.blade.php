@@ -196,22 +196,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
          var dataToRender =  @json($stocks);
-        console.log(dataToRender)
+        // console.log(dataToRender)
         $(document).ready(function() {
             // render data
             $('#inventory-table').DataTable({
                 data: dataToRender,
-                                            // <th>Record as Purchased</th>
-                                           
-                                            // <th>Type</th>
-                                            // <th>Stocks</th>
-                                            // <th>Name</th>
-                                            // <th>Brand</th>
-                                            // <th>Size</th>
-                                            // <th>Price</th>
-                                            // <th>Pack</th>
-                                            // <th>Unit Type</th>
-                                            // <th>Action</th>
+                                        
                 columns: [
                     { 
                         title: 'Record as Purchased',

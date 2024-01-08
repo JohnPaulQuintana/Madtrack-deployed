@@ -58,11 +58,13 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Purchased Stocks Saving State
-                                <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                                            aria-label="Search" style="width: 250px;">
+                                <a class="btn btn-info" href="#" id="process-selected-link">
+                                    Void Products
+                                    <span id="selected-count"></span>
+                                </a>
                             </h4>
                             <div class="table-responsive">
-                                <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100 available-p">
+                                {{-- <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100 available-p">
                                     <thead>
                                         <tr>
                                             <th class="text-info">Delete</th>
@@ -75,9 +77,7 @@
                                             <th class="text-info">Purchased Date</th>
                                             <th class="text-info">Status</th>
                                             <th class="text-info">Amount</th>
-                                            {{-- <th>Per Pack</th>
-                                            <th>Pcs Per Pack</th> --}}
-                                            {{-- <th class="text-info">Action</th> --}}
+                                            
                                         </tr>
                                     </thead>
 
@@ -93,20 +93,19 @@
                                                 <td>{{ $invoice->inventory->product_brand }}</td>
                                                 <td>{{ $invoice->quantity }}</td>
                                                 <td>{{ $invoice->date }}</td>
-                                                {{-- <td> --}}
+                                                
                                                 @if ($invoice->date === $today)
                                                     <td><span class="badge bg-info p-2"><b>Newest</b></span></td>
                                                 @elseif ($oldest && $invoice->date != $today)
                                                     <td><span class="badge bg-warning p-2"><b>Oldest</b></span></td>
                                                 @endif
-                                                {{-- </td> --}}
+                                                
                                                 <td>₱ {{ $invoice->price }}</td>
-                                                {{-- <td class="text-center"><a class="fas fa-address-card h4 text-info" href="route-with-id"></a></td> --}}
-
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    <!-- Add a footer row with a link to process selected product IDs -->
+                                    
                                     <tfoot>
                                         <tr>
                                             <td colspan="10" class="text-center">
@@ -118,10 +117,10 @@
 
                                         </tr>
                                     </tfoot>
+                                </table> --}}
+                                <table id="purchased-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;">
+                                    
                                 </table>
-                                {{-- <div class="d-flex justify-content-end mb-3">
-                                    <a href="{{ route('show.product.page') }}" class="btn btn-primary">Add Product</a>
-                                </div> --}}
                             </div>
 
                         </div> <!-- end card body-->
@@ -169,7 +168,90 @@
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
     <script>
+        var dataToRender =  @json($invoices);
+        console.log(dataToRender)
         $(document).ready(function() {
+            // render data
+            $('#purchased-table').DataTable({
+                data: dataToRender,
+                                        
+                columns: [
+                    { 
+                        title: 'Delete',
+                        data: null,
+                        render:function(data, type, row) {
+                            
+                            return `<input type="checkbox" class="staff-checkbox"
+                                        name="selected_purchased[]" value="${row.id}">`
+                        },
+                    },
+                    { data: 'id', title: 'Product ID : ' },
+                    { data: 'sold_to', title: 'Purchased By : ' },
+                    { 
+                        title: 'Product Type : ',
+                        data: null,
+                        render: function(data, type, row){
+                            return `${row.inventory.product_type}`
+                        }
+                    
+                    },
+                    { 
+                        title: 'Product Name : ',
+                        data: null,
+                        render: function(data, type, row){
+                            return `${row.inventory.product_name}`
+                        }
+                    
+                    },
+                    { 
+                        title: 'Product Brand : ',
+                        data: null,
+                        render: function(data, type, row){
+                            return `${row.inventory.product_brand}`
+                        }
+                    
+                    },
+                    { data: 'quantity', title: 'Product Quantity : ' },
+                    { data: 'date', title: 'Date : ' },
+                    { 
+                        title: 'Status',
+                        data: null,
+                        render: function(data, type, row){
+                            var today = new Date()
+                            var givenDate = new Date(row.date)
+                            if(givenDate < today){
+                                return `<span class="badge bg-info p-1"><b>Newest</b></span>`
+                            }else{
+                                return `<span class="badge bg-warning p-1"><b>Oldest</b></span>`
+                            }
+                        }
+                    },
+                    { data: 'price', title: 'Amount : ' },
+                    { 
+                        title: 'Unit Type : ',
+                        data: null,
+                        render:function(data, type, row) {
+                            return `<p class="badge bg-success p-1">${row.inventory.unit_type}</p>`
+                        },
+                    },
+                    
+                    // { data: 'product_brand', title: 'Product Brand : ' },
+                    // { data: 'description', title: 'Description : ' },
+                    // to render an action button
+                    // {
+                    //     title: 'Actions',
+                    //     data: null,
+                    //     render: function (data, type, row) {
+                    //         return '<button onclick="editRow(\'' + row.name + '\')">Edit</button>';
+                    //     }
+                    // }
+                ],
+                responsive: true,
+                "initComplete": function (settings, json) {
+                    $(this.api().table().container()).addClass('bs4');
+                },
+            });
+
             const selectedStaffIds = [];
             let selectedIds;
 
