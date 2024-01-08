@@ -47,7 +47,7 @@ class AttendanceController extends Controller
             ->latest()
             ->first();
 
-        $publicDirectory = public_path("backend/face/labels/{$request->input('label')}");
+        $publicDirectory = public_path("backend/face/captured/{$request->input('label')}");
             // Get all files in the folder
             $files = array_diff(scandir($publicDirectory), ['.', '..']);
 
