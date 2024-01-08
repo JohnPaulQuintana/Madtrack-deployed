@@ -91,7 +91,10 @@
                                                     <th>Product Type</th>
                                                     <th>Product Name</th>
                                                     <th>Product Brand</th>
+                                                    <th>Product Size</th>
+                                                    <th>Unit Type</th>
                                                     <th>Quantity</th>
+                                                    <th>Per-Packed</th>
                                                     <th>Price (pcs)</th>
                                                     <th>Amount</th>
                                                     <!-- Add more table headers as needed -->
@@ -108,7 +111,7 @@
                                                             hidden>
                                                         <td>
                                                             <select name="product_type[]" id=""
-                                                                class="form-control custom-select">
+                                                                class="form-control">
                                                                 <option value="{{ $inventory->product_type }}">
                                                                     {{ $inventory->product_type }}
                                                                 </option>
@@ -116,7 +119,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="product_name[]" id=""
-                                                                class="form-control custom-select">
+                                                                class="form-control">
                                                                 <option value="{{ $inventory->product_name }}">
                                                                     {{ $inventory->product_name }}
                                                                 </option>
@@ -124,17 +127,64 @@
                                                         </td>
                                                         <td>
                                                             <select name="product_brand[]" id=""
-                                                                class="form-control custom-select">
+                                                                class="form-control">
                                                                 <option value="{{ $inventory->product_brand }}">
                                                                     {{ $inventory->product_brand }}
                                                                 </option>
                                                             </select>
                                                         </td>
                                                         <td>
+                                                            <select name="product_size[]" id=""
+                                                                class="form-control">
+                                                                <option value="{{ $inventory->size }}">
+                                                                    {{ $inventory->size }}
+                                                                </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="product_unitType[]" id=""
+                                                                class="form-control" disabled>
+                                                                <option value="{{ $inventory->unit_type }}">
+                                                                    {{ $inventory->unit_type }}
+                                                                </option>
+                                                            </select>
+                                                        </td>
+
+                                                        @if ($inventory->unit_type === 'per-pack')
+
+                                                        <td>
+                                                            <select name="product_quantity[]" id=""
+                                                                class="form-select quantity-input">
+                                                                @php
+                                                                    $devide = $inventory->stocks / $inventory->product_pcs_per_pack
+                                                                @endphp
+                                                                @for ($i=1;$i<=$devide;$i++)
+                                                                    
+                                                                <option value="{{ $inventory->product_pcs_per_pack * $i }}">{{ $inventory->product_pcs_per_pack * $i }}</option>
+                                                                @endfor
+                                                                {{-- <option value="{{ $inventory->product_pcs_per_pack }}">{{ $inventory->product_pcs_per_pack }}</option>
+                                                                <option value="{{ $inventory->stocks }}">
+                                                                    {{ $inventory->stocks }}
+                                                                </option> --}}
+                                                            </select>
+                                                        </td>
+
+                                                        @else
+                                                        <td>
                                                             <select name="product_quantity[]" id=""
                                                                 class="form-control custom-select quantity-input">
                                                                 <option value="{{ $inventory->stocks }}">
                                                                     {{ $inventory->stocks }}
+                                                                </option>
+                                                            </select>
+                                                        </td>
+                                                        @endif
+                                                        
+                                                        <td>
+                                                            <select name="product_pcs_pck[]" id="" disabled
+                                                                class="form-control quantity-pack-input">
+                                                                <option value="{{ $inventory->product_pcs_per_pack }}">
+                                                                    {{ $inventory->product_pcs_per_pack }} Pcs
                                                                 </option>
                                                             </select>
                                                         </td>
@@ -158,9 +208,9 @@
                                             </tbody>
                                         </table>
                                         {{-- <button type="button" class="btn btn-danger btn-sm delete-row">Delete</button> --}}
-                                        <button type="button" class="btn btn-secondary" id="addProductField">Add Product
-                                            Field</button>
-                                        <button type="submit" class="btn btn-primary">Create Invoice</button>
+                                        {{-- <button type="button" class="btn btn-secondary" id="addProductField">Add Product
+                                            Field</button> --}}
+                                        <button type="submit" class="btn btn-primary">Record as Purchased</button>
                                     </form>
                                 </div>
                             </div> <!-- end card body-->
@@ -331,6 +381,7 @@
                     // Set input width based on value length
                     parentDiv.find("input").on("input", function() {
                         const input = $(this);
+                        // const quantityPackInput2 = $(this).closest('tr').find(".quantity-pack-input").val();
                         const newValue = parseInt(input.val());
                         // alert(originalStocks)
                         if (newValue > originalStocks) {
@@ -370,14 +421,16 @@
              // Function to update the amount based on quantity and price
             function updateAmount(row) {
                 const quantityInput = row.find(".quantity-input");
+                // const quantityPackInput = row.find(".quantity-pack-input");
                 const priceInput = row.find(".price-input");
                 const amountInput = row.find(".amount-input");
 
                 const quantity = parseFloat(quantityInput.val());
                 const price = parseFloat(priceInput.val());
+                // const pack = parseFloat(quantityPackInput.val());
 
                 // Check if both quantity and price are valid numbers
-                if (!isNaN(quantity) && !isNaN(price)) {
+                if (!isNaN(quantity) && !isNaN(price) ) {
                     const amount = quantity * price;
                     amountInput.val(amount.toFixed(2)); // Set the amount with two decimal places
                 } else {

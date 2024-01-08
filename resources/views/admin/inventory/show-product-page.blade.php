@@ -99,10 +99,10 @@
                                                         placeholder="A4">
                                                     </td>
                                                     <td>
-                                                        <select class="form-select" aria-label=".form-select-sm example" name="product_unitType[]"> 
+                                                        <select class="form-select unitType" aria-label=".form-select-sm example" name="product_unitType[]"> 
                                                             <option value="per-piece">per-pieces</option>
                                                             <option value="per-pack">per-packed</option>
-                                                            <option value="both">both</option>
+                                                            
                                                           </select>
 
                                                     </td>
@@ -312,7 +312,7 @@
                                                         placeholder="A4">
                                                     </td>
                                                     <td>
-                                                        <select class="form-select" aria-label=".form-select-sm example" name="product_unitType[]"> 
+                                                        <select class="form-select unitType" aria-label=".form-select-sm example" name="product_unitType[]"> 
                                                             <option value="per-piece">per-pieces</option>
                                                             <option value="per-pack">per-packed</option>
                                                             <option value="both">both</option>

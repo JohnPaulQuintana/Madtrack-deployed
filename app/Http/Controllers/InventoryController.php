@@ -77,6 +77,12 @@ class InventoryController extends Controller
                     if ($inventory->product_pcs_price !== $productPricePcs[$i]) {
                         $inventory->product_pcs_price = $productPricePcs[$i];
                     }
+                    if($inventory->size !== $productSize[$i]){
+                        $inventory->size = $productSize[$i];
+                    }
+                    if($inventory->unit_type !== $productUnitType[$i]){
+                        $inventory->unit_type = $productUnitType[$i];
+                    }
                     // if ($inventory->product_pack_price !== $productPricePck[$i]) {
                     //     $inventory->product_pack_price = $productPricePck[$i];
                     // }

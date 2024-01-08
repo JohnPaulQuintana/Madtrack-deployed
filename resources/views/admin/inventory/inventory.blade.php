@@ -109,14 +109,14 @@
                                                 <td>{{ $stock->product_name }}</td>
                                                 <td>{{ $stock->product_brand }}</td>
                                                 <td>
-                                                    <p class="badge bg-success p-1">A4</p>
+                                                    <p class="badge bg-success p-1">{{ $stock->size }}</p>
                                                 </td>
                                                 <td class="text-info">₱{{ $stock->product_pcs_price }}.00</td>
                                                 
                                                 {{-- <td class="text-info">₱ {{ $stock->product_pack_price }}.00</td> --}}
                                                 <td>{{ $stock->product_pcs_per_pack }} pcs</td>
                                                 <td>
-                                                    <p class="badge bg-success p-1">per-pack</p>
+                                                    <p class="badge bg-success p-1">{{ $stock->unit_type }}</p>
                                                 </td>
                                                 <td class="text-center">
                                                     <a class="fas fa-trash-alt h5 border bg-danger rounded text-white p-1 del-products"
@@ -133,7 +133,7 @@
                                         <tr>
                                             <td colspan="10" class="text-center">
                                                 <a class="btn btn-info" href="#" id="process-selected-link">
-                                                    Create Invoice
+                                                    Record as Purchased
                                                     <span id="selected-count"></span>
                                                 </a>
                                             </td>
