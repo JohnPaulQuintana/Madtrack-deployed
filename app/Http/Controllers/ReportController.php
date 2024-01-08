@@ -54,7 +54,7 @@ class ReportController extends Controller
                     ->get();
                 // dd($stocks);
                 if ($stocks->count() > 0) {
-                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdf($stocks, $names,  $types, $from, $to);
                     return response()->json(['names' => $names, 'value' => $stocks, 'id' => $pdfId]);
                 }
@@ -82,7 +82,7 @@ class ReportController extends Controller
                     ->get();
 
                 if ($purchased->count() > 0) {
-                    $names = ['Id', 'Product Name', 'Buyer', 'Quantity', 'Price', 'Date'];
+                    $names = ['Product Name', 'Buyer', 'Quantity', 'Price', 'Date'];
                     $pdfId = $this->generateTablePdf($purchased, $names,  'Purchased', $from, $to);
                     return response()->json(['names' => $names, 'value' => $purchased, 'id' => $pdfId]);
                 }
@@ -101,7 +101,7 @@ class ReportController extends Controller
                     ->orderBy('created_at', 'asc')
                     ->get();
                 if ($rejected->count() > 0) {
-                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdf($rejected, $names,  'Purchased', $from, $to);
                     return response()->json(['names' => $names, 'value' => $rejected, 'id' => $pdfId]);
                 }
@@ -121,7 +121,7 @@ class ReportController extends Controller
                     ->orderBy('created_at', 'asc')
                     ->get();
                 if ($out->count() > 0) {
-                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdf($out, $names,  'Purchased', $from, $to);
                     return response()->json(['names' => $names, 'value' => $out, 'id' => $pdfId]);
                 }
@@ -186,7 +186,7 @@ class ReportController extends Controller
 
                 // dd($all2);
                 
-                    $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
+                    $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdfAll($all2, $names, Carbon::now());
                     return response()->json(['names' => $names, 'value' => $all, 'id' => $pdfId]);
                 
@@ -295,18 +295,26 @@ class ReportController extends Controller
         $pdf->getHeader($types);
         $pdf->SetFont('Courier', '', 14);
         $columnWidth = 190 / count($names); // Adjust this width as needed
+        $pos = 'C';
         foreach ($names as $name) {
+            if($name === 'Type'){
+                $pos = 'L';
+            }elseif($name === 'Name'){
+                $pos = 'L';
+            }else{
+                $pos = 'C';
+            }
             // Set the background color
             $pdf->SetFillColor(211, 211, 211);
-            $pdf->Cell($columnWidth, 10, $name, 0, 0, 'C', true);
+            $pdf->Cell($columnWidth, 10, $name, 0, 0, $pos, true);
         }
         $pdf->Ln(12); // Move to the next row
 
         $pdf->SetFont('Courier', '', 12);
 
-        $pdf->SetWidths(array(31, 31, 35, 31, 31, 31)); //set width for each column (6)
+        $pdf->SetWidths(array(37, 60, 31, 31, 31)); //set width for each column (6)
 
-        $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C'));
+        $pdf->SetAligns(array('L', 'L', 'L', 'L', 'L', 'L'));
         $pdf->SetLineHeight(6); //hieght of each lines, not rows
 
         $json = file_get_contents(public_path('MOCK_DATA.json')); //read data
@@ -325,7 +333,7 @@ class ReportController extends Controller
             //    ));
 
             $pdf->Row(array(
-                $item->id,
+                // $item->id,
                 $item->product_type,
                 $item->product_name,
                 $item->stocks,
@@ -384,22 +392,29 @@ class ReportController extends Controller
     
             $pdf->SetFont('Courier', '', 14);
             $columnWidth = 190 / count($names);
-    
+            $pos = 'C';
             foreach ($names as $name) {
+                if($name === 'Type'){
+                    $pos = 'L';
+                }elseif($name === 'Name'){
+                    $pos = 'L';
+                }else{
+                    $pos = 'C';
+                }
                 $pdf->SetFillColor(211, 211, 211);
-                $pdf->Cell($columnWidth, 10, $name, 0, 0, 'C', true);
+                $pdf->Cell($columnWidth, 10, $name, 0, 0, $pos, true);
             }
     
             $pdf->Ln(12);
     
             $pdf->SetFont('Courier', '', 12);
-            $pdf->SetWidths(array(31, 31, 35, 31, 31, 31));
-            $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C'));
+            $pdf->SetWidths(array(37, 60, 31, 31, 31));
+            $pdf->SetAligns(array('L', 'L', 'L', 'L', 'L', 'L'));
             $pdf->SetLineHeight(6);
     
             foreach ($typeData as $item) {
                 $pdf->Row(array(
-                    $item->id,
+                    // $item->id,
                     $item->product_type,
                     $item->product_name,
                     $item->stocks,
