@@ -79,7 +79,7 @@
                                             {{-- <th>Per Piece</th> --}}
                                             {{-- <th>Per Pack</th>
                                             <th>Pcs Per Pack</th> --}}
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
     
