@@ -23,16 +23,21 @@ class TableController extends Controller
                 $this->stocks = Inventory::whereMonth('created_at', Carbon::now()->month)
                     ->whereYear('created_at', Carbon::now()->year)
                     ->latest('created_at')
-                    ->get();
+                    ->orderBy('product_type')
+                    ->paginate(10);
                 break;
 
             case 'oldest':
-                $this->stocks = Inventory::oldest('created_at')->get();
+                $this->stocks = Inventory::oldest('created_at')
+                ->orderBy('product_type')
+                ->paginate(10);
                 break;
 
             case null:
             case 'all':
-                $this->stocks = Inventory::where('stocks', '!=', 0)->get();
+                $this->stocks = Inventory::where('stocks', '!=', 0)
+                ->orderBy('product_type')
+                ->paginate(10);
                 break;
 
             case 'search':
@@ -40,21 +45,25 @@ class TableController extends Controller
                 // dd($keywords);
                 $this->stocks = Inventory::where('product_name', 'like', '%' . $keywords . '%')
                 ->where('stocks','>', 0)
-                ->get();
+                ->orderBy('product_type')
+                ->paginate(10);
                 break;
 
             case 'print.all':
                 $keywords = Session::get('print');//product name
-                $this->stocks = Inventory::where('stocks', '!=', 0)->get();
+                $this->stocks = Inventory::where('stocks', '!=', 0)->paginate(10);
                 break;
 
             case 'print.only':
                 $keywords = Session::get('print');//product name
-                dd($keywords);
+                // dd($keywords);
                 break;
             default:
+            
                 // Handle other cases if needed
-                $this->stocks = Inventory::where('stocks', '!=', 0)->get();
+                $this->stocks = Inventory::where('stocks', '!=', 0)
+                ->orderBy('product_type')
+                ->paginate(10);
                 break;
         }
         
@@ -62,6 +71,10 @@ class TableController extends Controller
         $out = Inventory::where('stocks', '=', 0)
             ->orderBy('created_at', 'desc')
             ->get();
+        
+            // Destroy the session variable
+            Session::forget('subquery');
+
         return view('admin.inventory.inventory', ['stocks' => $this->stocks, 'notifs' => $out]);
     }
 

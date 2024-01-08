@@ -47,7 +47,9 @@ Route::middleware('auth')->group(function () {
 
     // store attendance
     // Route::post('/store-attendance',[AttendanceController::class, 'storedAttendance'])->name('store.attendance');
-    Route::post('/store-attendance',[AttendanceController::class,'attendance'])->name('attendance');
+    Route::post('/store-attendance',[AttendanceController::class,'storedAttendance'])->name('attendance');
+    Route::get('/get-filename',[AttendanceController::class,'imageName'])->name('filename');
+    // Route::get('/get-labels',[AttendanceController::class,'imageName'])->name('filename');
 
     // inventory
     Route::get('/available-stocks',[TableController::class,'availableStocks'])->name('inventory.available.stocks');

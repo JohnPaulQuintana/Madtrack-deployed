@@ -31,6 +31,9 @@ class StaffController extends Controller
             return redirect()->route('employee.table')->with('notification', $notificationJson);
         }
 
+        
+
+
         $employee = Staff::create([
             'first_name' => $request->input('fName'),
             'last_name' => $request->input('lName'),
@@ -43,29 +46,29 @@ class StaffController extends Controller
         ]);
 
         $fullname = $employee->first_name .' '. $employee->last_name;
-        $bdate = $employee->birthdate;
-        $datehired = $employee->hired;
-        //generate qrcodes
-        $qrCodeDataGenerate = "Id: $employee->id, Name: $fullname, BirthDate: $bdate, Hired: $datehired";
-        $qrCode = (string)QrCode::format('png')
-        // ->mergeString(public_path('logo/logo.png'), .3)
-        ->size(250)
-        ->backgroundColor(255, 255, 255)
-        ->color(0, 0, 0)   
-        ->generate($qrCodeDataGenerate);
-        // Save the QR code image to the public folder
-        $qrCodePath = public_path('qrcodes/' . 'EMP'.$employee->id . '.png');
-        file_put_contents($qrCodePath, $qrCode);
 
-        $existQrcodes = Qrcodemodel::where('staff_id','=',$employee->id)->first();
-        if (!$existQrcodes) {
-            //insert it to qrcodes table
-            $qrcodeTable = Qrcodemodel::create([
-                'staff_id'=>$employee->id, 
-                'path'=>'qrcodes/' . 'EMP'.$employee->id . '.png',
-            ]);
-        }
         
+       
+        // $bdate = $employee->birthdate;
+        // $datehired = $employee->hired;
+       
+        
+        // create subfolder
+        $subfolderPath = public_path('backend/face/labels/'.$fullname);
+        
+        if (!file_exists($subfolderPath)) {
+            mkdir($subfolderPath);
+        }
+
+        // Process the image upload
+        if ($request->hasFile('profile')) {
+            $extension = $request->file('profile')->getClientOriginalExtension();
+            $newName = '1.' . $extension;
+
+             // Move the uploaded file to the destination path
+            $request->file('profile')->move($subfolderPath, $newName);
+        }
+
         // Prepare the toast notification data
         $notification = [
             'status' => 'success',

@@ -62,20 +62,18 @@
 
                                 <div class="dropdown">
 
-                                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                                    <a class="btn btn-danger rejectedAdd" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-
-                                        <i class="mdi mdi-dots-vertical"></i>
+                                        Add Rejected
+                                
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <!-- item-->
-                                        <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                                            aria-label="Search">
+                                    {{-- <div class="dropdown-menu dropdown-menu-end">
+                                        
                                         <a href="{{ route('show.product.page') }}" class="dropdown-item text-info">Manage
                                             Products</a>
                                         <a class="dropdown-item text-danger rejectedAdd">Rejected Stocks</a>
 
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 

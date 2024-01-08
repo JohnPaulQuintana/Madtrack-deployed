@@ -27,6 +27,8 @@
             <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                 <i class="ri-menu-2-line align-middle text-dark"></i>
             </button>  
+
+            
             
         </div>
 
@@ -37,6 +39,12 @@
                     <i class="ri-apps-2-line text-white"></i>
                 </button>
             </div> --}}
+
+            <!--camera-->
+            <div class="dropdown d-inline-block">
+                <video class="header-item noti-icon waves-effect" id="video" width="100px" height="100px" autoplay>
+                
+            </div>
                 
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon waves-effect"

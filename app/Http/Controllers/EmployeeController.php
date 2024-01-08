@@ -12,11 +12,11 @@ class EmployeeController extends Controller
 {
     public function employeeTable(){
 
-        // $employees = Staff::all();
-        $employees = Staff::leftJoin('qrcodemodels', 'staff.id', '=', 'qrcodemodels.staff_id')
-        ->orderBy('qrcodemodels.created_at', 'desc')
-        ->select('staff.*', 'qrcodemodels.path', 'qrcodemodels.status')
-        ->get();
+        $employees = Staff::paginate(10, ['*'], 'page');
+        // $employees = table::('staff.id')
+        // ->orderBy('created_at', 'desc')
+        // ->select('staff.*', 'qrcodemodels.path', 'qrcodemodels.status')
+        // ->get();
 
 
         $out = Inventory::where('stocks', '=', 0)

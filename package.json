@@ -2,8 +2,10 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "start:server": "nodemon ./madtrack.v2/server.js",
+        "start:client": "vite",
+        "start:both": "concurrently \"npm run start:server\" \"npm run start:client\""
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

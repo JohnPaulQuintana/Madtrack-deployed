@@ -66,20 +66,8 @@
                             <div class="float-end">
 
                                 <div class="dropdown">
-
-                                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-
-                                        <i class="mdi mdi-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <!-- item-->
-                                        <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                                            aria-label="Search">
-                                        <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage
-                                            Products</a>
-
-                                    </div>
+                                    <a href="{{ route('show.product.page') }}" class="btn btn-dark">Manage
+                                        Products</a>
                                 </div>
                             </div>
 
@@ -93,15 +81,18 @@
                                     <thead
                                         style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
                                         <tr>
-                                            <th>Invoice</th>
-                                            <th>ID</th>
+                                            <th>Record as Purchased</th>
+                                            {{-- <th>ID</th> --}}
                                             <th>Type</th>
                                             <th>Stocks</th>
                                             <th>Name</th>
                                             <th>Brand</th>
-                                            <th>Piece</th>
+                                            <th>Size</th>
+                                            <th>Price</th>
                                             <th>Pack</th>
-                                            <th>Per Pack</th>
+                                            <th>Unit Type</th>
+
+                                            {{-- <th>Per Pack</th> --}}
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -110,16 +101,23 @@
                                         @foreach ($stocks as $stock)
                                             <tr>
                                                 <!-- Add a checkbox with the corresponding Product ID as the value -->
-                                                <td><input type="checkbox" class="product-checkbox"
+                                                <td width="100"><input type="checkbox" class="product-checkbox"
                                                         name="selected_products[]" value="{{ $stock->id }}"></td>
-                                                <td>PRD-{{ $stock->id }}</td>
+                                                {{-- <td>PRD-{{ $stock->id }}</td> --}}
                                                 <td>{{ $stock->product_type }}</td>
                                                 <td class="text-info">{{ $stock->stocks }}</td>
                                                 <td>{{ $stock->product_name }}</td>
                                                 <td>{{ $stock->product_brand }}</td>
+                                                <td>
+                                                    <p class="badge bg-success p-1">A4</p>
+                                                </td>
                                                 <td class="text-info">₱{{ $stock->product_pcs_price }}.00</td>
-                                                <td class="text-info">₱ {{ $stock->product_pack_price }}.00</td>
+                                                
+                                                {{-- <td class="text-info">₱ {{ $stock->product_pack_price }}.00</td> --}}
                                                 <td>{{ $stock->product_pcs_per_pack }} pcs</td>
+                                                <td>
+                                                    <p class="badge bg-success p-1">per-pack</p>
+                                                </td>
                                                 <td class="text-center">
                                                     <a class="fas fa-trash-alt h5 border bg-danger rounded text-white p-1 del-products"
                                                         data-id="{{ $stock->id }}"></a>
@@ -147,7 +145,16 @@
                                     <a href="{{ route('show.product.page') }}" class="btn btn-primary">Add Product</a>
                                 </div> --}}
                             </div>
+                            <!-- Combined Total Records Count and Pagination Links -->
+                            <div class="d-flex justify-content-between mt-2">
+                                <div>
+                                    <p>Total: {{ $stocks->total() }} records</p>
+                                </div>
 
+                                <div>
+                                    {{ $stocks->links('pagination::simple-bootstrap-5') }}
+                                </div>
+                            </div>
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->

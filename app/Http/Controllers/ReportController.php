@@ -172,10 +172,22 @@ class ReportController extends Controller
                         'rejected' => $rejected,
                         'out' => $out,
                     ];
-                // dd($all);
+                    $keyLabel = ['Available Stocks','Purchased Products','Rejected Products','Out Of Stocks'];
+                    $all2 = [
+                        (!empty($stocks) ? $keyLabel[0] : '') => $stocks,
+                        (!empty($purchased) ? $keyLabel[1] : '') => $purchased,
+                        (!empty($rejected) ? $keyLabel[2] : '') => $rejected,
+                        (!empty($out) ? $keyLabel[3] : '') => $out,
+                    ];
+                    // Remove elements with empty Laravel collections
+                    $all2 = collect($all2)->reject(function ($value) {
+                        return $value->isEmpty();
+                    })->toArray();
+
+                // dd($all2);
                 
                     $names = ['Id', 'Type', 'Name', 'Stocks', 'Pack', 'Price'];
-                    $pdfId = $this->generateTablePdfAll($all, $names, Carbon::now());
+                    $pdfId = $this->generateTablePdfAll($all2, $names, Carbon::now());
                     return response()->json(['names' => $names, 'value' => $all, 'id' => $pdfId]);
                 
 
@@ -336,16 +348,21 @@ class ReportController extends Controller
     public function generateTablePdfAll($datas, $names, $from)
     {
         $pdf = new GenerateTable('P', 'mm', 'A4');
-        $pdf->AddPage();
+        
     
-        // Header
-        $pdf->SetFont('Courier', 'B', 18);
-        $pdf->Cell(0, 10, 'MadTrack Report', 0, 1, 'C');
-        $pdf->SetFont('Courier', '', 12);
-        $pdf->Cell(0, 5, 'From: ' . $from, 0, 1, 'C');
-        $pdf->Ln(10);
+        // // Header
+        // $pdf->AddPage();
+        
     
         foreach ($datas as $type => $typeData) {
+            
+            // Add a new page for each $typeData
+            $pdf->AddPage();
+            $pdf->SetFont('Courier', 'B', 18);
+            $pdf->Cell(0, 10, 'MadTrack Report', 0, 1, 'C');
+            $pdf->SetFont('Courier', '', 12);
+            $pdf->Cell(0, 5, 'From: ' . $from, 0, 1, 'C');
+            $pdf->Ln(10);
             // Dynamic header based on type
             $pdf->SetFont('Courier', 'B', 14);
     
@@ -362,7 +379,7 @@ class ReportController extends Controller
     
             // Display the regular header
             $pdf->SetFillColor(211, 211, 211);
-            $pdf->Cell(0, 10, 'Type: ' . $type, 0, 1, 'L');
+            $pdf->Cell(0, 10, 'Report : ' . $type, 0, 1, 'L');
             $pdf->Ln(5);
     
             $pdf->SetFont('Courier', '', 14);
@@ -396,11 +413,12 @@ class ReportController extends Controller
         $uniqueId = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
         $pdf->Output('F', public_path('reports/') . $uniqueId . '.pdf');
     
-        // Save it to database (optional)
+        // Save it to the database (optional)
         $report = Report::create(['path' => $uniqueId . '.pdf']);
     
         return $uniqueId;
     }
+    
 
     //delete
     public function deletePdf($filename)

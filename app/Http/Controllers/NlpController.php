@@ -19,15 +19,12 @@ class NlpController extends Controller
         // dd($allPrd);
         // $url = env('APP_URL').'/nlp';
         $client = new Client();
-        $response = $client->post('https://madtrack-assistant.onrender.com/nlp', [
+        $response = $client->post('http://localhost:8000/api/nlp', [
             'json' => [
-                'text' => $request->input('text'),
+                'text' => strtolower($request->input('text')),
                 'products' => $allPrd,
             ]
         ]);
-        // $response = $client->post('https://madtrack-assistant.onrender.com/nlp', [
-        //     'json' => ['text' => $request->input('text')]
-        // ]);
 
         $result = json_decode($response->getBody(), true);
         // dd($result);

@@ -71,10 +71,13 @@
                                                     <th>Product Type</th>
                                                     <th>Product Name</th>
                                                     <th>Product Brand</th>
+                                                    <th>Product Size</th>
+                                                    <th>Unit Type</th>
                                                     <th>Product Stocks</th>
-                                                    <th>Product Price(pcs)</th>
-                                                    <th>Product Price(pck)</th>
-                                                    <th>Product Pcs(per-pck)</th>
+                                                    <th>Product Pack</th>
+                                                    <th>Product Price</th>
+                                                    {{-- <th>Product Price(pck)</th>
+                                                    <th>Product Pcs(per-pck)</th> --}}
                                                     <!-- Add more table headers as needed -->
                                                 </tr>
                                             </thead>
@@ -84,30 +87,45 @@
                                                     id="action" hidden>
                                                 <tr>
                                                     <td><input type="text" name="product_type[]" class="form-control"
-                                                        placeholder="Sticker">
+                                                        placeholder="Sticker" required>
                                                     </td>
                                                     <td><input type="text" name="product_name[]" class="form-control"
-                                                        placeholder="Sticker">
+                                                        placeholder="Sticker" required>
                                                     </td>
                                                     <td><input type="text" name="product_brand[]" class="form-control"
-                                                        placeholder="Sticker">
+                                                        placeholder="Sticker" required>
+                                                    </td>
+                                                    <td width="100"><input type="text" name="product_size[]" class="form-control"
+                                                        placeholder="A4">
                                                     </td>
                                                     <td>
+                                                        <select class="form-select" aria-label=".form-select-sm example" name="product_unitType[]"> 
+                                                            <option value="per-piece">per-pieces</option>
+                                                            <option value="per-pack">per-packed</option>
+                                                            <option value="both">both</option>
+                                                          </select>
+
+                                                    </td>
+                                                    <td width="100">
                                                         <input type="number" name="product_stocks[]" class="form-control"
-                                                        placeholder="₱ 0.00">
+                                                        placeholder="0" required>
                                                         
                                                     </td>
-                                                    <td>
-                                                        <input type="number" name="product_price_pcs[]" class="form-control"
-                                                        placeholder="₱ 0.00">
+                                                    <td width="100">
+                                                        <input type="number" name="product_pcs_pck[]" class="form-control"
+                                                        placeholder="0">
                                                     </td>
-                                                    <td>
+                                                    <td width="100">
+                                                        <input type="number" name="product_price_pcs[]" class="form-control"
+                                                        placeholder="₱ 0.00" required>
+                                                    </td>
+                                                    {{-- <td>
                                                         <input type="number" name="product_price_pck[]" class="form-control"
                                                         placeholder="₱ 0.00">
                                                     <td>
                                                         <input type="number" name="product_pcs_pck[]" class="form-control"
                                                         placeholder="₱ 0.00">
-                                                    </td>
+                                                    </td> --}}
                                                     <!-- Add more rows for additional entries -->
                                                 </tr>
                                             </tbody>
@@ -142,10 +160,12 @@
                                                     <th>Product Type</th>
                                                     <th>Product Name</th>
                                                     <th>Product Brand</th>
+                                                    <th>Product Size</th>
                                                     <th>Stocks</th>
-                                                    <th>Price - (pcs)</th>
-                                                    <th>Price - (pck)</th>
-                                                    <th>Product Pack</th>
+                                                    <th>Unit Type</th>
+                                                    <th>Price</th>
+                                                    {{-- <th>Price - (pck)</th>--}}
+                                                    <th>Product Pack</th> 
                                                     <th>Product Created</th>
                                                     <!-- Add more table headers as needed -->
                                                 </tr>
@@ -173,10 +193,16 @@
                                                         <td><input type="text" name="product_brand[]" class="form-control custom-select {{ $rowClass }}" 
                                                             value="{{ $stock->product_brand }}">
                                                         </td>
+                                                        <td><input type="text" name="product_size[]" class="form-control custom-select {{ $rowClass }}" 
+                                                            value="{{ $stock->size }}">
+                                                        </td>
                                                         <td>
                                                             <input type="number" name="product_stocks[]" class="form-control custom-select {{ $rowClass }}"
                                                                 value="{{ $stock->stocks }}">
                             
+                                                        </td>
+                                                        <td><input type="text" name="product_unitType[]" class="form-control custom-select {{ $rowClass }}" 
+                                                            value="{{ $stock->unit_type }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" name="product_price_pcs[]" class="form-control custom-select {{ $rowClass }}"
@@ -184,6 +210,11 @@
                                                                     
                                                         </td>
                                                         <td>
+                                                            <input type="number" name="product_pcs_pck[]" class="form-control custom-select {{ $rowClass }}"
+                                                                value="{{ $stock->product_pcs_per_pack }}">
+                                                                    
+                                                        </td>
+                                                        {{-- <td>
                                                             <input type="number" name="product_price_pck[]" class="form-control custom-select {{ $rowClass }}"
                                                              value="{{ $stock->product_pack_price }}">
                                                                     
@@ -191,7 +222,7 @@
                                                             <input type="number" name="product_pcs_pck[]" class="form-control custom-select {{ $rowClass }}"
                                                                 value="{{ $stock->product_pcs_per_pack }}">
                                                                     
-                                                        </td>
+                                                        </td> --}}
                                                         <td>
                                                             <input type="text" name="product_created" class="form-control text-info {{ $rowClass }}" 
                                                             value="{{ $stock->created_at_formatted }}" readonly style="width: 140px">
@@ -271,14 +302,27 @@
 
             // Add product
             $("#addProductField").on("click", function() {
+                // remove <td><input type="number" name="product_price_pck[]" class="form-control"></td>
+                // <td><input type="number" name="product_pcs_pck[]" class="form-control"></td>
                 var newRow = `<tr>
-                                <td><input type="text" name="product_type[]" class="form-control"></td>
-                                <td><input type="text" name="product_name[]" class="form-control"></td>
-                                <td><input type="text" name="product_brand[]" class="form-control"></td>
-                                <td><input type="number" name="product_stocks[]" class="form-control"></td>
-                                <td><input type="number" name="product_price_pcs[]" class="form-control"></td>
-                                <td><input type="number" name="product_price_pck[]" class="form-control"></td>
+                                <td><input type="text" name="product_type[]" class="form-control" required></td>
+                                <td><input type="text" name="product_name[]" class="form-control" required></td>
+                                <td><input type="text" name="product_brand[]" class="form-control" required></td>
+                                <td width="100"><input type="text" name="product_size[]" class="form-control"
+                                                        placeholder="A4">
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select" aria-label=".form-select-sm example" name="product_unitType[]"> 
+                                                            <option value="per-piece">per-pieces</option>
+                                                            <option value="per-pack">per-packed</option>
+                                                            <option value="both">both</option>
+                                                          </select>
+
+                                                    </td>
+                                <td><input type="number" name="product_stocks[]" class="form-control" required></td>
                                 <td><input type="number" name="product_pcs_pck[]" class="form-control"></td>
+                                <td><input type="number" name="product_price_pcs[]" class="form-control" required></td>
+                                
                                 <td><button type="button" class="btn btn-danger btn-sm delete-row">Delete</button></td>
                             </tr>`;
                 // Append the new row to the relevant table body (productInputs or productInputsEdit)

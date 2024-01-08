@@ -3,84 +3,145 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Staff;
-use App\Models\Employee;
 use App\Models\Timein;
-// use App\Models\Attendance;
-// use App\Models\Timein;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Libern\QRCodeReader\QRCodeReader;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AttendanceController extends Controller
 {
+    // get the image name base on face label matched
+    public function imageName(Request $request)
+    {
+
+        $folderPath = public_path('backend/face/labels');
+        $subfolderNames = collect(File::directories($folderPath))->map(function ($directory) {
+            return pathinfo($directory)['basename'];
+        })->toArray();
+
+
+        return response()->json(['subFolder' => $subfolderNames]);
+    }
+
+
     public function storedAttendance(Request $request)
     {
-        dd($request);
-        // Get the parsed data from the request
-        $parsedData = $request->all();
-        $today = Carbon::now()->toDateString(); //toDateTimeString -> including H:m:s
 
-        // Check if the user exists in the users table chnage when you have id on qrcode
-        $registeredEmployee = User::find(2);
-        if (!$registeredEmployee) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Your not registered Employee ask the administrator.',
-            ]);
-        }
-        // Check if user already recorded attendance for the current day
-        $alreadyAttendance = Employee::where('employee_id', 2)
-            ->whereDate('time_in', $today)
-            ->orderBy('time_in', 'desc') // Order by time_in in descending order
+        
+        // Define the time ranges
+        $currentTime = Carbon::now();
+        $timeInStart = Carbon::createFromTime(8, 0, 0);       // 8:00 AM
+        $timeInEnd = Carbon::createFromTime(12, 30, 0);        // 12:30 PM
+        $timeOutStart = Carbon::createFromTime(13, 0, 0);       // 1:00 PM
+        $timeOutEnd = Carbon::createFromTime(7, 0, 0)->addDay();         // 7:00 AM of the next day
+        $action = null;
+        // dd($currentTime);
+        // Check if user already recorded time-in for the current day within the range
+        $attendanceRecords = Attendance::where('employee_name', $request->input('label'))
+            ->where('month', now()->month)
+            ->where('day', now()->day)
+            ->whereNotNull('time_in')
+            ->latest()
             ->first();
 
-        if (!$alreadyAttendance) {
-            // Store the data in your database using the Attendance model
-            $attendance = Employee::create([
-                'status' => 'present',
-                'day' => now()->day, // Current day
-                'month' => now()->month, // Current month
-                'year' => now()->year, // Current year
-                'time' => now()->format('H:i:s'), // Current time
-                'employee_id' => 2, // Assuming a fixed employee ID for now, chnage this when qr have the id
-                'time_in' => now()->toDateTimeString(),
-            ]);
-            // Return response with credentials
-            // Parse and format the time_in to "12:00:00 AM" format
-            $formattedTime = Carbon::parse($attendance->time_in)->format('h:i:s A');
+        $publicDirectory = public_path("backend/face/labels/{$request->input('label')}");
+            // Get all files in the folder
+            $files = array_diff(scandir($publicDirectory), ['.', '..']);
 
-            // Format the day as a two-digit string
-            $formattedDay = str_pad($attendance->day, 2, '0', STR_PAD_LEFT);
+            // Find the last index
+            $lastIndex = 0;
+            $imageName = '';
+            foreach ($files as $file) {
+                $index = pathinfo($file, PATHINFO_FILENAME);
+                if (is_numeric($index) && $index > $lastIndex) {
+                    $lastIndex = $index;
+                }
+            }
 
-            // Format the month as its textual representation (January to December)
-            $formattedMonth = Carbon::create(null, $attendance->month)->formatLocalized('%B');
 
-            
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Attendance recorded successfully!',
-                'credentials' => [
-                    'email' => $parsedData['Email'],
-                    'name' => $parsedData['Name'],
-                    'day' => $formattedDay,
-                    'month' => $formattedMonth,
-                    'year' => $attendance->year,
-                    'time_in' => $formattedTime,
-                ]
-            ]);
+            // Increment the last index to generate a new file name
+            $newIndex = $lastIndex + 1;
+
+            // Retrieve the image file from the request
+            $image = $request->file('image');
+
+            // Set the public path and image name
+            $publicPath = public_path("backend/face/captured/{$request->input('label')}");
+            // Replace spaces and colons with underscores
+            // $formattedTime = str_replace([' ', ':'], '_', $request->input('formattedTime'));
+
+            $imageName = $newIndex . ".jpg"; // You can adjust the file name and extension
+
+            // Ensure the directory exists
+            if (!file_exists($publicPath)) {
+                mkdir($publicPath, 0755, true);
+            }
+
+            // Save the image to the public folder
+            $image->move($publicPath, $imageName);
+
+        // Check if the current time is within the time-in range
+        if ($currentTime->between($timeInStart, $timeInEnd)) {
+            if (!$attendanceRecords) {
+                $attendance = Attendance::create([
+                    'status' => 'P',
+                    'time_in' => $request->input('formattedTime'),
+                    'day' => now()->day,
+                    'month' => now()->month,
+                    'year' => now()->year,
+                    'employee_name' => $request->input('label'),
+                    'captured' => "backend/face/captured/{$request->input('label')}/{$newIndex}.jpg",
+                ]);
+
+                // Assuming your model is named User and your columns are first_name and last_name
+                $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
+                // dd($staff);
+                $staff->update([
+                    'present' => 1,
+                ]);
+
+                $action = 'Time-In';
+                
+            }
         }else{
-            // Return message if attendance already recorded
-            return response()->json([
-                'status' => 'already',
-                'message' => 'You have already recorded your attendance for today.',
-            ]);
+            $action = null;
         }
+
+        // Check if the current time is within the time-out range
+        if ($currentTime->between($timeOutStart, $timeOutEnd)) {
+            if (!$attendanceRecords || $attendanceRecords->time_out === null) {
+                // dd('ginagawa');
+                if ($attendanceRecords) {
+                    $attendanceRecords->update([
+                        'time_out' => $request->input('formattedTime'),
+                        // other fields...
+                    ]);
+                }
+
+                // Assuming your model is named User and your columns are first_name and last_name
+                $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
+                // dd($staff);
+                $staff->update([
+                    'present' => 0,
+                ]);
+                $action = 'Time-Out';
+               
+            }
+        }else{
+            $action = null;
+        }
+
+        
+        // Return a response with the URL or any other information as needed
+        return response()->json(['action' => $action]);
     }
 
     //stored timein
-    public function attendance(Request $request){
+    public function attendance(Request $request)
+    {
         // dd($request);
         $today = Carbon::now()->toDateString(); //toDateTimeString -> including H:m:s
 
@@ -94,29 +155,29 @@ class AttendanceController extends Controller
             ]);
         }
 
-        $modelClass = 'App\\Models\\' .$request->input('model');
+        $modelClass = 'App\\Models\\' . $request->input('model');
         $query = $request->input('query');
-         // Check if user already recorded attendance for the current day
-         $alreadyAttendance = $modelClass::where('employee_id', $request->input('Id'))
-         ->whereDate($request->input('query'), $today)
-         ->whereNotNull($request->input('query'))  // Additional check to ensure 'time_in' is not null
-         ->first();
+        // Check if user already recorded attendance for the current day
+        $alreadyAttendance = $modelClass::where('employee_id', $request->input('Id'))
+            ->whereDate($request->input('query'), $today)
+            ->whereNotNull($request->input('query'))  // Additional check to ensure 'time_in' is not null
+            ->first();
 
-         $alreadytimein = Timein::where('employee_id', $request->input('Id'))
-         ->whereDate('timein', $today)
-         ->whereNotNull('timein')  // Additional check to ensure 'time_in' is not null
-         ->first();
+        $alreadytimein = Timein::where('employee_id', $request->input('Id'))
+            ->whereDate('timein', $today)
+            ->whereNotNull('timein')  // Additional check to ensure 'time_in' is not null
+            ->first();
 
-         if (!$alreadyAttendance) {
+        if (!$alreadyAttendance) {
             // Store the data in your database using the Attendance model
             // dd('ginagawa');
-            if($query === 'timeout'){
-                if(!$alreadytimein){
+            if ($query === 'timeout') {
+                if (!$alreadytimein) {
                     return response()->json([
                         'status' => 'default',
                         'message' => "You are not able to do timeout unless you're already timein.",
                     ]);
-                }else{
+                } else {
                     $attendance = $modelClass::create([
                         'status' => 'P',
                         'day' => now()->day, // Current day
@@ -126,7 +187,7 @@ class AttendanceController extends Controller
                         $query => now()->toDateTimeString(),
                     ]);
                 }
-            }else{
+            } else {
                 $attendance = $modelClass::create([
                     'status' => 'P',
                     'day' => now()->day, // Current day
@@ -137,89 +198,91 @@ class AttendanceController extends Controller
                 ]);
             }
 
-             // Parse and format the time_in to "12:00:00 AM" format
-             $formattedTime = Carbon::parse($attendance->timein)->format('h:i:s A');
+            // Parse and format the time_in to "12:00:00 AM" format
+            $formattedTime = Carbon::parse($attendance->timein)->format('h:i:s A');
 
-             // Format the day as a two-digit string
+            // Format the day as a two-digit string
             $formattedDay = Carbon::parse($attendance->timein)->format('d');
- 
-             // Format the month as its textual representation (January to December)
+
+            // Format the month as its textual representation (January to December)
             $formattedMonth = Carbon::parse($attendance->timein)->formatLocalized('%B');
- 
-             
-             if($request->input('query') === 'timein'){
+
+
+            if ($request->input('query') === 'timein') {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Time-in recorded successfully!',
                     'credentials' => [
-                        'name' => $registeredEmployee->first_name.' '.$registeredEmployee->last_name,
+                        'name' => $registeredEmployee->first_name . ' ' . $registeredEmployee->last_name,
                         'day' => $formattedDay,
                         'month' => $formattedMonth,
                         'year' => now()->year,
                         'time_in' => $formattedTime,
                     ]
                 ]);
-             }else if($request->input('query') === 'timeout'){
+            } else if ($request->input('query') === 'timeout') {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Time-out recorded successfully!',
                     'credentials' => [
-                        'name' => $registeredEmployee->first_name.' '.$registeredEmployee->last_name,
+                        'name' => $registeredEmployee->first_name . ' ' . $registeredEmployee->last_name,
                         'day' => $formattedDay,
                         'month' => $formattedMonth,
                         'year' => now()->year,
                         'time_in' => $formattedTime,
                     ]
                 ]);
-             }else{
+            } else {
                 return response()->json([
                     'status' => 'default',
                     'message' => "You are not able to take timeout unless you're already timein.",
                 ]);
-             }
-            
-         }else{
-            
+            }
+        } else {
+
             return response()->json([
                 'status' => 'already',
                 'message' => 'You have already recorded your attendance for today.',
             ]);
-         }
-
+        }
     }
 
     //get attendance
-    public function employeeTableAttendance(Request $request){
+    public function employeeTableAttendance(Request $request)
+    {
         // dd($request->input('id'));
-        $attendanceRecords = Staff::leftJoin('timeins', 'staff.id', '=', 'timeins.employee_id')
-        ->leftJoin('timeouts', 'staff.id', '=', 'timeouts.employee_id')
-        ->where('staff.id', $request->input('id'))
-        ->orderBy('timeins.created_at', 'desc')
-        ->select('timeins.*', 'timeouts.timeout', 'staff.first_name', 'staff.last_name')
-        ->get()
-        ->groupBy(function ($date) {
-            return Carbon::parse($date->created_at)->format('F');
+        // Assuming your model is named User and your columns are first_name and last_name
+        $staff = Staff::where('id',$request->input('id'))->first();
+
+        $attendance = Attendance::where("employee_name", $staff->first_name.' '.$staff->last_name)->get();
+
+        $attendanceData = $attendance->map(function ($attendanceItem) {
+            return [
+                'captured' => $attendanceItem->captured, 
+                'day' => $attendanceItem->day,
+                'events' => [['title'=>'Time-In','time'=>$attendanceItem->time_in ?? 'not-taken'],['title'=>'Time-Out','time'=>$attendanceItem->time_out ?? 'not-taken']],
+                'month' => $attendanceItem->month,
+                'year' => $attendanceItem->year,
+            ];
         });
 
-        // dd($attendanceRecords);
-    
-
-        return response()->json(['attendances'=>$attendanceRecords]);
+        // dd($attendance);
+        return response()->json(['attendances' => $attendanceData]);
     }
 
     //get per day
-    public function attendanceRecord(Request $request){
+    public function attendanceRecord(Request $request)
+    {
         $id = $request->input('id');
         $day = $request->input('day');
-        $recordperday = Timein::leftJoin('timeouts', 'timeins.employee_id', '=','timeouts.employee_id')
-            ->where('timeins.day',$day)
-            ->where('timeins.employee_id',$id)
+        $recordperday = Timein::leftJoin('timeouts', 'timeins.employee_id', '=', 'timeouts.employee_id')
+            ->where('timeins.day', $day)
+            ->where('timeins.employee_id', $id)
             // ->where('timeouts.created_at', Carbon::now())
             ->select('timeins.*', 'timeouts.timeout')
             ->get();
-            // dd($recordperday);
-            return response()->json(['perday'=>$recordperday]);
-
+        // dd($recordperday);
+        return response()->json(['perday' => $recordperday]);
     }
 
     public function processScan(Request $request)

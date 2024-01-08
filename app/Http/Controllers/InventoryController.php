@@ -31,9 +31,11 @@ class InventoryController extends Controller
         $productName = $request->input('product_name', []);
         $productBrand = $request->input('product_brand', []);
         $productPricePcs = $request->input('product_price_pcs', []);
-        $productPricePck = $request->input('product_price_pck', []);
+        // $productPricePck = $request->input('product_price_pck', []);
         $productPcsPck = $request->input('product_pcs_pck', []);
         $productStocks = $request->input('product_stocks', []);
+        $productUnitType = $request->input('product_unitType', []);
+        $productSize = $request->input('product_size', []);
 
         // Loop through the arrays and process the product details
         $insertedProductsNotif = []; // Initialize an array to store inserted products
@@ -47,8 +49,10 @@ class InventoryController extends Controller
                 'product_brand' => $productBrand[$i],
                 'stocks' => $productStocks[$i],
                 'product_pcs_price' => (float)$productPricePcs[$i],
-                'product_pack_price' => (float)$productPricePck[$i],
+                'product_pack_price' => (float)$i,
                 'product_pcs_per_pack' => (float)$productPcsPck[$i],
+                'unit_type' => $productUnitType[$i],
+                'size' => $productSize[$i],
                 // ... other fields
             ];
 
@@ -73,9 +77,9 @@ class InventoryController extends Controller
                     if ($inventory->product_pcs_price !== $productPricePcs[$i]) {
                         $inventory->product_pcs_price = $productPricePcs[$i];
                     }
-                    if ($inventory->product_pack_price !== $productPricePck[$i]) {
-                        $inventory->product_pack_price = $productPricePck[$i];
-                    }
+                    // if ($inventory->product_pack_price !== $productPricePck[$i]) {
+                    //     $inventory->product_pack_price = $productPricePck[$i];
+                    // }
                     if ($inventory->product_pcs_per_pack !== $productPcsPck[$i]) {
                         $inventory->product_pcs_per_pack = $productPcsPck[$i];
                     }

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
-    public $fillable = [ 'staff_id', 'time_in','time_out','day', 'month', 'year', 'status'];
+    public $fillable = [ 'employee_name', 'time_in','time_out','day', 'month', 'year', 'status', 'captured'];
     use HasFactory;
 }

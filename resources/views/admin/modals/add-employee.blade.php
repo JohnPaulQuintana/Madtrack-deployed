@@ -7,7 +7,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form id="employeeForm" method="POST" action="{{ route('employee.table.add') }}">
+            <form id="employeeForm" method="POST" action="{{ route('employee.table.add') }}" enctype="multipart/form-data">
                 @csrf
                 <h6>Employee's Information</h6>
                 <div class="row border p-2">
@@ -63,6 +63,10 @@
                     <div class="col-sm-4 mb-3">
                         <label for="employeeHired" class="form-label">Date Hired</label>
                         <input type="date" name="datehired" class="form-control" id="employeeHired" required>
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                        <label for="profile" class="form-label">Upload Profile</label>
+                        <input type="file" name="profile" class="form-control" id="profile" required>
                     </div>
                     
                 </div>

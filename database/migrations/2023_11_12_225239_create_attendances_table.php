@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             // 'staff_id', 'time_in','time_out','day', 'month', 'year', 'status'
-            $table->unsignedBigInteger('staff_id');
+            // $table->unsignedBigInteger('staff_id');
+            $table->string('employee_name');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
-            $table->bigInteger('day');
-            $table->bigInteger('month');
-            $table->bigInteger('year');
-            $table->string('status');
+            $table->bigInteger('day')->nullable();
+            $table->bigInteger('month')->nullable();
+            $table->bigInteger('year')->nullable();
+            $table->string('status')->nullable();
+            $table->string('captured')->nullable();
             $table->timestamps();
         });
     }

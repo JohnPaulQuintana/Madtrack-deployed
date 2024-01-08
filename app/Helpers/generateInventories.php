@@ -11,6 +11,7 @@ class GenerateInventories
     private $modelClass;
     private $subquery;
     private $keywords;
+    private $productName;
     private $message;
     private $formattedResult;
     private $action;
@@ -20,8 +21,9 @@ class GenerateInventories
         // Handle the NLP response
         $this->modelClass = 'App\\Models\\' . $this->inventory['answer']['model'];
         $this->subquery = $this->inventory['answer']['subquery'];
-        $this->keywords = $this->inventory['utteranceText'];
-        // dd($this->inventory);
+        $this->keywords = $this->inventory['wildcard'];
+        $this->productName = $this->inventory['utteranceText'];
+        // dd($this->productName);
     }
 
     public function processInventories()
@@ -52,9 +54,10 @@ class GenerateInventories
                     break;
                 case 'search':
                     //exact name
-                    $data = $this->modelClass::where('product_name',$this->keywords)
-                    ->where('stocks','>', 0)
-                    ->get();
+                    $data = $this->modelClass::where('product_name', 'like', '%' . $this->keywords . '%')
+                    ->where('stocks', '>', 0)
+                    ->get();  
+                    // dd($data);              
                     //any position
                     // $data = $this->modelClass::where('product_name', 'ilike', '%' . $this->keywords . '%')->get();
 

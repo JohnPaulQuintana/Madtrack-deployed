@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Staff extends Model
 {
-    public $fillable = ['first_name', 'last_name', 'middle_name', 'birthdate', 'gender', 'contact', 'hired', 'address'];
+    public $fillable = ['first_name', 'last_name', 'middle_name', 'birthdate', 'gender', 'contact', 'hired', 'address', 'present'];
     use HasFactory;
 }

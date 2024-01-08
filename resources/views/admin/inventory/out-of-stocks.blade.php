@@ -54,21 +54,14 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="dropdown float-end">
-                                <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    
-                                    <i class="mdi mdi-dots-vertical"></i>
+                                <a href="{{ route('show.product.page') }}" class="btn btn-dark"
+                                    >
+                                    Manage Product
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <!-- item-->
+                                {{-- <div class="dropdown-menu dropdown-menu-end">
+                                   
                                     <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Export Report</a> --}}
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Profit</a> --}}
-                                    <!-- item-->
-                                    {{-- <a href="javascript:void(0);" class="dropdown-item">Action</a> --}}
-                                </div>
+                                </div> --}}
                             </div>
                             <h4 class="card-title"><span class="text-danger">Out-Of-Stocks</span> Saving State
                                 <input class="form-control me-2 search-input" type="search" placeholder="Search"
@@ -83,9 +76,9 @@
                                             <th>Product Stocks</th>
                                             <th>Product Name</th>
                                             <th>Product Brand</th>
-                                            <th>Per Piece</th>
-                                            <th>Per Pack</th>
-                                            <th>Pcs Per Pack</th>
+                                            {{-- <th>Per Piece</th> --}}
+                                            {{-- <th>Per Pack</th>
+                                            <th>Pcs Per Pack</th> --}}
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -99,9 +92,9 @@
                                                 <td class="text-danger">{{ $stock->stocks }}</td>
                                                 <td>{{ $stock->product_name }}</td>
                                                 <td>{{ $stock->product_brand }}</td>
-                                                <td class="text-danger">₱{{ $stock->product_pcs_price }}.00</td>
+                                                {{-- <td class="text-danger">₱{{ $stock->product_pcs_price }}.00</td>
                                                 <td class="text-danger">₱ {{ $stock->product_pack_price }}.00</td>
-                                                <td>{{ $stock->product_pcs_per_pack }} pcs</td>
+                                                <td>{{ $stock->product_pcs_per_pack }} pcs</td> --}}
                                                 <td class="text-center"><a class="fas fa-cogs fa-lg" href="{{ route('show.product.page') }}"></a></td>
         
                                             </tr>
