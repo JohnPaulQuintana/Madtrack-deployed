@@ -63,26 +63,22 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="float-end">
-
-                                <div class="dropdown">
-                                    <a href="{{ route('show.product.page') }}" class="btn btn-dark">Manage
-                                        Products</a>
-                                </div>
-                            </div>
-
                             <h4 class="card-title">Available Stocks Saving State
-                                <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                                            aria-label="Search" style="width: 250px;">
+                                <a class="btn btn-info" href="#" id="process-selected-link">
+                                    Record as Purchased
+                                    <span id="selected-count"></span>
+                                </a>
+                                <a href="{{ route('show.product.page') }}" class="btn btn-dark">Manage
+                                    Products</a>
                             </h4>
                             <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
-                                <table id="state-saving-datatable"
+                                {{-- <table id="state-saving-datatable"
                                     class="table activate-select dt-responsive nowrap w-100 text-center available-p">
                                     <thead
                                         style="background-color: #f5f5f5; padding: 10px; position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th>Record as Purchased</th>
-                                            {{-- <th>ID</th> --}}
+                                           
                                             <th>Type</th>
                                             <th>Stocks</th>
                                             <th>Name</th>
@@ -91,8 +87,6 @@
                                             <th>Price</th>
                                             <th>Pack</th>
                                             <th>Unit Type</th>
-
-                                            {{-- <th>Per Pack</th> --}}
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -100,10 +94,10 @@
                                     <tbody>
                                         @foreach ($stocks as $stock)
                                             <tr>
-                                                <!-- Add a checkbox with the corresponding Product ID as the value -->
+                                                
                                                 <td width="100"><input type="checkbox" class="product-checkbox"
                                                         name="selected_products[]" value="{{ $stock->id }}"></td>
-                                                {{-- <td>PRD-{{ $stock->id }}</td> --}}
+                                               
                                                 <td>{{ $stock->product_type }}</td>
                                                 <td class="text-info">{{ $stock->stocks }}</td>
                                                 <td>{{ $stock->product_name }}</td>
@@ -113,7 +107,7 @@
                                                 </td>
                                                 <td class="text-info">₱{{ $stock->product_pcs_price }}.00</td>
                                                 
-                                                {{-- <td class="text-info">₱ {{ $stock->product_pack_price }}.00</td> --}}
+                                               
                                                 <td>{{ $stock->product_pcs_per_pack }} pcs</td>
                                                 <td>
                                                     <p class="badge bg-success p-1">{{ $stock->unit_type }}</p>
@@ -121,14 +115,13 @@
                                                 <td class="text-center">
                                                     <a class="fas fa-trash-alt h5 border bg-danger rounded text-white p-1 del-products"
                                                         data-id="{{ $stock->id }}"></a>
-                                                    {{-- <a class="fas fa-check h5 border bg-success rounded text-white p-1"
-                                                        href="{{ route('inventory.process.sold', ['id' => $stock->id]) }}"></a> --}}
+                                                    
                                                 </td>
 
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    <!-- Add a footer row with a link to process selected product IDs -->
+                                    
                                     <tfoot style="padding: 10px; position: sticky; bottom: -10px; z-index: 1;">
                                         <tr>
                                             <td colspan="10" class="text-center">
@@ -140,21 +133,16 @@
 
                                         </tr>
                                     </tfoot>
+                                </table> --}}
+                                <table id="inventory-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;">
+                                    
                                 </table>
+
                                 {{-- <div class="d-flex justify-content-end mb-3">
                                     <a href="{{ route('show.product.page') }}" class="btn btn-primary">Add Product</a>
                                 </div> --}}
                             </div>
-                            <!-- Combined Total Records Count and Pagination Links -->
-                            <div class="d-flex justify-content-between mt-2">
-                                <div>
-                                    <p>Total: {{ $stocks->total() }} records</p>
-                                </div>
-
-                                <div>
-                                    {{ $stocks->links('pagination::simple-bootstrap-5') }}
-                                </div>
-                            </div>
+                            
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->
@@ -207,7 +195,71 @@
     <script src="{{ asset('backend/assets/js/pages/toastr.init.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+         var dataToRender =  @json($stocks);
+        console.log(dataToRender)
         $(document).ready(function() {
+            // render data
+            $('#inventory-table').DataTable({
+                data: dataToRender,
+                                            // <th>Record as Purchased</th>
+                                           
+                                            // <th>Type</th>
+                                            // <th>Stocks</th>
+                                            // <th>Name</th>
+                                            // <th>Brand</th>
+                                            // <th>Size</th>
+                                            // <th>Price</th>
+                                            // <th>Pack</th>
+                                            // <th>Unit Type</th>
+                                            // <th>Action</th>
+                columns: [
+                    { 
+                        title: 'Record as Purchased',
+                        data: null,
+                        render:function(data, type, row) {
+                            return `<input type="checkbox" class="product-checkbox"
+                                        name="selected_products[]" value="${row.id}">`
+                        },
+                    },
+                    { data: 'id', title: 'Product ID : ' },
+                    { data: 'product_type', title: 'Product Type : ' },
+                    { data: 'stocks', title: 'Product Quantity : ' },
+                    { data: 'product_name', title: 'Product Name : ' },
+                    { data: 'size', title: 'Size : ' },
+                    { data: 'product_pcs_price', title: 'Price : ' },
+                    { data: 'product_pcs_per_pack', title: 'Price : ' },
+                    { 
+                        title: 'Unit Type : ',
+                        data: null,
+                        render:function(data, type, row) {
+                            return `<p class="badge bg-success p-1">${row.unit_type}</p>`
+                        },
+                    },
+                    {
+                        title: 'Action : ',
+                        data: null,
+                        render: function (data, type, row) {
+                            return `<a class="fas fa-trash-alt h5 border bg-danger rounded text-white p-1 del-products"
+                                                        data-id="${row.id}"></a>`;
+                        }
+                    },
+                    // { data: 'product_brand', title: 'Product Brand : ' },
+                    // { data: 'description', title: 'Description : ' },
+                    // to render an action button
+                    // {
+                    //     title: 'Actions',
+                    //     data: null,
+                    //     render: function (data, type, row) {
+                    //         return '<button onclick="editRow(\'' + row.name + '\')">Edit</button>';
+                    //     }
+                    // }
+                ],
+                responsive: true,
+                "initComplete": function (settings, json) {
+                    $(this.api().table().container()).addClass('bs4');
+                },
+            });
+
             // $('#state-saving-datatable').DataTable();
             // Initialize an empty array to store selected product IDs
             const selectedProductIds = [];

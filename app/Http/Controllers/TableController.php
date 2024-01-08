@@ -36,8 +36,7 @@ class TableController extends Controller
             case null:
             case 'all':
                 $this->stocks = Inventory::where('stocks', '!=', 0)
-                ->orderBy('product_type')
-                ->paginate(10);
+                ->orderBy('product_type')->get();
                 break;
 
             case 'search':
@@ -62,8 +61,7 @@ class TableController extends Controller
             
                 // Handle other cases if needed
                 $this->stocks = Inventory::where('stocks', '!=', 0)
-                ->orderBy('product_type')
-                ->paginate(10);
+                ->orderBy('product_type')->get();
                 break;
         }
         

@@ -104,7 +104,7 @@
                                         @endforeach
                                     </tbody>
                                 </table> --}}
-                               <table id="example" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;"></table>
+                               <table id="rejected-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;"></table>
 
                             </div>
 
@@ -171,7 +171,7 @@
         $(document).ready(function() {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             // render data
-            $('#example').DataTable({
+            $('#rejected-table').DataTable({
                 data: dataToRender,
                 columns: [
                     { data: 'id', title: 'Product ID : ' },
