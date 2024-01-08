@@ -29,6 +29,7 @@ class GenerateInventories
     public function processInventories()
     {
         try {
+            // dd($this->subquery);
             switch ($this->subquery) {
                 case 'all':
                     $data = $this->modelClass::where($this->inventory['answer']['include-stock'], '!=', 0)->get();
@@ -44,6 +45,8 @@ class GenerateInventories
                     $count = count($data);
                     $this->message = "We have a latest product total of {$count}";
                     $this->action = 'available';
+
+                    $this->subquery = 'latest';
                     break;
                 case 'oldest':
                     $data = $this->modelClass::oldest('created_at')
@@ -51,6 +54,8 @@ class GenerateInventories
                     $count = count($data);
                     $this->message = "We have a oldest product total of {$count}";
                     $this->action = 'available';
+
+                    $this->subquery = 'oldest';
                     break;
                 case 'search':
                     //exact name
@@ -72,7 +77,28 @@ class GenerateInventories
                     
                     
                     break;
-                
+                case 'rejected':
+                    // dd('ginagawa');
+                    $data = $this->modelClass::get();
+                    $count = count($data);
+                    $this->message = "We have a Rejected total of {$count}.  Rejected products displayed on the table below. ";
+                    $this->action = 'rejected'; 
+                    break;
+
+                case 'out':
+                    $data = $this->modelClass::where('stocks', 0)->get();
+                    $count = count($data);
+                    if($count > 0){
+                        $this->message = "We have a total of {$count}.  Out of stocks products displayed on the table below. ";
+                        $this->action = 'out'; 
+                        $this->subquery = 'out';
+                    }else{
+                        $this->message = "We dont have out of stocks product!";
+                        $this->action = 'cancel'; 
+                        // $this->subquery = 'out';
+                    }
+                    
+                    break;
                 default:
                     # code...
                     dd('there is no subquery availables');
@@ -90,6 +116,7 @@ class GenerateInventories
                 'action' => $this->action,
             ];
 
+            // dd($this->formattedResult);
             return $this->formattedResult;
         } catch (\Throwable $th) {
             return ['error' => 'An error occurred.'];

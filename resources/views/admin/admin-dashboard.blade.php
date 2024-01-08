@@ -160,13 +160,28 @@
                                             onClose: function() {
                                                 console.log(response)
                                                 switch (response.action) {
-                                                    
+                                                    case 'cancel':
+                                                        recognition.stop()
+                                                        $('.ai-query').val('')
+                                                        $('#aiModal').modal('hide')
+                                                        break;
+                                                    case 'out':
+                                                        // console.log('ito yun')
+                                                        // Redirect to the desired route
+                                                        window.location.href =
+                                                            "{{ route('inventory.available.stocks') }}";
+                                                        break; 
+
                                                     case 'available':
                                                         console.log('ito yun')
                                                         // Redirect to the desired route
                                                         window.location.href =
                                                             "{{ route('inventory.available.stocks') }}";
                                                         break;
+                                                    case 'rejected':
+                                                        window.location.href =
+                                                                "{{ route('inventory.product.rejected') }}";
+                                                            break;
                                                     case 'employee.present':
                                                         // Redirect to the desired route
                                                         window.location.href =
@@ -316,17 +331,28 @@
                                             onClose: function() {
                                                 console.log(response)
                                                 switch (response.action) {
-                                                    case 'attendance':
-                                                        // Trigger the click event to open the modal automatically
-                                                        $("#openModalAttendance")
-                                                            .trigger(
-                                                                "click");
+                                                    case 'cancel':
+                                                        recognition.stop()
+                                                        // stopSpeaking()
+                                                        $('.ai-query').val('')
+                                                        $('#aiModal').modal('hide')
                                                         break;
-                                                    case 'available':
-                                                        console.log('ito yun')
+                                                    case 'out':
+                                                        // console.log('ito yun')
                                                         // Redirect to the desired route
                                                         window.location.href =
                                                             "{{ route('inventory.available.stocks') }}";
+                                                        break; 
+
+                                                    case 'available':
+                                                        
+                                                        // Redirect to the desired route
+                                                        window.location.href =
+                                                            "{{ route('inventory.available.stocks') }}";
+                                                        break;
+                                                    case 'rejected':
+                                                        window.location.href =
+                                                                "{{ route('inventory.product.rejected') }}";
                                                         break;
                                                     case 'employee.present':
                                                         // Redirect to the desired route

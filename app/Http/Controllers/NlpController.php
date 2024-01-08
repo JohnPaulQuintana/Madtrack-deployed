@@ -61,5 +61,18 @@ class NlpController extends Controller
             ];
             return response()->json($formattedResult);
         }
+
+        // for rejected products
+        if(isset($result['answer']['include-rejected'])){
+            $invClass = new GenerateInventories($result);
+            // dd($invClass);
+            return response()->json($invClass->processInventories());
+        }
+        // for rejected products
+        if(isset($result['answer']['include-out'])){
+            $invClass = new GenerateInventories($result);
+            // dd($invClass);
+            return response()->json($invClass->processInventories());
+        }
     }
 }

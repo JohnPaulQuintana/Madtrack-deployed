@@ -217,7 +217,7 @@
                     { data: 'product_name', title: 'Product Name : ' },
                     { data: 'size', title: 'Size : ' },
                     { data: 'product_pcs_price', title: 'Price : ' },
-                    { data: 'product_pcs_per_pack', title: 'Price : ' },
+                    { data: 'product_pcs_per_pack', title: 'Per-Pack : ' },
                     { 
                         title: 'Unit Type : ',
                         data: null,

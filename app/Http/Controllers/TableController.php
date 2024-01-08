@@ -24,13 +24,19 @@ class TableController extends Controller
                     ->whereYear('created_at', Carbon::now()->year)
                     ->latest('created_at')
                     ->orderBy('product_type')
-                    ->paginate(10);
+                    ->get();
                 break;
 
             case 'oldest':
                 $this->stocks = Inventory::oldest('created_at')
                 ->orderBy('product_type')
-                ->paginate(10);
+                ->get();
+                break;
+
+            case 'out':
+                $this->stocks = Inventory::where('stocks', 0)
+                ->orderBy('product_type')
+                ->get();
                 break;
 
             case null:

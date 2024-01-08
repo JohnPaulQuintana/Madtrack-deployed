@@ -51,17 +51,20 @@ class InvoiceController extends Controller
                         // Update the stock count in the Inventory model
                         $inventory->stocks -= $productQuantity[$i];
                         $inventory->save();
-                
+                    // dd('ginagawa');
                         // Record a transaction history
-                        $transaction = new Transaction;
-                        $transaction->transaction_id = $productId[$i];
-                        $transaction->transaction_type = $req;
-                        $transaction->transaction_description = "{$clientName} bought {$productQuantity[$i]} units of {$inventory->product_name} at {$inventory->product_pcs_price} each.";
-                        $transaction->date = now(); // Use the current date and time
-                        $transaction->save();
+                        $transaction = Transaction::create([
+                            "transaction_id" => $productId[$i],
+                            "transaction_type" => $req,
+                            "transaction_description" => "{$clientName} bought {$productQuantity[$i]} units of {$inventory->product_name} at {$inventory->product_pcs_price} each.",
+                            "date" => now(),
+                        ]);
+                        
+                        // $transaction->save();
                 
                         $insertedProductsNotif[] = $invoice;
                    } catch (\Throwable $th) {
+                    dd($th);
                         $insertedProductsNotif[] = $invoice;
                    }
                 } else {

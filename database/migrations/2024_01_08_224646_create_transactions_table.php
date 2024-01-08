@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->constrained();
+            $table->unsignedBigInteger('transaction_id');
             $table->string('transaction_type');
             $table->string('transaction_description');
             $table->date('date');

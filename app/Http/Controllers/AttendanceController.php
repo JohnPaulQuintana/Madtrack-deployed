@@ -30,7 +30,7 @@ class AttendanceController extends Controller
     public function storedAttendance(Request $request)
     {
 
-        
+
         // Define the time ranges
         $currentTime = Carbon::now();
         $timeInStart = Carbon::createFromTime(8, 0, 0);       // 8:00 AM
@@ -43,72 +43,86 @@ class AttendanceController extends Controller
         $attendanceRecords = Attendance::where('employee_name', $request->input('label'))
             ->where('month', now()->month)
             ->where('day', now()->day)
-            ->whereNotNull('time_in')
+            // ->whereNotNull('time_in')
             ->latest()
             ->first();
 
         $publicDirectory = is_dir(public_path("backend/face/captured/{$request->input('label')}")) ? public_path("backend/face/captured/{$request->input('label')}") : public_path("backend/face/labels/{$request->input('label')}");
-            // Get all files in the folder
-            $files = array_diff(scandir($publicDirectory), ['.', '..']);
+        // Get all files in the folder
+        $files = array_diff(scandir($publicDirectory), ['.', '..']);
 
-            // Find the last index
-            $lastIndex = 0;
-            $imageName = '';
-            foreach ($files as $file) {
-                $index = pathinfo($file, PATHINFO_FILENAME);
-                if (is_numeric($index) && $index > $lastIndex) {
-                    $lastIndex = $index;
-                }
+        // Find the last index
+        $lastIndex = 0;
+        $imageName = '';
+        foreach ($files as $file) {
+            $index = pathinfo($file, PATHINFO_FILENAME);
+            if (is_numeric($index) && $index > $lastIndex) {
+                $lastIndex = $index;
             }
+        }
 
 
-            // Increment the last index to generate a new file name
-            $newIndex = $lastIndex + 1;
+        // Increment the last index to generate a new file name
+        $newIndex = $lastIndex + 1;
 
-            // Retrieve the image file from the request
-            $image = $request->file('image');
+        // Retrieve the image file from the request
+        $image = $request->file('image');
 
-            // Set the public path and image name
-            $publicPath = public_path("backend/face/captured/{$request->input('label')}");
-            // Replace spaces and colons with underscores
-            // $formattedTime = str_replace([' ', ':'], '_', $request->input('formattedTime'));
+        // Set the public path and image name
+        $publicPath = public_path("backend/face/captured/{$request->input('label')}");
+        // Replace spaces and colons with underscores
+        // $formattedTime = str_replace([' ', ':'], '_', $request->input('formattedTime'));
 
-            $imageName = $newIndex . ".jpg"; // You can adjust the file name and extension
+        $imageName = $newIndex . ".jpg"; // You can adjust the file name and extension
 
-            // Ensure the directory exists
-            if (!file_exists($publicPath)) {
-                mkdir($publicPath, 0755, true);
-            }
+        // Ensure the directory exists
+        if (!file_exists($publicPath)) {
+            mkdir($publicPath, 0755, true);
+        }
 
-            // Save the image to the public folder
-            $image->move($publicPath, $imageName);
+        // Save the image to the public folder
+        $image->move($publicPath, $imageName);
 
         // Check if the current time is within the time-in range
         // if ($currentTime->between($timeInStart, $timeInEnd)) {
-            if (!$attendanceRecords) {
-                $attendance = Attendance::create([
-                    'status' => 'P',
-                    'time_in' => $request->input('formattedTime'),
-                    'day' => now()->day,
-                    'month' => now()->month,
-                    'year' => now()->year,
-                    'employee_name' => $request->input('label'),
-                    'captured' => "backend/face/captured/{$request->input('label')}/{$newIndex}.jpg",
-                ]);
+        if ($attendanceRecords === null) {
+            $attendance = Attendance::create([
+                'status' => 'P',
+                'time_in' => $request->input('formattedTime'),
+                'day' => now()->day,
+                'month' => now()->month,
+                'year' => now()->year,
+                'employee_name' => $request->input('label'),
+                'captured' => "backend/face/captured/{$request->input('label')}/{$newIndex}.jpg",
+            ]);
 
-                // Assuming your model is named User and your columns are first_name and last_name
-                $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
-                // dd($staff);
-                $staff->update([
-                    'present' => 1,
-                ]);
+            // Assuming your model is named User and your columns are first_name and last_name
+            $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
+            // dd($staff);
+            $staff->update([
+                'present' => 1,
+            ]);
 
-                $action = 'Time-In';
-                
+            $action = 'Time-In';
+
             // }
-        }else{
+        }elseif($attendanceRecords->time_out === null){ 
+            $attendanceRecords->update([
+                'time_out' => $request->input('formattedTime'),
+                // other fields...
+            ]);
+            // Assuming your model is named User and your columns are first_name and last_name
+            $staff = Staff::whereRaw("CONCAT(first_name, ' ', last_name) = ?", [$request->input('label')])->first();
+            // dd($staff);
+            $staff->update([
+                'present' => 0,
+            ]);
+            $action = 'Time-Out';
+        }else {
             $action = null;
         }
+
+    
 
         // Check if the current time is within the time-out range
         // if ($currentTime->between($timeOutStart, $timeOutEnd)) {
@@ -128,13 +142,13 @@ class AttendanceController extends Controller
         //             'present' => 0,
         //         ]);
         //         $action = 'Time-Out';
-               
+
         //     }
         // }else{
         //     $action = null;
         // }
 
-        
+
         // Return a response with the URL or any other information as needed
         return response()->json(['action' => $action]);
     }
@@ -252,15 +266,15 @@ class AttendanceController extends Controller
     {
         // dd($request->input('id'));
         // Assuming your model is named User and your columns are first_name and last_name
-        $staff = Staff::where('id',$request->input('id'))->first();
+        $staff = Staff::where('id', $request->input('id'))->first();
 
-        $attendance = Attendance::where("employee_name", $staff->first_name.' '.$staff->last_name)->get();
+        $attendance = Attendance::where("employee_name", $staff->first_name . ' ' . $staff->last_name)->get();
 
         $attendanceData = $attendance->map(function ($attendanceItem) {
             return [
-                'captured' => $attendanceItem->captured, 
+                'captured' => $attendanceItem->captured,
                 'day' => $attendanceItem->day,
-                'events' => [['title'=>'Time-In','time'=>$attendanceItem->time_in ?? 'not-taken'],['title'=>'Time-Out','time'=>$attendanceItem->time_out ?? 'not-taken']],
+                'events' => [['title' => 'Time-In', 'time' => $attendanceItem->time_in ?? 'not-taken'], ['title' => 'Time-Out', 'time' => $attendanceItem->time_out ?? 'not-taken']],
                 'month' => $attendanceItem->month,
                 'year' => $attendanceItem->year,
             ];
