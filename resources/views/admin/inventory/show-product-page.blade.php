@@ -232,6 +232,15 @@
                                                     @endforeach
                                                    
                                             </tbody>
+
+                                            <tfoot style="padding: 10px; position: sticky; bottom: -10px; z-index: 1;">
+                                                <tr>
+                                                    <td colspan="10" class="text-center">
+                                                        <button type="submit" class="btn btn-primary">Update Stocks</button>
+                                                    </td>
+        
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                         {{-- <button type="button" class="btn btn-danger btn-sm delete-row">Delete</button> --}}
                                        
