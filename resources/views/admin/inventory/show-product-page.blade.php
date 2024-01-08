@@ -233,7 +233,7 @@
                                                    
                                             </tbody>
 
-                                            <tfoot style="padding: 10px; position: sticky; bottom: -10px; z-index: 1;">
+                                            <tfoot style="padding: 10px; position: sticky; bottom: -50px; z-index: 1;">
                                                 <tr>
                                                     <td colspan="10" class="text-center">
                                                         <button type="submit" class="btn btn-primary">Update Stocks</button>
