@@ -59,7 +59,7 @@ class ReportController extends Controller
                 // dd($stocks);
                 if ($stocks->count() > 0) {
                     $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
-                    $pdfId = $this->generateTablePdf($stocks, $names,  $types, $from, $to);
+                    $pdfId = $this->generateTablePdf($stocks, $names,  "Product Stocks", $from, $to);
                     return response()->json(['names' => $names, 'value' => $stocks, 'id' => $pdfId]);
                 }
 
