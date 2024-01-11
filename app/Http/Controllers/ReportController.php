@@ -52,7 +52,7 @@ class ReportController extends Controller
             case 'stocks':
                 // $selectedColumns = ['product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price'];
                 $stocks = DB::table('inventories')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price') // Replace with the column names you want to select
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pcs_per_pack as product_pack_price') // Replace with the column names you want to select
                     ->where('stocks', '!=', 0)
                     ->whereRaw('DATE(created_at) BETWEEN ? AND ?', [$from, $to])
                     ->get();
@@ -142,7 +142,7 @@ class ReportController extends Controller
             case 'all':
                 // dd('dwadwadwad');
                 $stocks = DB::table('inventories')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price') // Replace with the column names you want to select
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pcs_per_pack') // Replace with the column names you want to select
                     ->where('stocks', '!=', 0)
                     ->orderBy('created_at', 'asc')
                     ->get();
