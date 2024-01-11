@@ -189,7 +189,7 @@
                                         name="selected_purchased[]" value="${row.id}">`
                         },
                     },
-                    { data: 'id', title: 'Product ID : ' },
+                    // { data: 'id', title: 'Product ID : ' },
                     { data: 'sold_to', title: 'Purchased By : ' },
                     { 
                         title: 'Product Type : ',
@@ -214,6 +214,17 @@
                             return `${row.inventory.product_brand}`
                         }
                     
+                    },
+                    { 
+                        data: null, 
+                        title: 'Product Size : ',
+                        render: function(data, type, row){
+                            if(row.inventory.size != null){
+                                return `<span class="badge bg-success p-1"><b>${row.inventory.size}</b></span>`
+                            }else{
+                                return `<span class="badge bg-danger p-1"><b>Not-Available</b></span>`
+                            }
+                        } 
                     },
                     { data: 'quantity', title: 'Product Quantity : ' },
                     { data: 'date', title: 'Date : ' },

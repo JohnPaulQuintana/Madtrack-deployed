@@ -154,7 +154,10 @@ class TableController extends Controller
 
     public function rejectedProduct()
     {
-        $rejected = Rejected::where('stocks', '>', 0)->orderBy('created_at', 'desc')->get();
+        // $invoices = Invoice::with('inventory') // Load the related products
+        //     ->orderBy('created_at', 'desc')
+        //     ->get();
+        $rejected = Rejected::with('inventory')->where('stocks', '>', 0)->orderBy('created_at', 'desc')->get();
         // dd($rejected);
         $out = Inventory::where('stocks', '=', 0)
             ->orderBy('created_at', 'desc')
@@ -167,6 +170,7 @@ class TableController extends Controller
         $out = Inventory::where('stocks', '=', 0)
             ->orderBy('created_at', 'desc')
             ->get();
+        // dd($out);
         return view('admin.inventory.out-of-stocks', ['outofstocks' => $out, 'notifs' => $out]);
     }
 
