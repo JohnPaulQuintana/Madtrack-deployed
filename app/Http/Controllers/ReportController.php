@@ -161,7 +161,8 @@ class ReportController extends Controller
                     ->get();
                     
                 $rejected = DB::table('rejecteds')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pcs_per_pack as product_pack_price')
+                    ->join('inventories', 'rejecteds.inventories_id', '=', 'inventories.id')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'inventories.product_pcs_per_pack as product_pack_price')
                     ->orderBy('created_at', 'asc')
                     ->get();
 
@@ -347,8 +348,9 @@ class ReportController extends Controller
                 $item->product_type,
                 $item->product_name,
                 $item->stocks,
-                $item->product_pcs_price,
+                
                 $item->product_pack_price,
+                $item->product_pcs_price,
                 
             ));
         }
