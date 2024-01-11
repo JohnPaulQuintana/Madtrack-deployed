@@ -102,7 +102,7 @@ class ReportController extends Controller
             case 'rejected':
                 $rejected = DB::table('rejecteds')
                     ->join('inventories', 'rejecteds.inventories_id', '=', 'inventories.id')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'inventories.product_pcs_per_pack as product_pack_price')
+                    ->select('rejecteds.id', 'rejecteds.product_type', 'rejecteds.product_name', 'rejecteds.stocks', 'rejecteds.product_pcs_price', 'inventories.product_pcs_per_pack as product_pack_price')
                     ->orderBy('rejecteds.created_at', 'asc')
                     ->get();
                 if ($rejected->count() > 0) {
