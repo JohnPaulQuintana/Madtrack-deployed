@@ -235,31 +235,7 @@
 
                         } 
                     },
-                    { 
-                        title: 'Status',
-                        data: null,
-                        render: function(data, type, row){
-                            // Create a Date object with the given date string
-                            const originalDate = new Date(row.inventory.created_at);
-
-                            // Extract components of the date
-                            const year = originalDate.getUTCFullYear();
-                            const month = originalDate.getUTCMonth() + 1; // Months are zero-based, so add 1
-                            const day = originalDate.getUTCDate();
-
-                            // Format the new date string
-                            const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-                            // return formattedDateString;
-
-                            var today = new Date()
-                            var givenDate = new Date(formattedDateString)
-                            if(givenDate < today){
-                                return `<span class="badge bg-info p-1"><b>Newest</b></span>`
-                            }else{
-                                return `<span class="badge bg-warning p-1"><b>Oldest</b></span>`
-                            }
-                        }
-                    },
+                    
                     { 
                         title: 'Unit Type : ',
                         data: null,
