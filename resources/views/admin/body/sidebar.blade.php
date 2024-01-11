@@ -32,7 +32,7 @@
                 </li>
 
                 <li class="menu-title text-white">Tables for Inventories</li>    
-                <li><a href="{{ route('inventory.available.stocks') }}" class="waves-effect"><i class="ri-shopping-cart-line text-primary"></i> <span class="text-white">Stocks </span></a></li>
+                <li><a href="{{ route('inventory.available.stocks') }}" class="waves-effect"><i class="ri-shopping-cart-line text-primary"></i> <span class="text-white">Inventory </span></a></li>
                 <li><a href="{{ route('inventory.product.sold') }}"><i class="ri-archive-line text-success"></i> <span class="text-white">Purchased</span></a></li>
                 <li><a href="{{ route('inventory.product.rejected') }}"><i class="ri-close-circle-line text-danger"></i> <span class="text-white">Rejected</span></a></li>
                 <li><a href="{{ route('inventory.product.outofstocks') }}"><i class="ri-error-warning-line text-warning"></i> <span class="text-white">Out-Of-Stock</span></a></li>

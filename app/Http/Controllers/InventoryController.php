@@ -7,11 +7,67 @@ use Carbon\Carbon;
 // use Barryvdh\DomPDF\PDF;
 use App\Models\Rejected;
 use App\Models\Inventory;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 // use PDF;
 class InventoryController extends Controller
 {
+    // add stocks
+    public function stocksAction(Request $request){
+        // Retrieve and validate the data from the request
+        $data = $request->validate([
+            'id' => 'required|numeric',
+            'stocks' => 'required|numeric',
+            'action' => 'required',
+        ]);
+
+        // Access the validated data
+        $id = $data['id'];
+        $newStocks = $data['stocks'];
+
+        $stock = Inventory::findOrFail($id);
+        // $stock->update(['stocks' => $newStocks]);
+
+        // Check if the new stocks are different from the existing records
+        if ($newStocks != 0 && $data['action'] !== 'm') {
+            // Perform the update only if there is a change
+            // $stock->update(['stocks' => $newStocks]);
+            $stock->stocks += $newStocks;
+            $stock->save();
+
+             // Record a transaction history
+             $transaction = Transaction::create([
+                "transaction_id" => $id,
+                "transaction_type" => "Update Stocks",
+                "transaction_description" => "You Added {$newStocks} stocks for {$stock->product_name}.",
+                "date" => now(),
+            ]);
+
+            // Optionally, you can return a response indicating success
+            return response()->json(['refresh' => true,'message' => 'You successfully Added a new stocks']);
+        }elseif($data['action'] === 'm'){ 
+            $stock->stocks -= $newStocks;
+            $stock->save();
+
+            // Record a transaction history
+            $transaction = Transaction::create([
+                "transaction_id" => $id,
+                "transaction_type" => "Stock Depletion",
+                "transaction_description" => "Stock depletion of {$newStocks} stocks for {$stock->product_name}.",
+                "date" => now(),
+            ]);
+
+            return response()->json(['refresh' => true,'message' => 'You successfully Added a new stocks']);
+        }else {
+            // Stocks are the same, no need to update
+            return response()->json(['refresh' => false,'message' => 'No changes in stocks']);
+        }
+
+        // Return a response or redirect as needed
+        // return response()->json(['message' => 'You successfully Added a new stocks']);
+
+    }
     public function showProductPage()
     {
         $stocks = Inventory::orderBy('product_name', 'asc')->orderBy('created_at', 'asc')->get();
@@ -146,49 +202,99 @@ class InventoryController extends Controller
     public function postRejected(Request $request)
     {
         // dd($request);
-        // Extract only the relevant fields from the request
-        $productData = [
-            'product_type' => $request->input('product_type'),
-            'product_name' => $request->input('product_name'),
-            'product_brand' => $request->input('product_brand'),
-            'description' => $request->input('productDescription'),
-            'stocks' => $request->input('stocks'),
-            'product_pcs_price' => 1,
-            // Add other relevant fields
-        ];
-        // Find the existing record based on the specified fields
-        $reject = Rejected::where('product_type', $request->input('product_type'))
-            ->where('product_name', $request->input('product_name'))
-            ->where('product_brand', $request->input('product_brand'))
-            ->first();
-        // If the product didn't exist, set additional data and save
-        if (!$reject) {
-            // Set additional data if needed
-            // $reject->additional_attribute = 'value';
-            $reject = Rejected::create($productData);
-            $reject->save();
-        } else {
-            $reject->stocks += $request->input('stocks');
-            // Save the updated record
-            $reject->save();
+        $data = $request->validate([
+            'id' => 'required|numeric',
+            'reject' => 'required|numeric',
+            'type' => 'required',
+            'brand' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'action' => 'required',
+        ]);
+
+        // Access the validated data
+        $id = $data['id'];
+        $newStocks = $data['reject'];
+
+        $rejected = Rejected::where('inventories_id',$id)->first();
+        $inventory = Inventory::findOrFail($id);
+        // $stock->update(['stocks' => $newStocks]);
+
+        // Check if the record exists
+        if ($rejected) {
+            // Check if the new stocks are different from the existing records
+            if ($rejected->stocks != $newStocks && $data['action'] !== "mr" && $data['action'] !== "m") {
+                // Perform the update only if there is a change
+                // $rejected->stocks += $newStocks;
+                // $rejected->save();
+
+                // $inventory->stocks -= $newStocks;
+                // $inventory->save();
+                // Create a new instance and save it
+                Rejected::create([
+                    'product_type' => $data['type'], 'stocks' => $newStocks,
+                    'product_name' => $data['name'], 'product_brand' => $data['brand'],
+                    'product_pcs_price' => 1,'inventories_id' => $id, 'description' => $data['description']
+                ]);
+
+                $inventory->stocks -= $newStocks;
+                $inventory->save();
+
+                // Record a transaction history
+            $transaction = Transaction::create([
+                "transaction_id" => $id,
+                "transaction_type" => "Rejected Added",
+                "transaction_description" => "{$newStocks} stocks rejected added for the {$rejected->product_name}, because of {$data['description']}.",
+                "date" => now(),
+            ]);
+
+                // Optionally, you can return a response indicating success
+                return response()->json(['refresh' => true,'message' => 'You successfully added rejected stocks']);
+            }elseif($data['action'] === "mr"){
+                // $rejected->update(['stocks' => $newStocks]);
+                $rejected->stocks -= $newStocks;
+                $rejected->save();
+
+                $inventory->stocks += $newStocks;
+                $inventory->save();
+
+                // Record a transaction history
+                $transaction = Transaction::create([
+                    "transaction_id" => $id,
+                    "transaction_type" => "Rejected Depletion",
+                    "transaction_description" => "{$newStocks} stocks rejected depleted for the {$rejected->product_name}",
+                    "date" => now(),
+                ]);
+
+                return response()->json(['refresh' => true,'message' => 'You successfully updated rejected stocks']);
+            }else {
+                // Stocks are the same, no need to update
+                return response()->json(['refresh' => false,'message' => 'No changes in stocks']);
+            }
+        }else {
+            // Create a new instance and save it
+            Rejected::create([
+                'product_type' => $data['type'], 'stocks' => $newStocks,
+                'product_name' => $data['name'], 'product_brand' => $data['brand'],
+                'product_pcs_price' => 1,'inventories_id' => $id, 'description' => $data['description']
+            ]);
+
+            $inventory->stocks -= $newStocks;
+            $inventory->save();
+
+            // Record a transaction history
+            $transaction = Transaction::create([
+                "transaction_id" => $id,
+                "transaction_type" => "Rejected Added",
+                "transaction_description" => "{$newStocks} stocks rejected added for the {$rejected->product_name}, because of {$data['description']}.",
+                "date" => now(),
+            ]);
+
+            // Optionally, you can return a response indicating success
+            return response()->json(['refresh' => true,'message' => 'You successfully added rejected stocks']);
         }
-        // Add to the array of inserted products
-        $insertedProductsNotif[] = $reject;
 
-        // Build the success message
-        $message = 'Successfully ' . ('Added') . ' ' . count($insertedProductsNotif) . ' product(s)!';
-
-        // Prepare the toast notification data
-        $notification = [
-            'status' => 'success',
-            'message' => $message,
-        ];
-
-        // Convert the notification to JSON
-        $notificationJson = json_encode($notification);
-
-        // Redirect back with a success message and the inserted products
-        return back()->with('notification', $notificationJson);
+       
     }
 
 

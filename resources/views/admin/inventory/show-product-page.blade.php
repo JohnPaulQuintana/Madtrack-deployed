@@ -60,7 +60,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title"><span class="text-info"><b>Add Stocks</b></span> Saving State</h4>
+                                <h4 class="card-title"><span class="text-info"><b>Add Product</b></span> Saving State</h4>
                                 <div class="table-responsive">
                                     {{-- {{ route('bulk.add.stocks') }} --}}
                                     <form action="{{ route('bulk.manage.stocks') }}" method="POST" style="overflow-x: auto;">
@@ -133,7 +133,7 @@
                                         {{-- <button type="button" class="btn btn-danger btn-sm delete-row">Delete</button> --}}
                                         <button type="button" class="btn btn-secondary" id="addProductField">Add Product
                                             Field</button>
-                                        <button type="submit" class="btn btn-primary" id="addStocksBtn">Add Stocks</button>
+                                        <button type="submit" class="btn btn-primary" id="addStocksBtn">Save</button>
                                             {{-- lipat sa rejected page --}}
                                         {{-- <button type="submit" class="btn btn-warning" id="rejectStocksBtn">Rejected Stocks</button> --}}
                                     </form>
@@ -148,7 +148,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title"><span class="text-danger"><b>Edit Stocks</b></span> Saving State</h4>
+                                <h4 class="card-title"><span class="text-danger"><b>Edit Products</b></span> Saving State</h4>
                                 <div class="table-responsive">
                                     {{-- {{ route('bulk.add.stocks') }} --}}
                                     <form action="{{ route('bulk.manage.stocks') }}" method="POST" style="max-height: 400px; overflow-y: auto;">
@@ -236,7 +236,7 @@
                                             <tfoot style="padding: 10px; position: sticky; bottom: -10px; z-index: 1;">
                                                 <tr>
                                                     <td colspan="10" class="text-center">
-                                                        <button type="submit" class="btn btn-primary">Update Stocks</button>
+                                                        <button type="submit" class="btn btn-primary">Update Product</button>
                                                     </td>
         
                                                 </tr>

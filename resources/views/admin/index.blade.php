@@ -13,10 +13,17 @@
     <!-- jquery.vectormap css -->
     <link href=" {{ asset('backend/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
         rel="stylesheet" type="text/css" />
+    <!-- DataTables -->
+    <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+    type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}"
+    rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}"
+    rel="stylesheet" type="text/css" />
 
     <!-- DataTables -->
-    <link href=" {{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
+    {{-- <link href=" {{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" /> --}}
 
     <!-- Responsive datatable examples -->
     <link href=" {{ asset('backend/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
@@ -152,10 +159,10 @@
 
                             <h4 class="card-title mb-4">Latest Transactions</h4>
                             <div class="table-responsive">
-                                <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+                                {{-- <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
                                     <thead class="table-light">
                                         <tr class="text-info">
-                                            <th>ID</th>
+                                            
                                             <th>Transaction Type</th>
                                             <th>Transaction Description</th>
                                             <th>Transaction Date</th>
@@ -165,7 +172,6 @@
                                     <tbody>
                                         @foreach ($transactions as $transaction)
                                         <tr>
-                                            <td>TS-{{ $transaction->id }}</td>
                                             <td>
                                                 <div class="font-size-13"><i
                                                     class="ri-checkbox-blank-circle-fill font-size-10 text-info align-middle me-2"></i>{{ $transaction->transaction_type }}
@@ -181,15 +187,16 @@
                                                     class="ri-checkbox-blank-circle-fill font-size-10 text-info align-middle me-2"></i>{{ __('Success') }}
                                                 </div>
                                             </td>
-                                            {{-- <td>
-                                                20 May, 2021
-                                            </td> --}}
                                         </tr>
                                         @endforeach
                                        
                                         <!-- end -->
                                     </tbody><!-- end tbody -->
-                                </table> <!-- end table -->
+                                </table> <!-- end table --> --}}
+
+                                <table id="logs-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;">
+                                    
+                                </table>
                             </div>
                         </div><!-- end card -->
                     </div><!-- end card -->
@@ -237,6 +244,79 @@
  
      <!-- App js -->
      <script src=" {{ asset('backend/assets/js/app.js') }}"></script>
+
+     <script>
+        var dataToRender =  @json($transactions);
+        console.log(dataToRender)
+        $(document).ready(function(){
+            // <th>Transaction Type</th>
+            // <th>Transaction Description</th>
+            // <th>Transaction Date</th>
+            // <th>Transaction Status</th>
+            $('#logs-table').DataTable({
+                data: dataToRender,                               
+                columns: [
+                    { 
+                        data: null, 
+                        title: 'Transaction Type : ',
+                        render:function(data, type, row){
+                            var renderClass = ''
+                            switch (row.transaction_type) {
+                                case "Purchased Added":
+                                    renderClass = 'bg-success'
+                                    break;
+                                case "Rejected Added":
+                                    renderClass = 'bg-danger'
+                                    break;
+                                case "Add Stocks":
+                                    renderClass = 'bg-info'
+                                    break;
+                                case "Stock Depletion":
+                                    renderClass = 'bg-danger'
+                                    break;
+                                case "Rejected Depletion":
+                                    renderClass = 'bg-danger'
+                                    break;
+                                case "Purchase Voided":
+                                    renderClass = 'bg-info'
+                                    break;
+                            
+                                default:
+                                renderClass = 'bg-dark'
+                                    break;
+                            }
+                            return `<span class="badge ${renderClass}">${row.transaction_type}</span>`
+                        } 
+                    },
+                    {
+                        title: "Transaction Description",
+                        data: "transaction_description"
+                    },
+                    {
+                        title: "Transaction Date",
+                        data: "date"
+                    },
+                    {
+                        title: "Transaction Status",
+                        data: null,
+                        render: function(data, type, row){
+                            return `
+                            <div class="font-size-13"><i
+                                class="ri-checkbox-blank-circle-fill font-size-10 text-info align-middle me-2"></i>{{ __('Success') }}
+                            </div>
+                            `
+                        }
+                    },
+                    
+                ],
+                responsive: true,
+                "initComplete": function (settings, json) {
+                    $(this.api().table().container()).addClass('bs4');
+                },
+
+            })
+        })
+     </script>
      {{-- <script src="{{ asset('html5-qrcodes/html5-qrcode.min.js') }}"></script>
      <script src="{{ asset('html5-qrcodes/scan.js') }}"></script> --}}
 @endsection

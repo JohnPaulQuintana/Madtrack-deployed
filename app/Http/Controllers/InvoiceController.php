@@ -52,11 +52,10 @@ class InvoiceController extends Controller
                         // Update the stock count in the Inventory model
                         $inventory->stocks -= $productQuantity[$i];
                         $inventory->save();
-                    // dd('ginagawa');
                         // Record a transaction history
                         $transaction = Transaction::create([
                             "transaction_id" => $productId[$i],
-                            "transaction_type" => $req,
+                            "transaction_type" => 'Purchased Added',
                             "transaction_description" => "{$clientName} bought {$productQuantity[$i]} units of {$inventory->product_name} at {$inventory->product_pcs_price} each.",
                             "date" => now(),
                         ]);
@@ -116,6 +115,15 @@ class InvoiceController extends Controller
             if ($inventory) {
                 $inventory->stocks += $quantity;
                 $inventory->save();
+
+                // Record a transaction history
+                $transaction = Transaction::create([
+                    "transaction_id" => $inventory->id,
+                    "transaction_type" => 'Purchase Voided',
+                    "transaction_description" => "{$quantity} stocks has been voided for {$inventory->product_name}.",
+                    "date" => now(),
+                ]);
+                
             }
         }
         // dd($quantitiesToUpdate);

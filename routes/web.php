@@ -81,6 +81,9 @@ Route::middleware('auth')->group(function () {
     // transaction 
     // Route::get('/transaction',[Transaction::class,'transaction'])->name('transaction');
 
+    // add stocks update
+    Route::post('/add-stocks', [InventoryController::class, 'stocksAction'])->name('add.stocks');
+
     // employee
     Route::get('/employee',[EmployeeController::class,'employeeTable'])->name('employee.table');
     Route::post('/add-employee',[StaffController::class,'employeeTableAdd'])->name('employee.table.add');

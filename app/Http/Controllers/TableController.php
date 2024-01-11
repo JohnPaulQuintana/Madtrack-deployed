@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Rejected;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class TableController extends Controller
@@ -41,8 +42,28 @@ class TableController extends Controller
 
             case null:
             case 'all':
-                $this->stocks = Inventory::where('stocks', '!=', 0)
-                ->orderBy('product_type')->get();
+                // $this->stocks = Inventory::where('stocks', '!=', 0)
+                // ->orderBy('product_type')->get();
+                $this->stocks = Inventory::select('inventories.id','inventories.product_type', 'inventories.product_brand'
+                ,'inventories.product_name','inventories.stocks','inventories.product_pcs_price'
+                ,'inventories.product_pack_price','inventories.product_pcs_per_pack'
+                ,'inventories.unit_type','inventories.size','inventories.created_at'
+                ,DB::raw('(SELECT COALESCE(SUM(invoices.quantity), 0) FROM invoices WHERE invoices.inventories_id = inventories.id) as invoice_count'),
+                DB::raw('(SELECT COALESCE(SUM(rejecteds.stocks), 0) FROM rejecteds WHERE rejecteds.inventories_id = inventories.id) as rejected_count'))
+                
+                ->leftJoin('invoices', 'inventories.id', '=', 'invoices.inventories_id')
+                ->leftJoin('rejecteds', 'inventories.id', '=', 'rejecteds.inventories_id')
+                
+                ->orderBy('inventories.product_type')
+                ->groupBy(
+                    'inventories.id','inventories.product_type', 'inventories.product_brand'
+                    ,'inventories.product_name','inventories.stocks','inventories.product_pcs_price'
+                    ,'inventories.product_pack_price','inventories.product_pcs_per_pack'
+                    ,'inventories.unit_type','inventories.size','inventories.created_at'
+                )
+                ->get();
+
+                // dd($this->stocks );
                 break;
 
             case 'search':
@@ -66,8 +87,29 @@ class TableController extends Controller
             default:
             
                 // Handle other cases if needed
-                $this->stocks = Inventory::where('stocks', '!=', 0)
-                ->orderBy('product_type')->get();
+                // $this->stocks = Inventory::where('stocks', '!=', 0)
+                // ->orderBy('product_type')->get();
+
+                $this->stocks = Inventory::select('inventories.id','inventories.product_type', 'inventories.product_brand'
+                ,'inventories.product_name','inventories.stocks','inventories.product_pcs_price'
+                ,'inventories.product_pack_price','inventories.product_pcs_per_pack'
+                ,'inventories.unit_type','inventories.size','inventories.created_at'
+                ,DB::raw('(SELECT COALESCE(SUM(invoices.quantity), 0) FROM invoices WHERE invoices.inventories_id = inventories.id) as invoice_count'),
+                DB::raw('(SELECT COALESCE(SUM(rejecteds.stocks), 0) FROM rejecteds WHERE rejecteds.inventories_id = inventories.id) as rejected_count'))
+                
+                ->leftJoin('invoices', 'inventories.id', '=', 'invoices.inventories_id')
+                ->leftJoin('rejecteds', 'inventories.id', '=', 'rejecteds.inventories_id')
+                ->where('inventories.stocks', '!=', 0)
+                ->orderBy('inventories.product_type')
+                ->groupBy(
+                    'inventories.id','inventories.product_type', 'inventories.product_brand'
+                    ,'inventories.product_name','inventories.stocks','inventories.product_pcs_price'
+                    ,'inventories.product_pack_price','inventories.product_pcs_per_pack'
+                    ,'inventories.unit_type','inventories.size','inventories.created_at'
+                )
+                ->get();
+
+                // dd($this->stocks );
                 break;
         }
         
@@ -85,7 +127,7 @@ class TableController extends Controller
     public function purchasedProduct()
     {
         $invoices = Invoice::with('inventory') // Load the related products
-            ->orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $out = Inventory::where('stocks', '=', 0)
@@ -112,7 +154,7 @@ class TableController extends Controller
 
     public function rejectedProduct()
     {
-        $rejected = Rejected::orderBy('created_at', 'desc')->get();
+        $rejected = Rejected::where('stocks', '>', 0)->orderBy('created_at', 'desc')->get();
         $out = Inventory::where('stocks', '=', 0)
             ->orderBy('created_at', 'desc')
             ->get();

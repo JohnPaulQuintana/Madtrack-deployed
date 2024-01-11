@@ -295,6 +295,11 @@ class ReportController extends Controller
         $pdf->Cell(0, 5, 'From: ' . $from . ' | To: ' . $to, 0, 1, 'C');
         $pdf->Ln(10);
 
+        // signature
+        $pdf->SetFont('Courier', '', 12);
+        $pdf->Cell(0, 5, 'Signature:___________________ ', 0, 0, 'R');
+        $pdf->Ln(10);
+
         // get the title for next page
         $pdf->getHeader($types);
         $pdf->SetFont('Courier', '', 14);
@@ -372,8 +377,14 @@ class ReportController extends Controller
             $pdf->AddPage();
             $pdf->SetFont('Courier', 'B', 18);
             $pdf->Cell(0, 10, 'MadTrack Report', 0, 1, 'C');
+
             $pdf->SetFont('Courier', '', 12);
             $pdf->Cell(0, 5, 'From: ' . $from, 0, 1, 'C');
+            $pdf->Ln(10);
+
+            // signature
+            $pdf->SetFont('Courier', '', 12);
+            $pdf->Cell(0, 5, 'Signature:___________________ ', 0, 0, 'R');
             $pdf->Ln(10);
             // Dynamic header based on type
             $pdf->SetFont('Courier', 'B', 14);

@@ -13,7 +13,9 @@
 
     {{-- toast css --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/libs/toastr/build/toastr.min.css') }}">
-
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.10.2/dist/sweetalert2.min.css
+    " rel="stylesheet">
     <!-- DataTables -->
     <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
@@ -198,32 +200,447 @@
          var dataToRender =  @json($stocks);
         // console.log(dataToRender)
         $(document).ready(function() {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $(document).on('click','.btn-action', function(){
+                var stockID = $(this).data('id');
+                var action = $(this).data('action')
+                var stocks = $(this).data('stocks')
+                if(action === 'p'){
+                    Swal.fire({
+                        title: "Add Stock",
+                        html: `
+                            
+                            <input type="number" id="remaining-stocks" class="swal2-input text-center" value="${stocks}" style="margin-top:-5px;">
+                        `,
+                        inputAttributes: {
+                            autocapitalize: "off"
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: "Add",
+                        showLoaderOnConfirm: true,
+                        backdrop: false,  // Disable closing on clicking outside
+                        preConfirm: async (login) => {
+                            var newStocks = $('#remaining-stocks').val()
+                            
+                            if(parseInt(newStocks) < 0 || parseInt(newStocks) == 0){
+                                return Swal.showValidationMessage(`
+                                Unable to Performed, negative and zero number is prohibited
+                                `);  
+                            }
+                            try {
+                            // if(parseInt(newStocks) !==  parseInt(stocks)){
+                                const response = await fetch(`{{ route('add.stocks') }}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    body: JSON.stringify({
+                                        id: stockID,
+                                        stocks: newStocks,
+                                        action: action,
+                                    }),
+                                });
+                            // }
+                            
+                            if (!response.ok) {
+                                return Swal.showValidationMessage(`
+                                ${JSON.stringify(await response.json())}
+                                `);
+                            }
+                            return response.json();
+                            } catch (error) {
+                            Swal.showValidationMessage(`
+                                Request failed: ${error}
+                            `);
+                            }
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                            title: "Added!",
+                            text: `${result.value.message}`,
+                            icon: "success"
+                            });
+
+                            setTimeout(() => {
+                                if(result.value.refresh){
+                                    window.location.reload()
+                                }
+                            }, 1000);
+                        }
+                    });
+                }else if(action === 'm'){
+                    Swal.fire({
+                        title: "Update Remaining Stocks",
+                        html: `
+                           
+                            <input type="number" id="remaining-stocks" class="swal2-input text-center" value="${stocks}" style="margin-top:-5px;">
+                        `,
+                        inputAttributes: {
+                            autocapitalize: "off"
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: "Update",
+                        showLoaderOnConfirm: true,
+                        backdrop: false,  // Disable closing on clicking outside
+                        preConfirm: async (login) => {
+                            var newStocks = $('#remaining-stocks').val()
+                            if(parseInt(newStocks) > parseInt(stocks)){
+                                return Swal.showValidationMessage(`
+                                Unable to Performed, Remaining Stocks is ${stocks}
+                                `);
+                            }
+
+                            if(parseInt(newStocks) < 0 || parseInt(newStocks) == 0){
+                                return Swal.showValidationMessage(`
+                                Unable to Performed, negative and zero number is prohibited
+                                `);  
+                            }
+                            try {
+                            // if(parseInt(newStocks) !==  parseInt(stocks)){
+                                const response = await fetch(`{{ route('add.stocks') }}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    body: JSON.stringify({
+                                        id: stockID,
+                                        stocks: newStocks,
+                                        action: action,
+                                       
+                                    }),
+                                });
+                            // }
+                            
+                            if (!response.ok) {
+                                return Swal.showValidationMessage(`
+                                ${JSON.stringify(await response.json())}
+                                `);
+                            }
+                            return response.json();
+                            } catch (error) {
+                            Swal.showValidationMessage(`
+                                Request failed: ${error}
+                            `);
+                            }
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                            title: "Remaining Stocks Updated!",
+                            text: `Updates Completed!`,
+                            icon: "success"
+                            });
+
+                            setTimeout(() => {
+                                if(result.value.refresh){
+                                    window.location.reload()
+                                }
+                            }, 1000);
+                        }
+                    });
+                }else if(action === 'pr'){
+                    var type = $(this).data('type')
+                    var brand = $(this).data('brand')
+                    var name = $(this).data('name')
+                    var rejectedCount = $(this).data('rejected')
+                    console.log(stockID, type, brand, name, stocks, rejectedCount, action)
+                    Swal.fire({
+                        title: "Add Rejected Product",
+                        html: `
+                        <label for="rejected-stocks">Remaining Stocks:</label><br/>
+                        <input type="number" id="rejected-stocks" class="swal2-input text-center" value="${stocks}" required style="margin-top:-5px;">
+
+                        <label for="productDescription">Product Description:</label>
+                        <textarea class="form-control text-center p-2" id="productDescription" rows="5" required></textarea>
+                    `,
+
+                        inputAttributes: {
+                            autocapitalize: "off"
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: "Rejected",
+                        showLoaderOnConfirm: true,
+                        backdrop: false,  // Disable closing on clicking outside
+                        preConfirm: async (login) => {
+                            var newRejected = $('#rejected-stocks').val()
+                            var description = $('#productDescription').val()
+                            if(description == null || description == ''){
+                                return Swal.showValidationMessage(`
+                                    Description is required
+                                `);
+                            }
+                            if(parseInt(newRejected) === parseInt(stocks)){
+                                return Swal.showValidationMessage(`
+                                There is no changes, Remaining Stocks is ${stocks}
+                                `);
+                            }
+                            if(parseInt(newRejected) > parseInt(stocks)){
+                                return Swal.showValidationMessage(`
+                                Unable to performed, Remaining Stocks is ${stocks}
+                                `);
+                            }
+
+                            if(parseInt(newRejected) < 0){
+                                return Swal.showValidationMessage(`
+                                Unable to Performed, negative number is prohibited
+                                `);  
+                            }
+                            try {
+                            // if(parseInt(newStocks) !==  parseInt(stocks)){
+                                const response = await fetch(`{{ route('inventory.rejected.post') }}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    body: JSON.stringify({
+                                        id: stockID,
+                                        type: type,
+                                        brand: brand,
+                                        name: name,
+                                        reject: newRejected,
+                                        description: description,
+                                        action: action,
+                                       
+                                    }),
+                                });
+                            // }
+                            
+                            if (!response.ok) {
+                                return Swal.showValidationMessage(`
+                                ${JSON.stringify(await response.json())}
+                                `);
+                            }
+                            return response.json();
+                            } catch (error) {
+                            Swal.showValidationMessage(`
+                                Request failed: ${error}
+                            `);
+                            }
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                            title: "Added!",
+                            text: `${result.value.message}`,
+                            icon: "success"
+                            });
+
+                            setTimeout(() => {
+                                if(result.value.refresh){
+                                    window.location.reload()
+                                }
+                            }, 1000);
+                        }
+                    });
+
+                }else if(action === 'mr'){
+                    var type = $(this).data('type')
+                    var brand = $(this).data('brand')
+                    var name = $(this).data('name')
+                    var rejectedCount = $(this).data('rejected')
+                    console.log(stockID, type, brand, name, stocks, rejectedCount, action)
+                    Swal.fire({
+                        title: "Update Rejected Product",
+                        html: `
+                        <label for="rejected-stocks">Rejected Stocks:</label><br/>
+                        <input type="number" id="rejected-stocks" class="swal2-input text-center" value="${rejectedCount}" required style="margin-top:-5px;">
+                    `,
+
+                        inputAttributes: {
+                            autocapitalize: "off"
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: "Rejected",
+                        showLoaderOnConfirm: true,
+                        backdrop: false,  // Disable closing on clicking outside
+                        preConfirm: async (login) => {
+                            var newRejected = $('#rejected-stocks').val()
+
+                            if(parseInt(newRejected) > parseInt(rejectedCount)){
+                                return Swal.showValidationMessage(`
+                                Unable to performed, Rejected Stocks is ${rejectedCount}
+                                `);
+                            }
+
+                            if(parseInt(newRejected) <= 0){
+                                return Swal.showValidationMessage(`
+                                Unable to Performed, negative and zero number is prohibited
+                                `);  
+                            }
+                            try {
+                            // if(parseInt(newStocks) !==  parseInt(stocks)){
+                                const response = await fetch(`{{ route('inventory.rejected.post') }}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    body: JSON.stringify({
+                                        id: stockID,
+                                        type: type,
+                                        brand: brand,
+                                        name: name,
+                                        reject: newRejected,
+                                        description: 'hdjhdjwa',
+                                        action: action,
+                                    }),
+                                });
+                            // }
+                            
+                            if (!response.ok) {
+                                return Swal.showValidationMessage(`
+                                ${JSON.stringify(await response.json())}
+                                `);
+                            }
+                            return response.json();
+                            } catch (error) {
+                            Swal.showValidationMessage(`
+                                Request failed: ${error}
+                            `);
+                            }
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                            title: "Update Successfully!",
+                            text: `${result.value.message}`,
+                            icon: "success"
+                            });
+
+                            setTimeout(() => {
+                                if(result.value.refresh){
+                                    window.location.reload()
+                                }
+                            }, 1000);
+                        }
+                    });
+                }
+                
+            })
+
+
             // render data
             $('#inventory-table').DataTable({
                 data: dataToRender,
                                         
                 columns: [
-                    { 
-                        title: 'Record as Purchased',
-                        data: null,
-                        render:function(data, type, row) {
-                            return `<input type="checkbox" class="product-checkbox"
-                                        name="selected_products[]" value="${row.id}">`
-                        },
+                    // { 
+                    //     title: 'Record as Purchased',
+                    //     data: null,
+                    //     render:function(data, type, row) {
+                    //         return `<input type="checkbox" class="product-checkbox"
+                    //                     name="selected_products[]" value="${row.id}">`
+                    //     },
+                    // },
+                    {
+                        title:'Purchased',
+                        data : null,
+                        render: function(data, type, row){
+                            //check if have purchased
+                            
+                            var classNameStatus = ''
+                            if(parseInt(row.invoice_count) > 0 ){
+                                classNameStatus = 'bg-success'
+                            }else{
+                                classNameStatus = 'bg-danger'
+                            }
+
+                            return `
+                                <input type="checkbox" class="form-check-input product-checkbox" name="selected_products[]" value="${row.id}">
+                                <span class="badge ${classNameStatus}">${row.invoice_count}</span>
+                                `
+                        }
+
                     },
-                    { data: 'id', title: 'Product ID : ' },
+                    // { data: 'id', title: 'Product ID : ' },
                     { data: 'product_type', title: 'Product Type : ' },
-                    { data: 'stocks', title: 'Product Quantity : ' },
+                    
                     { data: 'product_name', title: 'Product Name : ' },
                     { data: 'size', title: 'Size : ' },
                     { data: 'product_pcs_price', title: 'Price : ' },
                     { data: 'product_pcs_per_pack', title: 'Per-Pack : ' },
+                    { 
+                        data: null,
+                        title: 'Available Stocks : ',
+                        render: function(data, type, row){
+                            var classNameStatus = ''
+                            var renderMinusBtn = `<i class="fas fa-minus-circle text-danger btn-action" data-id="${row.id}" data-stocks="${row.stocks}" data-action="m" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Minus Stocks"></i>`
+                            var renderPlusBtn = `<i class="fas fa-plus-circle text-success  btn-action" data-id="${row.id}" data-stocks="${row.stocks}" data-action="p" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Stocks"></i>`
+                            if(parseInt(row.stocks) > 0 ){
+                                classNameStatus = 'bg-light text-success p-2'
+                                
+                            }else{
+                                classNameStatus = 'bg-light text-danger p-2'
+                                renderMinusBtn = '';
+                            }
+
+                            // Surround the <span> with plus and minus icons
+                            return `<div>
+                                        ${renderMinusBtn}
+                                        <span class="badge ${classNameStatus}" style="font-size:15px;font-weight:700;">${row.stocks}</span>
+                                        ${renderPlusBtn}
+                                    </div>`;
+                        }
+                    },
                     { 
                         title: 'Unit Type : ',
                         data: null,
                         render:function(data, type, row) {
                             return `<p class="badge bg-success p-1">${row.unit_type}</p>`
                         },
+                    },
+                    
+                    {
+                        title:'Rejected',
+                        data : null,
+                        render: function(data, type, row){
+                            //check if have purchased
+                            var classNameStatus = ''
+                            var renderMinusBtn = `<i class="fas fa-minus-circle text-danger btn-action" data-id="${row.id}" data-name="${row.product_name}" data-brand="${row.product_brand}" data-type="${row.product_type}" data-stocks="${row.stocks}" data-rejected="${row.rejected_count}" data-action="mr" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Minus Rejected"></i>`
+                            var renderPlusBtn = `<i class="fas fa-plus-circle text-success  btn-action" data-id="${row.id}" data-name="${row.product_name}" data-brand="${row.product_brand}" data-type="${row.product_type}" data-stocks="${row.stocks}" data-rejected="${row.rejected_count}" data-action="pr" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Rejected"></i>`
+                            if(parseInt(row.rejected_count) > 0 ){
+                                classNameStatus = 'bg-light text-success p-2'
+                                
+                            }else{
+                                classNameStatus = 'bg-light text-danger p-2'
+                                renderMinusBtn = '';
+                            }
+
+                            // Surround the <span> with plus and minus icons
+                            return `<div>
+                                        ${renderMinusBtn}
+                                        <span class="badge ${classNameStatus}" style="font-size:15px;font-weight:700;">${row.rejected_count}</span>
+                                        ${renderPlusBtn}
+                                    </div>`;
+                        }
+
+                    },
+                    
+                    {
+                        title:'Overall Stock',
+                        data : null,
+                        render: function(data, type, row){
+                            //check if have purchased
+                            var testValue = parseInt(row.rejected_count) + parseInt(row.stocks) + parseInt(row.invoice_count)
+                            var classNameStatus = ''
+                            if(testValue > 0 ){
+                                classNameStatus = 'bg-success'
+                            }else{
+                                classNameStatus = 'bg-danger'
+                            }
+
+                            return `<span class="badge ${classNameStatus}">${testValue}</span>`
+                        }
+
                     },
                     {
                         title: 'Action : ',
@@ -248,12 +665,15 @@
                 "initComplete": function (settings, json) {
                     $(this.api().table().container()).addClass('bs4');
                 },
+                
             });
+
+            
 
             // $('#state-saving-datatable').DataTable();
             // Initialize an empty array to store selected product IDs
             const selectedProductIds = [];
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            
             // Function to update the selectedProductIds array
             function updateSelectedProductIds() {
                 selectedProductIds.length = 0; // Clear the array

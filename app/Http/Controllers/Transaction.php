@@ -107,8 +107,8 @@ class Transaction extends Controller
     // transaction
     $transactions = DB::table('transactions')
         ->select('*')
-        ->whereDate('date', '=', $dateOnly)
-        ->orderBy('date', 'desc')
+        // ->whereDate('date', '=', $dateOnly)
+        ->orderBy('created_at', 'desc')
         ->get();
 
     // notification
