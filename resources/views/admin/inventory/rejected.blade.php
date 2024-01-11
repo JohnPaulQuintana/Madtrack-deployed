@@ -66,11 +66,11 @@
                             <h4 class="card-title"><span class="text-danger">Rejected Stocks</span> Saving State
                                 {{-- <input class="form-control me-2 search-input" type="search" placeholder="Search"
                                 aria-label="Search" style="width: 250px;"> --}}
-                                <a class="btn btn-danger rejectedAdd" data-bs-toggle="dropdown"
+                                {{-- <a class="btn btn-danger rejectedAdd" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         Add Rejected
                                 
-                                    </a>
+                                    </a> --}}
                             </h4>
                             
                             <div class="table-responsive">
@@ -195,9 +195,9 @@
                 },
             });
             // add rejected products
-            $(document).on('click', '.rejectedAdd', function() {
-                $('#addRejectedModal').modal('show')
-            })
+            // $(document).on('click', '.rejectedAdd', function() {
+            //     $('#addRejectedModal').modal('show')
+            // })
 
             // search
             $('.search-input').on('input', function() {
