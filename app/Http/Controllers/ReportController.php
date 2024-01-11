@@ -86,7 +86,7 @@ class ReportController extends Controller
                     ->get();
 
                 if ($purchased->count() > 0) {
-                    $names = ['Product Name', 'Buyer', 'Quantity', 'Price', 'Date'];
+                    $names = ['Product Name', 'Buyer', 'Quantity', 'Pack', 'Price'];
                     $pdfId = $this->generateTablePdf($purchased, $names,  'Purchased', $from, $to);
                     return response()->json(['names' => $names, 'value' => $purchased, 'id' => $pdfId]);
                 }
@@ -103,7 +103,7 @@ class ReportController extends Controller
                 $rejected = DB::table('rejecteds')
                     ->join('inventories', 'rejecteds.inventories_id', '=', 'inventories.id')
                     ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'inventories.product_pcs_per_pack as product_pack_price')
-                    ->orderBy('created_at', 'asc')
+                    ->orderBy('rejecteds.created_at', 'asc')
                     ->get();
                 if ($rejected->count() > 0) {
                     $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
@@ -121,7 +121,7 @@ class ReportController extends Controller
 
             case 'out':
                 $out = DB::table('inventories')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pcs_per_pack as product_pack_price')
                     ->where('stocks', 0)
                     ->orderBy('created_at', 'asc')
                     ->get();
