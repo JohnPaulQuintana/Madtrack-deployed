@@ -73,7 +73,7 @@
                                 <a href="{{ route('show.product.page') }}" class="btn btn-dark">Manage
                                     Products</a>
                             </h4>
-                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <div class="table-responsive">
                                 {{-- <table id="state-saving-datatable"
                                     class="table activate-select dt-responsive nowrap w-100 text-center available-p">
                                     <thead

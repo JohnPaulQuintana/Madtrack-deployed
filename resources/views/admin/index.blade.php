@@ -14,12 +14,11 @@
     <link href=" {{ asset('backend/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
         rel="stylesheet" type="text/css" />
     <!-- DataTables -->
-    <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
-    type="text/css" />
-    <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}"
-    rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}"
-    rel="stylesheet" type="text/css" />
+    <!-- DataTables -->
+    <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+
 
     <!-- DataTables -->
     {{-- <link href=" {{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
@@ -88,32 +87,7 @@
                                 
                                         
                                     </h4>
-                                    {{-- <p class="text-muted mb-0 fw-bold">{{ $sales_report['salesStatus'] }}</p> --}}
-
-                                    {{-- <p class="text-muted mb-0 fw-bold">
-                                        @if ($sales_report['salesStatus'] == 'Increasing')
-                                            <span class="text-success fw-bold font-size-12 me-2">
-                                                <i class="ri-arrow-right-up-line me-1 align-middle text-success"></i>
-                                                {{ $sales_report['percentageToday'] }}
-                                            </span>
-                                            
-                                        @else
-                                            <span class="text-danger fw-bold font-size-12 me-2">
-                                                <i class="ri-arrow-right-down-line me-1 align-middle"></i>
-                                                {{ $sales_report['percentageToday'] }}
-                                            </span>
-                                        @endif
-                                        from today
-                                       
-                                    </p>
-
-                                    <p class="text-muted mb-0">
-                                        <span class="text-success fw-bold font-size-12 me-2">
-                                            <i class="ri-arrow-right-up-line me-1 align-middle text-success"></i>
-                                            {{ $sales_report['percentagePrevMonth'] }}
-                                        </span>
-                                        from previous month
-                                    </p> --}}
+                                   
         
                                 </div>
                                 <div class="avatar-sm">
@@ -155,8 +129,7 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body">
-                            
-
+                    
                             <h4 class="card-title mb-4">Latest Transactions</h4>
                             <div class="table-responsive">
                                 {{-- <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
@@ -194,9 +167,7 @@
                                     </tbody><!-- end tbody -->
                                 </table> <!-- end table --> --}}
 
-                                <table id="logs-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;">
-                                    
-                                </table>
+                                <table id="logs-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;"></table>
                             </div>
                         </div><!-- end card -->
                     </div><!-- end card -->
@@ -237,8 +208,7 @@
  
      <!-- Responsive examples -->
      <script src=" {{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-     <script src=" {{ asset('backend/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}">
-     </script>
+     <script src=" {{ asset('backend/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
  
      {{-- <script src=" {{ asset('backend/assets/js/pages/dashboard.init.js') }}"></script> --}}
  
@@ -249,10 +219,6 @@
         var dataToRender =  @json($transactions);
         console.log(dataToRender)
         $(document).ready(function(){
-            // <th>Transaction Type</th>
-            // <th>Transaction Description</th>
-            // <th>Transaction Date</th>
-            // <th>Transaction Status</th>
             $('#logs-table').DataTable({
                 data: dataToRender,
                 "order": [],
