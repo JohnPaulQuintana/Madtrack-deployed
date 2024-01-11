@@ -64,8 +64,8 @@
                                 </div> --}}
                             </div>
                             <h4 class="card-title"><span class="text-danger">Out-Of-Stocks</span> Saving State
-                                <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                                            aria-label="Search" style="width: 250px;">
+                                {{-- <input class="form-control me-2 search-input" type="search" placeholder="Search"
+                                            aria-label="Search" style="width: 250px;"> --}}
                             </h4> 
                             <div class="table-responsive">   
                                 {{-- <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100 text-center available-p">
