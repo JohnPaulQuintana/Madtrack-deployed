@@ -254,7 +254,12 @@
             // <th>Transaction Date</th>
             // <th>Transaction Status</th>
             $('#logs-table').DataTable({
-                data: dataToRender,                               
+                data: dataToRender,
+                "order": [],
+                "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+                }],                               
                 columns: [
                     { 
                         data: null, 

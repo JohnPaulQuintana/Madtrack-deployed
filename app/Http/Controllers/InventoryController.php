@@ -286,7 +286,7 @@ class InventoryController extends Controller
             $transaction = Transaction::create([
                 "transaction_id" => $id,
                 "transaction_type" => "Rejected Added",
-                "transaction_description" => "{$newStocks} stocks rejected added for the {$rejected->product_name}, because of {$data['description']}.",
+                "transaction_description" => "{$newStocks} stocks rejected added for the {$inventory->product_name}, because of {$data['description']}.",
                 "date" => now(),
             ]);
 

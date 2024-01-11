@@ -531,7 +531,11 @@
             // render data
             $('#inventory-table').DataTable({
                 data: dataToRender,
-                                        
+                "order": [],
+                "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+                }],                       
                 columns: [
                     // { 
                     //     title: 'Record as Purchased',

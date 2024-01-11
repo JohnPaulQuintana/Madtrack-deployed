@@ -155,6 +155,7 @@ class TableController extends Controller
     public function rejectedProduct()
     {
         $rejected = Rejected::where('stocks', '>', 0)->orderBy('created_at', 'desc')->get();
+        // dd($rejected);
         $out = Inventory::where('stocks', '=', 0)
             ->orderBy('created_at', 'desc')
             ->get();

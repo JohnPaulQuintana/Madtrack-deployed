@@ -174,7 +174,11 @@
             // render data
             $('#purchased-table').DataTable({
                 data: dataToRender,
-                                        
+                "order": [],
+                "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+                }],                      
                 columns: [
                     { 
                         title: 'Delete',

@@ -173,6 +173,12 @@
             // render data
             $('#rejected-table').DataTable({
                 data: dataToRender,
+                "order": [],
+                "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+                }],
+
                 columns: [
                     { data: 'id', title: 'Product ID : ' },
                     { data: 'product_type', title: 'Product Type : ' },
