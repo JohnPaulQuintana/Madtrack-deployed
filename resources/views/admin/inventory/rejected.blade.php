@@ -204,17 +204,17 @@
                         }
                     
                     },
-                    { 
-                        data: null, 
-                        title: 'Product Size : ',
-                        render: function(data, type, row){
-                            if(row.inventory.size != null){
-                                return `<span class="badge bg-success p-1"><b>${row.inventory.size}</b></span>`
-                            }else{
-                                return `<span class="badge bg-danger p-1"><b>Not-Available</b></span>`
-                            }
-                        } 
-                    },
+                    // { 
+                    //     data: null, 
+                    //     title: 'Product Size : ',
+                    //     render: function(data, type, row){
+                    //         if(row.inventory.size != null){
+                    //             return `<span class="badge bg-success p-1"><b>${row.inventory.size}</b></span>`
+                    //         }else{
+                    //             return `<span class="badge bg-danger p-1"><b>Not-Available</b></span>`
+                    //         }
+                    //     } 
+                    // },
                     { data: 'stocks', title: 'Product Quantity : ' },
                     { 
                         data: null, 
