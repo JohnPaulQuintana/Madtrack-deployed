@@ -192,7 +192,7 @@
                         title: 'Product Name : ',
                         data: null,
                         render: function(data, type, row){
-                            return `${row.inventory.product_name}`
+                            return `${row.product_name}`
                         }
                     
                     },
@@ -200,7 +200,7 @@
                         title: 'Product Brand : ',
                         data: null,
                         render: function(data, type, row){
-                            return `${row.inventory.product_brand}`
+                            return `${row.product_brand}`
                         }
                     
                     },
