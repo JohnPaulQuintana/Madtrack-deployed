@@ -53,17 +53,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="dropdown float-end">
+                            
+                            <h4 class="card-title"><span class="text-danger">Out-Of-Stocks</span> Saving State
                                 <a href="{{ route('show.product.page') }}" class="btn btn-dark"
                                     >
                                     Manage Product
                                 </a>
-                                {{-- <div class="dropdown-menu dropdown-menu-end">
-                                   
-                                    <a href="{{ route('show.product.page') }}" class="dropdown-item">Manage Products</a>
-                                </div> --}}
-                            </div>
-                            <h4 class="card-title"><span class="text-danger">Out-Of-Stocks</span> Saving State
                                 {{-- <input class="form-control me-2 search-input" type="search" placeholder="Search"
                                             aria-label="Search" style="width: 250px;"> --}}
                             </h4> 
