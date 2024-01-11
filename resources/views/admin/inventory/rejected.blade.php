@@ -180,13 +180,6 @@
                 }],
 
                 columns: [
-                    // { data: 'id', title: 'Product ID : ' },
-                    // { data: 'product_type', title: 'Product Type : ' },
-                    // { data: 'stocks', title: 'Product Quantity : ' },
-                    // { data: 'product_name', title: 'Product Name : ' },
-                    // { data: 'product_brand', title: 'Product Brand : ' },
-                    // { data: 'description', title: 'Description : ' },
-                    // { data: 'sold_to', title: 'Purchased By : ' },
                     { 
                         title: 'Product Type : ',
                         data: null,

@@ -68,7 +68,7 @@
                                             aria-label="Search" style="width: 250px;">
                             </h4> 
                             <div class="table-responsive">   
-                                <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100 text-center available-p">
+                                {{-- <table id="state-saving-datatable" class="table activate-select dt-responsive nowrap w-100 text-center available-p">
                                     <thead>
                                         <tr>
                                             <th>Product ID</th>
@@ -76,10 +76,7 @@
                                             <th>Product Stocks</th>
                                             <th>Product Name</th>
                                             <th>Product Brand</th>
-                                            {{-- <th>Per Piece</th> --}}
-                                            {{-- <th>Per Pack</th>
-                                            <th>Pcs Per Pack</th> --}}
-                                            {{-- <th>Action</th> --}}
+                            
                                         </tr>
                                     </thead>
     
@@ -92,18 +89,17 @@
                                                 <td class="text-danger">{{ $stock->stocks }}</td>
                                                 <td>{{ $stock->product_name }}</td>
                                                 <td>{{ $stock->product_brand }}</td>
-                                                {{-- <td class="text-danger">₱{{ $stock->product_pcs_price }}.00</td>
-                                                <td class="text-danger">₱ {{ $stock->product_pack_price }}.00</td>
-                                                <td>{{ $stock->product_pcs_per_pack }} pcs</td> --}}
-                                                {{-- <td class="text-center"><a class="fas fa-cogs fa-lg" href="{{ route('show.product.page') }}"></a></td> --}}
-        
+                                               
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                </table>
+                                </table> --}}
                                 {{-- <div class="d-flex justify-content-end mb-3">
                                     <a href="{{ route('show.product.page') }}" class="btn btn-primary">Add Product</a>
                                 </div> --}}
+
+                                <table id="out-table" class="table activate-select dt-responsive nowrap w-100 text-center" style="width:100%;border:0 solid transparent; padding:10px;font-weight:700;text-transform:capitalize;"></table>
+
                             </div>
 
                         </div> <!-- end card body-->
@@ -150,7 +146,112 @@
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
     <script>
+        var dataToRender =  @json($outofstocks);
+        console.log(dataToRender)
         $(document).ready(function(){
+
+            $('#out-table').DataTable({
+                data: dataToRender,
+                "order": [],
+                "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+                }],
+
+                columns: [
+                    { 
+                        title: 'Product Type : ',
+                        data: null,
+                        render: function(data, type, row){
+                            return `${row.inventory.product_type}`
+                        }
+                    
+                    },
+                    { 
+                        title: 'Product Name : ',
+                        data: null,
+                        render: function(data, type, row){
+                            return `${row.inventory.product_name}`
+                        }
+                    
+                    },
+                    { 
+                        title: 'Product Brand : ',
+                        data: null,
+                        render: function(data, type, row){
+                            return `${row.inventory.product_brand}`
+                        }
+                    
+                    },
+                    { 
+                        data: null, 
+                        title: 'Product Size : ',
+                        render: function(data, type, row){
+                            if(row.inventory.size != null){
+                                return `<span class="badge bg-success p-1"><b>${row.inventory.size}</b></span>`
+                            }else{
+                                return `<span class="badge bg-danger p-1"><b>Not-Available</b></span>`
+                            }
+                        } 
+                    },
+                    { data: 'stocks', title: 'Product Quantity : ' },
+                    { 
+                        data: null, 
+                        title: 'Date : ',
+                        render:function(data, type, row){
+                            // Create a Date object with the given date string
+                            const originalDate = new Date(row.inventory.created_at);
+
+                            // Extract components of the date
+                            const year = originalDate.getUTCFullYear();
+                            const month = originalDate.getUTCMonth() + 1; // Months are zero-based, so add 1
+                            const day = originalDate.getUTCDate();
+
+                            // Format the new date string
+                            const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+                            return formattedDateString;
+
+                        } 
+                    },
+                    { 
+                        title: 'Status',
+                        data: null,
+                        render: function(data, type, row){
+                            // Create a Date object with the given date string
+                            const originalDate = new Date(row.inventory.created_at);
+
+                            // Extract components of the date
+                            const year = originalDate.getUTCFullYear();
+                            const month = originalDate.getUTCMonth() + 1; // Months are zero-based, so add 1
+                            const day = originalDate.getUTCDate();
+
+                            // Format the new date string
+                            const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+                            // return formattedDateString;
+
+                            var today = new Date()
+                            var givenDate = new Date(formattedDateString)
+                            if(givenDate < today){
+                                return `<span class="badge bg-info p-1"><b>Newest</b></span>`
+                            }else{
+                                return `<span class="badge bg-warning p-1"><b>Oldest</b></span>`
+                            }
+                        }
+                    },
+                    { 
+                        title: 'Unit Type : ',
+                        data: null,
+                        render:function(data, type, row) {
+                            return `<p class="badge bg-success p-1">${row.inventory.unit_type}</p>`
+                        },
+                    },
+                ],
+                responsive: true,
+                "initComplete": function (settings, json) {
+                    $(this.api().table().container()).addClass('bs4');
+                },
+            });
+
             // search
             $('.search-input').on('input', function() {
                 var searchValue = $(this).val().toLowerCase();
