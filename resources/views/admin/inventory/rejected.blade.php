@@ -184,7 +184,7 @@
                         title: 'Product Type : ',
                         data: null,
                         render: function(data, type, row){
-                            return `${row.inventory.product_type}`
+                            return `${row.product_type}`
                         }
                     
                     },
