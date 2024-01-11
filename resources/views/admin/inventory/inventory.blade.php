@@ -537,14 +537,6 @@
                 "orderable": false,
                 }],                       
                 columns: [
-                    // { 
-                    //     title: 'Record as Purchased',
-                    //     data: null,
-                    //     render:function(data, type, row) {
-                    //         return `<input type="checkbox" class="product-checkbox"
-                    //                     name="selected_products[]" value="${row.id}">`
-                    //     },
-                    // },
                     {
                         title:'Purchased',
                         data : null,
@@ -569,6 +561,7 @@
                     { data: 'product_type', title: 'Product Type : ' },
                     
                     { data: 'product_name', title: 'Product Name : ' },
+                    { data: 'product_brand', title: 'Product Brand : ' },
                     { data: 'size', title: 'Size : ' },
                     { data: 'product_pcs_price', title: 'Price : ' },
                     { data: 'product_pcs_per_pack', title: 'Per-Pack : ' },
