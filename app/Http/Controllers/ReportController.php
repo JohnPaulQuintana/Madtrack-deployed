@@ -437,8 +437,9 @@ class ReportController extends Controller
                     $item->product_type,
                     $item->product_name,
                     $item->stocks,
-                    $item->product_pcs_price,
+                    
                     $item->product_pack_price,
+                    $item->product_pcs_price,
                 ));
             }
         }
