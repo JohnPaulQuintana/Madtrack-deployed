@@ -375,11 +375,11 @@
                                     Description is required
                                 `);
                             }
-                            if(parseInt(newRejected) === parseInt(stocks)){
-                                return Swal.showValidationMessage(`
-                                There is no changes, Remaining Stocks is ${stocks}
-                                `);
-                            }
+                            // if(parseInt(newRejected) === parseInt(stocks)){
+                            //     return Swal.showValidationMessage(`
+                            //     There is no changes, Remaining Stocks is ${stocks}
+                            //     `);
+                            // }
                             if(parseInt(newRejected) > parseInt(stocks)){
                                 return Swal.showValidationMessage(`
                                 Unable to performed, Remaining Stocks is ${stocks}

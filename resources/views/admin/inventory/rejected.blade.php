@@ -180,11 +180,12 @@
                 }],
 
                 columns: [
+                    
                     { 
                         title: 'Product Type : ',
                         data: null,
                         render: function(data, type, row){
-                            return `${row.product_type}`
+                            return `${row.inventory.product_type}`
                         }
                     
                     },
@@ -192,7 +193,7 @@
                         title: 'Product Name : ',
                         data: null,
                         render: function(data, type, row){
-                            return `${row.product_name}`
+                            return `${row.inventory.product_name}`
                         }
                     
                     },
@@ -200,28 +201,28 @@
                         title: 'Product Brand : ',
                         data: null,
                         render: function(data, type, row){
-                            return `${row.product_brand}`
+                            return `${row.inventory.product_brand}`
                         }
                     
                     },
-                    // { 
-                    //     data: null, 
-                    //     title: 'Product Size : ',
-                    //     render: function(data, type, row){
-                    //         if(row.inventory.size != null){
-                    //             return `<span class="badge bg-success p-1"><b>${row.inventory.size}</b></span>`
-                    //         }else{
-                    //             return `<span class="badge bg-danger p-1"><b>Not-Available</b></span>`
-                    //         }
-                    //     } 
-                    // },
+                    { 
+                        data: null, 
+                        title: 'Product Size : ',
+                        render: function(data, type, row){
+                            if(row.inventory.size != null){
+                                return `<span class="badge bg-success p-1"><b>${row.inventory.size}</b></span>`
+                            }else{
+                                return `<span class="badge bg-danger p-1"><b>Not-Available</b></span>`
+                            }
+                        } 
+                    },
                     { data: 'stocks', title: 'Product Quantity : ' },
                     { 
                         data: null, 
                         title: 'Date : ',
                         render:function(data, type, row){
                             // Create a Date object with the given date string
-                            const originalDate = new Date(row.created_at);
+                            const originalDate = new Date(row.inventory.created_at);
 
                             // Extract components of the date
                             const year = originalDate.getUTCFullYear();
@@ -239,7 +240,7 @@
                         data: null,
                         render: function(data, type, row){
                             // Create a Date object with the given date string
-                            const originalDate = new Date(row.created_at);
+                            const originalDate = new Date(row.inventory.created_at);
 
                             // Extract components of the date
                             const year = originalDate.getUTCFullYear();
