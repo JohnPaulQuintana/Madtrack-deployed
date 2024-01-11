@@ -107,7 +107,7 @@ class ReportController extends Controller
                     ->get();
                 if ($rejected->count() > 0) {
                     $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
-                    $pdfId = $this->generateTablePdf($rejected, $names,  'Purchased', $from, $to);
+                    $pdfId = $this->generateTablePdf($rejected, $names,  'Rejected', $from, $to);
                     return response()->json(['names' => $names, 'value' => $rejected, 'id' => $pdfId]);
                 }
 
@@ -127,7 +127,7 @@ class ReportController extends Controller
                     ->get();
                 if ($out->count() > 0) {
                     $names = ['Type', 'Name', 'Stocks', 'Pack', 'Price'];
-                    $pdfId = $this->generateTablePdf($out, $names,  'Purchased', $from, $to);
+                    $pdfId = $this->generateTablePdf($out, $names,  'Out of Stock', $from, $to);
                     return response()->json(['names' => $names, 'value' => $out, 'id' => $pdfId]);
                 }
 
