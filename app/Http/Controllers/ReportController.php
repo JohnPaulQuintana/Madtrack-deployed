@@ -80,7 +80,7 @@ class ReportController extends Controller
                         'invoices.sold_to as product_name',
                         'invoices.quantity as stocks',
                         'invoices.price as product_pcs_price',
-                        'invoices.date as product_pack_price'
+                        'inventories.product_pcs_per_pack as product_pack_price'
                     )
                     ->orderBy('invoices.created_at', 'asc')
                     ->get();
@@ -154,18 +154,18 @@ class ReportController extends Controller
                         'invoices.sold_to as product_name',
                         'invoices.quantity as stocks',
                         'invoices.price as product_pcs_price',
-                        'invoices.date as product_pack_price'
+                        'inventories.product_pcs_per_pack as product_pack_price'
                     )
                     ->orderBy('invoices.created_at', 'asc')
                     ->get();
                     
                 $rejected = DB::table('rejecteds')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pcs_per_pack as product_pack_price')
                     ->orderBy('created_at', 'asc')
                     ->get();
 
                 $out = DB::table('inventories')
-                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pack_price')
+                    ->select('id', 'product_type', 'product_name', 'stocks', 'product_pcs_price', 'product_pcs_per_pack as product_pack_price')
                     ->where('stocks', 0)
                     ->orderBy('created_at', 'asc')
                     ->get();
@@ -346,8 +346,9 @@ class ReportController extends Controller
                 $item->product_type,
                 $item->product_name,
                 $item->stocks,
-                $item->product_pcs_price,
+                
                 $item->product_pack_price,
+                $item->product_pcs_price,
             ));
         }
 
