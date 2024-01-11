@@ -221,7 +221,7 @@
                         title: 'Date : ',
                         render:function(data, type, row){
                             // Create a Date object with the given date string
-                            const originalDate = new Date(row.inventory.created_at);
+                            const originalDate = new Date(row.created_at);
 
                             // Extract components of the date
                             const year = originalDate.getUTCFullYear();
@@ -239,7 +239,7 @@
                         data: null,
                         render: function(data, type, row){
                             // Create a Date object with the given date string
-                            const originalDate = new Date(row.inventory.created_at);
+                            const originalDate = new Date(row.created_at);
 
                             // Extract components of the date
                             const year = originalDate.getUTCFullYear();
